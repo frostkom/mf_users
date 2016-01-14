@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: 
 Description: 
-Version: 1.2.2
+Version: 1.3.0
 Author: Martin Fors
 Author URI: http://frostkom.se
 */
@@ -15,8 +15,8 @@ if(is_admin())
 	register_activation_hook(__FILE__, 'activate_users');
 	register_deactivation_hook(__FILE__, 'deactivate_users');
 
-	//add_action('init', 'init_users', 1);
 	add_action('admin_init', 'settings_users');
+	add_action('pre_get_posts', 'own_media_users');
 }
 
 else
@@ -50,7 +50,7 @@ function activate_users()
 
 		foreach($users as $user)
 		{
-			$user_data = get_userdata($user->ID);    
+			$user_data = get_userdata($user->ID);
 
 			$username = replace_spaces($user_data->user_login);
 

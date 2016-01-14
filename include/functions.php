@@ -88,16 +88,6 @@ function wp_login_users($username)
 	$user = get_user_by('login', $username);
 
 	save_display_name($user);
-
-	/*if($user->first_name != '' && $user->last_name != '')
-	{
-		$display_name = $user->first_name." ".$user->last_name;
-
-		if($user->data->display_name != $display_name)
-		{
-			wp_update_user(array('ID' => $user->ID, 'display_name' => $display_name));
-		}
-	}*/
 }
 
 function admin_head_users()
@@ -109,67 +99,28 @@ function admin_head_users()
 		$user = get_userdata($user->ID);
 
 		save_display_name($user);
-
-		/*if($user->first_name != '' && $user->last_name != '')
-		{
-			$display_name = $user->first_name." ".$user->last_name;
-
-			if($user->display_name != $display_name)
-			{
-				wp_update_user(array('ID' => $user->ID, 'display_name' => $display_name));
-			}
-		}*/
 	}
 }
 
-/*function init_users()
+function own_media_users($wp_query)
 {
-	global $wp_roles;
+	global $current_user;
 
-	if(!isset($wp_roles))
+	$wp_query = $wp_query;
+	
+	if(isset($wp_query->query['post_type']))
 	{
-		$wp_roles = new WP_Roles();
-	}
+		$option = get_option('setting_users_show_own_media');
 
-	$wp_user_roles_orig = get_option('wp_user_roles_orig');
-
-	if($wp_user_roles_orig == '')
-	{
-		$wp_user_roles_orig = get_option('wp_user_roles');
-
-		update_option('wp_user_roles_orig', $wp_user_roles_orig);
-	}
-
-	$option = get_option('setting_users_roles_names');
-
-	if(is_array($option))
-	{
-		foreach($option as $key => $value)
+		if($option != '')
 		{
-			if($value != '')
+			if(!current_user_can($option) && (is_admin() && $wp_query->query['post_type'] === 'attachment'))
 			{
-				$wp_roles->roles[$key]['name'] = $wp_roles->role_names[$key] = $value;
-
-				$wp_user_roles_orig[$key]['name'] = $value;
+				$wp_query->set('author', $current_user->ID);
 			}
 		}
 	}
-
-	$option = get_option('setting_users_roles_hidden');
-
-	if(is_array($option))
-	{
-		foreach($option as $key => $value)
-		{
-			unset($wp_roles->roles[$key]);
-			unset($wp_roles->role_names[$key]);
-
-			unset($wp_user_roles_orig[$key]);
-		}
-	}
-
-	update_option('wp_user_roles', $wp_user_roles_orig);
-}*/
+}
 
 function settings_users()
 {
@@ -188,6 +139,7 @@ function settings_users()
 		"setting_users_roles_names" => __("Change Role Names", 'lang_users'),
 		"setting_users_register_name" => __("Collect name of user in registration form", 'lang_users'),
 		"setting_users_no_spaces" => __("Prevent Username Spaces", 'lang_users'),
+		"setting_users_show_own_media" => __("Only show users own files", 'lang_users'),
 	);
 
 	foreach($arr_settings as $handle => $text)
@@ -290,5 +242,26 @@ function setting_users_register_name_callback()
 
 	echo "<label>
 		<input type='checkbox' name='setting_users_register_name' value='1' ".checked(1, $option, false).">
+	</label>";
+}
+
+function setting_users_show_own_media_callback()
+{
+	$option = get_option('setting_users_show_own_media');
+	$roles = get_all_roles();
+
+	echo "<label>
+		<select name='setting_users_show_own_media'>
+			<option value=''>-- ".__("Choose here", 'lang_users')." --</option>";
+
+			foreach($roles as $key => $value)
+			{
+				$key = get_role_first_capability($key);
+
+				echo "<option value='".$key."'".($key == $option ? " selected" : "").">".__($value)."</option>";
+			}
+
+		echo "</select><br>
+		<span class='description'>".__("Every user below this role only sees their own files in the Media Library", 'lang_users')."</span>
 	</label>";
 }

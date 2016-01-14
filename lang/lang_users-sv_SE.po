@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MF Forms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 15:00+0100\n"
+"POT-Creation-Date: 2016-01-12 14:41+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: Martin Fors\n"
@@ -31,29 +31,41 @@ msgstr "Efternamn"
 msgid "Username must not contain spaces"
 msgstr "Användarnamn får inte innehålla mellanslag"
 
-#: ../include/functions.php:114
-msgid "Users"
-msgstr "Användare"
-
-#: ../include/functions.php:120
+#: ../include/functions.php:202
 msgid "Hide Roles"
 msgstr "Göm roller"
 
-#: ../include/functions.php:121
+#: ../include/functions.php:203
 msgid "Change Role Names"
 msgstr "Ändra rollnamn"
 
-#: ../include/functions.php:122
+#: ../include/functions.php:204
 msgid "Collect name of user in registration form"
 msgstr "Spara namn på användare som registrar sig"
 
-#: ../include/functions.php:123
+#: ../include/functions.php:205
 msgid "Prevent Username Spaces"
 msgstr "Motverka mellanslag i användarnamn"
 
-#: ../include/functions.php:165
+#: ../include/functions.php:206
+msgid "Only show users own files"
+msgstr "Visa endast användarens egna filer"
+
+#: ../include/functions.php:220
+msgid "Users"
+msgstr "Användare"
+
+#: ../include/functions.php:289
 msgid "Change name for"
 msgstr "Ändra namn för"
+
+#: ../include/functions.php:319
+msgid "Choose here"
+msgstr "Välj här"
+
+#: ../include/functions.php:329
+msgid "Every user below this role only sees their own files in the Media Library"
+msgstr "Varje användare lägre än denna roll ser endast sina egna filer i Mediabiblioteket"
 
 #~ msgid "<strong>ERROR</strong>: Invalid username or incorrect password."
 #~ msgstr "<strong>FEL</strong>: Felaktigt användarnamn eller lösenord."
@@ -189,9 +201,6 @@ msgstr "Ändra namn för"
 
 #~ msgid "Content"
 #~ msgstr "Innehåll"
-
-#~ msgid "Choose here"
-#~ msgstr "Välj här"
 
 #~ msgid "Type"
 #~ msgstr "Typ"
