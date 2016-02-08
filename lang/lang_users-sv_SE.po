@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MF Forms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-12 14:41+0100\n"
+"POT-Creation-Date: 2016-02-08 13:31+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: Martin Fors\n"
@@ -15,55 +15,59 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../include/functions.php:20
+#: ../include/functions.php:5
+msgid "Settings"
+msgstr "Inställningar"
+
+#: ../include/functions.php:27
 msgid "Incorrect username or password"
 msgstr "Fel användarnamn eller lösenord"
 
-#: ../include/functions.php:45
+#: ../include/functions.php:52
 msgid "First Name"
 msgstr "Förnamn"
 
-#: ../include/functions.php:49
+#: ../include/functions.php:56
 msgid "Last Name"
 msgstr "Efternamn"
 
-#: ../include/functions.php:67
+#: ../include/functions.php:74
 msgid "Username must not contain spaces"
 msgstr "Användarnamn får inte innehålla mellanslag"
 
-#: ../include/functions.php:202
+#: ../include/functions.php:145
 msgid "Hide Roles"
 msgstr "Göm roller"
 
-#: ../include/functions.php:203
+#: ../include/functions.php:146
 msgid "Change Role Names"
 msgstr "Ändra rollnamn"
 
-#: ../include/functions.php:204
+#: ../include/functions.php:147
 msgid "Collect name of user in registration form"
 msgstr "Spara namn på användare som registrar sig"
 
-#: ../include/functions.php:205
+#: ../include/functions.php:148
 msgid "Prevent Username Spaces"
 msgstr "Motverka mellanslag i användarnamn"
 
-#: ../include/functions.php:206
+#: ../include/functions.php:149
 msgid "Only show users own files"
 msgstr "Visa endast användarens egna filer"
 
-#: ../include/functions.php:220
+#: ../include/functions.php:162
 msgid "Users"
 msgstr "Användare"
 
-#: ../include/functions.php:289
+#: ../include/functions.php:231
 msgid "Change name for"
 msgstr "Ändra namn för"
 
-#: ../include/functions.php:319
+#: ../include/functions.php:261
 msgid "Choose here"
 msgstr "Välj här"
 
-#: ../include/functions.php:329
+#: ../include/functions.php:271
 msgid "Every user below this role only sees their own files in the Media Library"
 msgstr "Varje användare lägre än denna roll ser endast sina egna filer i Mediabiblioteket"
 
@@ -240,9 +244,6 @@ msgstr "Varje användare lägre än denna roll ser endast sina egna filer i Medi
 
 #~ msgid "Preview"
 #~ msgstr "Förhandsgranska"
-
-#~ msgid "Settings"
-#~ msgstr "Inställningar"
 
 #~ msgid "Choose page here"
 #~ msgstr "Välj sida här"

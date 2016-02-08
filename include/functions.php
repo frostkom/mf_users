@@ -1,4 +1,11 @@
-<?php 
+<?php
+
+function add_action_users($links)
+{
+	$links[] = "<a href='".admin_url('options-general.php?page=settings_mf_base#settings_users')."'>".__("Settings", 'lang_users')."</a>";
+
+	return $links;
+}
 
 if(!function_exists('wp_authenticate'))
 {
@@ -152,8 +159,7 @@ function settings_users()
 
 function settings_users_callback()
 {
-	echo "<div id='settings_users'>&nbsp;</div>
-	<a href='#settings_users'><h3>".__("Users", 'lang_users')."</h3></a>";
+	echo settings_header('settings_users', __("Users", 'lang_users'));
 
 	//Updates DB with custom roles
 	$wp_user_roles_orig = get_option('wp_user_roles_orig');
