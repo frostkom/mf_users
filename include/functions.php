@@ -131,15 +131,9 @@ function own_media_users($wp_query)
 
 function settings_users()
 {
-	$options_page = "settings_mf_base";
 	$options_area = "settings_users";
 
-	add_settings_section(
-		$options_area,
-		"",
-		$options_area."_callback",
-		$options_page
-	);
+	add_settings_section($options_area, "", $options_area."_callback", BASE_OPTIONS_PAGE);
 
 	$arr_settings = array(
 		"setting_users_roles_hidden" => __("Hide Roles", 'lang_users'),
@@ -151,9 +145,9 @@ function settings_users()
 
 	foreach($arr_settings as $handle => $text)
 	{
-		add_settings_field($handle, $text, $handle."_callback", $options_page, $options_area);
+		add_settings_field($handle, $text, $handle."_callback", BASE_OPTIONS_PAGE, $options_area);
 
-		register_setting($options_page, $handle);
+		register_setting(BASE_OPTIONS_PAGE, $handle);
 	}
 }
 
@@ -237,18 +231,22 @@ function setting_users_no_spaces_callback()
 {
 	$option = get_option('setting_users_no_spaces');
 
-	echo "<label>
+	echo show_checkbox(array('name' => 'setting_users_no_spaces', 'value' => 1, 'compare' => $option));
+
+	/*echo "<label>
 		<input type='checkbox' name='setting_users_no_spaces' value='1' ".checked(1, $option, false).">
-	</label>";
+	</label>";*/
 }
 
 function setting_users_register_name_callback()
 {
 	$option = get_option('setting_users_register_name');
 
-	echo "<label>
+	echo show_checkbox(array('name' => 'setting_users_register_name', 'value' => 1, 'compare' => $option));
+
+	/*echo "<label>
 		<input type='checkbox' name='setting_users_register_name' value='1' ".checked(1, $option, false).">
-	</label>";
+	</label>";*/
 }
 
 function setting_users_show_own_media_callback()

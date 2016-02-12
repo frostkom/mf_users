@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: 
 Description: 
-Version: 1.3.1
+Version: 1.3.3
 Author: Martin Fors
 Author URI: http://frostkom.se
 */
