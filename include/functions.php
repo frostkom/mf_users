@@ -1,12 +1,5 @@
 <?php
 
-function add_action_users($links)
-{
-	$links[] = "<a href='".admin_url('options-general.php?page=settings_mf_base#settings_users')."'>".__("Settings", 'lang_users')."</a>";
-
-	return $links;
-}
-
 if(!function_exists('wp_authenticate'))
 {
 	function wp_authenticate($username, $password)
@@ -153,7 +146,9 @@ function settings_users()
 
 function settings_users_callback()
 {
-	echo settings_header('settings_users', __("Users", 'lang_users'));
+	$setting_key = get_setting_key(__FUNCTION__);
+
+	echo settings_header($setting_key, __("Users", 'lang_users'));
 
 	//Updates DB with custom roles
 	$wp_user_roles_orig = get_option('wp_user_roles_orig');
@@ -232,10 +227,6 @@ function setting_users_no_spaces_callback()
 	$option = get_option('setting_users_no_spaces');
 
 	echo show_checkbox(array('name' => 'setting_users_no_spaces', 'value' => 1, 'compare' => $option));
-
-	/*echo "<label>
-		<input type='checkbox' name='setting_users_no_spaces' value='1' ".checked(1, $option, false).">
-	</label>";*/
 }
 
 function setting_users_register_name_callback()
@@ -243,10 +234,6 @@ function setting_users_register_name_callback()
 	$option = get_option('setting_users_register_name');
 
 	echo show_checkbox(array('name' => 'setting_users_register_name', 'value' => 1, 'compare' => $option));
-
-	/*echo "<label>
-		<input type='checkbox' name='setting_users_register_name' value='1' ".checked(1, $option, false).">
-	</label>";*/
 }
 
 function setting_users_show_own_media_callback()
@@ -265,7 +252,7 @@ function setting_users_show_own_media_callback()
 				echo "<option value='".$key."'".($key == $option ? " selected" : "").">".__($value)."</option>";
 			}
 
-		echo "</select><br>
-		<span class='description'>".__("Every user below this role only sees their own files in the Media Library", 'lang_users')."</span>
+		echo "</select>
+		<p class='description'>".__("Every user below this role only sees their own files in the Media Library", 'lang_users')."</p>
 	</label>";
 }

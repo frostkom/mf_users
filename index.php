@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: 
 Description: 
-Version: 1.3.3
+Version: 1.4.0
 Author: Martin Fors
 Author URI: http://frostkom.se
 */
@@ -14,9 +14,8 @@ if(is_admin())
 {
 	register_activation_hook(__FILE__, 'activate_users');
 	register_deactivation_hook(__FILE__, 'deactivate_users');
+	register_uninstall_hook(__FILE__, 'uninstall_users');
 
-	add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'add_action_users');
-	add_filter('network_admin_plugin_action_links_'.plugin_basename(__FILE__), 'add_action_users');
 	add_action('admin_init', 'settings_users');
 	add_action('pre_get_posts', 'own_media_users');
 }
@@ -79,4 +78,11 @@ function deactivate_users()
 		update_option('wp_user_roles', $wp_user_roles_orig);
 		delete_option('wp_user_roles_orig');
 	}
+}
+
+function uninstall_users()
+{
+	mf_uninstall_plugin(array(
+		'options' => array('setting_users_roles_hidden', 'setting_users_roles_names', 'setting_users_register_name', 'setting_users_no_spaces', 'setting_users_show_own_media'),
+	));
 }
