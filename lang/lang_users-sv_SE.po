@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MF Forms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-08 13:31+0100\n"
+"POT-Creation-Date: 2016-03-18 09:48+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: Martin Fors\n"
@@ -15,61 +15,132 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../include/functions.php:5
-msgid "Settings"
-msgstr "Inställningar"
-
-#: ../include/functions.php:27
+#: ../include/functions.php:20
 msgid "Incorrect username or password"
 msgstr "Fel användarnamn eller lösenord"
 
-#: ../include/functions.php:52
+#: ../include/functions.php:47
 msgid "First Name"
 msgstr "Förnamn"
 
-#: ../include/functions.php:56
+#: ../include/functions.php:51
 msgid "Last Name"
 msgstr "Efternamn"
 
-#: ../include/functions.php:74
+#: ../include/functions.php:102
+#: ../include/functions.php:345
+msgid "Phone number"
+msgstr "Telefonnummer"
+
+#: ../include/functions.php:128
 msgid "Username must not contain spaces"
 msgstr "Användarnamn får inte innehålla mellanslag"
 
-#: ../include/functions.php:145
+#: ../include/functions.php:193
 msgid "Hide Roles"
 msgstr "Göm roller"
 
-#: ../include/functions.php:146
+#: ../include/functions.php:194
 msgid "Change Role Names"
 msgstr "Ändra rollnamn"
 
-#: ../include/functions.php:147
-msgid "Collect name of user in registration form"
-msgstr "Spara namn på användare som registrar sig"
-
-#: ../include/functions.php:148
-msgid "Prevent Username Spaces"
-msgstr "Motverka mellanslag i användarnamn"
-
-#: ../include/functions.php:149
+#: ../include/functions.php:195
 msgid "Only show users own files"
 msgstr "Visa endast användarens egna filer"
 
-#: ../include/functions.php:162
+#: ../include/functions.php:196
+msgid "Prevent Username Spaces"
+msgstr "Motverka mellanslag i användarnamn"
+
+#: ../include/functions.php:197
+msgid "Collect name of user in registration form"
+msgstr "Spara namn på användare som registrar sig"
+
+#: ../include/functions.php:198
+msgid "Add fields to profile"
+msgstr "Lägg till fält i profilen"
+
+#: ../include/functions.php:199
+msgid "Remove fields from profile"
+msgstr "Ta bort fält från profilen"
+
+#: ../include/functions.php:214
 msgid "Users"
 msgstr "Användare"
 
-#: ../include/functions.php:231
+#: ../include/functions.php:283
 msgid "Change name for"
-msgstr "Ändra namn för"
+msgstr "Ändra namn på"
 
-#: ../include/functions.php:261
+#: ../include/functions.php:294
+#: ../include/functions.php:309
+msgid "No"
+msgstr "Nej"
+
+#: ../include/functions.php:295
+#: ../include/functions.php:310
+msgid "Yes"
+msgstr "Ja"
+
+#: ../include/functions.php:326
 msgid "Choose here"
 msgstr "Välj här"
 
-#: ../include/functions.php:271
+#: ../include/functions.php:335
 msgid "Every user below this role only sees their own files in the Media Library"
 msgstr "Varje användare lägre än denna roll ser endast sina egna filer i Mediabiblioteket"
+
+#: ../include/functions.php:357
+msgid "Headings"
+msgstr "Rubriker"
+
+#: ../include/functions.php:358
+msgid "Visual Editor"
+msgstr "Visuell redigerare"
+
+#: ../include/functions.php:359
+msgid "Admin Color Scheme"
+msgstr "Färgschema för adminpanel"
+
+#: ../include/functions.php:360
+msgid "Keyboard Shortcuts"
+msgstr "Tangentbordsgenvägar"
+
+#: ../include/functions.php:361
+msgid "Toolbar"
+msgstr "Verktygsfält"
+
+#: ../include/functions.php:362
+msgid "Username"
+msgstr "Användarnamn"
+
+#: ../include/functions.php:363
+msgid "Nickname"
+msgstr "Smeknamn"
+
+#: ../include/functions.php:364
+msgid "Display name"
+msgstr "Visningsnamn"
+
+#: ../include/functions.php:365
+msgid "Website"
+msgstr "Webbplats"
+
+#: ../include/functions.php:366
+msgid "Biographical Info"
+msgstr "Biografi"
+
+#: ../include/functions.php:367
+msgid "Profile Picture"
+msgstr "Profilbild"
+
+#: ../include/functions.php:368
+msgid "Password"
+msgstr "Lösenord"
+
+#: ../include/functions.php:369
+msgid "Sessions"
+msgstr "Sessioner"
 
 #~ msgid "<strong>ERROR</strong>: Invalid username or incorrect password."
 #~ msgstr "<strong>FEL</strong>: Felaktigt användarnamn eller lösenord."
@@ -79,9 +150,6 @@ msgstr "Varje användare lägre än denna roll ser endast sina egna filer i Medi
 
 #~ msgid "E-mail"
 #~ msgstr "E-post"
-
-#~ msgid "Phone no"
-#~ msgstr "Telefonnummer"
 
 #~ msgid "Decimal number"
 #~ msgstr "Decimaltal"
@@ -351,9 +419,6 @@ msgstr "Varje användare lägre än denna roll ser endast sina egna filer i Medi
 
 #~ msgid "Form"
 #~ msgstr "Formulär"
-
-#~ msgid "Heading"
-#~ msgstr "Rubrik"
 
 #~ msgid "Forms"
 #~ msgstr "Formulär"

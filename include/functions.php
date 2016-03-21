@@ -1,5 +1,36 @@
 <?php
 
+function init_users()
+{
+	global $wp_roles;
+
+	update_option('wp_user_roles_orig', $wp_roles->roles);
+
+	$option = get_option('setting_users_roles_names');
+
+	if(is_array($option))
+	{
+		foreach($option as $key => $value)
+		{
+			if($value != '')
+			{
+				$wp_roles->roles[$key]['name'] = $wp_roles->role_names[$key] = $value;
+			}
+		}
+	}
+
+	$option = get_option('setting_users_roles_hidden');
+
+	if(is_array($option))
+	{
+		foreach($option as $key => $value)
+		{
+			unset($wp_roles->roles[$key]);
+			unset($wp_roles->role_names[$key]);
+		}
+	}
+}
+
 if(!function_exists('wp_authenticate'))
 {
 	function wp_authenticate($username, $password)
@@ -38,26 +69,93 @@ function replace_spaces($in)
 
 function register_form_users()
 {
-	$first_name = check_var('first_name');
-	$last_name = check_var('last_name');
+	if(get_option('setting_users_register_name'))
+	{
+		$first_name = check_var('first_name');
+		$last_name = check_var('last_name');
 
-	echo "<p>
-		<label for='first_name'>".__('First Name', 'lang_users').":</label><br>
-		<input type='text' name='first_name' value='".$first_name."' class='regular-text' required>
-	</p>
-	<p>
-		<label for='last_name'>".__('Last Name', 'lang_users').":</label><br>
-		<input type='text' name='last_name' value='".$last_name."' class='regular-text' required>
-	</p>";
+		echo "<p>
+			<label for='first_name'>".__('First Name', 'lang_users').":</label><br>
+			<input type='text' name='first_name' value='".$first_name."' class='regular-text' required>
+		</p>
+		<p>
+			<label for='last_name'>".__('Last Name', 'lang_users').":</label><br>
+			<input type='text' name='last_name' value='".$last_name."' class='regular-text' required>
+		</p>";
+	}
 }
 
-function user_register_users($user_id, $password = "", $meta = array())
+function save_register_users($user_id, $password = "", $meta = array())
 {
-	$first_name = check_var('first_name');
-	$last_name = check_var('last_name');
+	if(get_option('setting_users_register_name'))
+	{
+		$first_name = check_var('first_name');
+		$last_name = check_var('last_name');
 
-	update_usermeta($user_id, 'first_name', $first_name);
-	update_usermeta($user_id, 'last_name', $last_name);
+		update_user_meta($user_id, 'first_name', $first_name);
+		update_user_meta($user_id, 'last_name', $last_name);
+	}
+
+	$option = get_option('setting_add_profile_fields');
+
+	if(in_array("phone", $option))
+	{
+		$profile_phone = check_var('profile_phone');
+
+		update_user_meta($user_id, 'profile_phone', $profile_phone);
+	}
+}
+
+function show_profile_users($user)
+{
+	$option = get_option('setting_remove_profile_fields');
+
+	if(is_array($option) && count($option) > 0)
+	{
+		$arr_remove = array();
+
+		foreach($option as $remove)
+		{
+			$arr_remove[$remove] = true;
+		}
+
+		if(count($arr_remove) > 0)
+		{
+			mf_enqueue_script('script_users', plugin_dir_url(__FILE__)."/script_remove.js", $arr_remove);
+		}
+	}
+
+	$option = get_option('setting_add_profile_fields');
+
+	if(is_array($option))
+	{
+		$out = "";
+
+		if(in_array("phone", $option))
+		{
+			$meta_key = 'profile_phone';
+			$meta_value = get_the_author_meta('profile_phone', $user->ID);
+			$meta_text = __('Phone number', 'lang_users');
+
+			$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
+				<th><label for='".$meta_key."'>".$meta_text."</label></th>
+				<td><input type='text' name='".$meta_key."' value='".$meta_value."'></td>
+			</tr>";
+		}
+
+		if($out != '')
+		{
+			echo "<table class='form-table'>".$out."</table>";
+		}
+	}
+}
+
+function save_profile_users($user_id)
+{
+	if(current_user_can('edit_user', $user_id))
+	{
+		save_register_users($user_id);
+	}
 }
 
 function register_errors_users($errors, $user_login, $user_email)
@@ -131,9 +229,11 @@ function settings_users()
 	$arr_settings = array(
 		"setting_users_roles_hidden" => __("Hide Roles", 'lang_users'),
 		"setting_users_roles_names" => __("Change Role Names", 'lang_users'),
-		"setting_users_register_name" => __("Collect name of user in registration form", 'lang_users'),
-		"setting_users_no_spaces" => __("Prevent Username Spaces", 'lang_users'),
 		"setting_users_show_own_media" => __("Only show users own files", 'lang_users'),
+		"setting_users_no_spaces" => __("Prevent Username Spaces", 'lang_users'),
+		"setting_users_register_name" => __("Collect name of user in registration form", 'lang_users'),
+		"setting_add_profile_fields" => __("Add fields to profile", 'lang_users'),
+		"setting_remove_profile_fields" => __("Remove fields from profile", 'lang_users'),
 	);
 
 	foreach($arr_settings as $handle => $text)
@@ -149,52 +249,12 @@ function settings_users_callback()
 	$setting_key = get_setting_key(__FUNCTION__);
 
 	echo settings_header($setting_key, __("Users", 'lang_users'));
-
-	//Updates DB with custom roles
-	$wp_user_roles_orig = get_option('wp_user_roles_orig');
-
-	if($wp_user_roles_orig == '')
-	{
-		$wp_user_roles_orig = get_option('wp_user_roles');
-
-		update_option('wp_user_roles_orig', $wp_user_roles_orig);
-	}
-
-	$option = get_option('setting_users_roles_names');
-
-	if(is_array($option))
-	{
-		foreach($option as $key => $value)
-		{
-			if($value != '')
-			{
-				$wp_roles->roles[$key]['name'] = $wp_roles->role_names[$key] = $value;
-
-				$wp_user_roles_orig[$key]['name'] = $value;
-			}
-		}
-	}
-
-	$option = get_option('setting_users_roles_hidden');
-
-	if(is_array($option))
-	{
-		foreach($option as $key => $value)
-		{
-			unset($wp_roles->roles[$key]);
-			unset($wp_roles->role_names[$key]);
-
-			unset($wp_user_roles_orig[$key]);
-		}
-	}
-
-	update_option('wp_user_roles', $wp_user_roles_orig);
 }
 
 function setting_users_roles_hidden_callback()
 {
-	$option = get_option('setting_users_roles_hidden');
-
+	$setting_key = get_setting_key(__FUNCTION__);
+	$option = get_option($setting_key);
 	$roles = get_all_roles(array('orig' => true));
 
 	foreach($roles as $key => $value)
@@ -207,52 +267,92 @@ function setting_users_roles_hidden_callback()
 
 function setting_users_roles_names_callback()
 {
-	$option = get_option('setting_users_roles_names');
-
+	$setting_key = get_setting_key(__FUNCTION__);
+	$option = get_option($setting_key);
 	$roles = get_all_roles();
 
 	foreach($roles as $key => $value)
 	{
 		$option_value = isset($option[$key]) ? $option[$key] : "";
 
-		echo "<p>"
-			.show_textfield(array('name' => "setting_users_roles_names[".$key."]", 'value' => $option_value, 'placeholder' => __($value)))
-			."<span class='description'>".__("Change name for", 'lang_users')." ".__($value)."</span>
-		</p>";
+		echo show_textfield(array('name' => $setting_key."[".$key."]", 'value' => $option_value, 'placeholder' => $value));
 	}
 }
 
 function setting_users_no_spaces_callback()
 {
-	$option = get_option('setting_users_no_spaces');
+	$setting_key = get_setting_key(__FUNCTION__);
+	$option = get_option($setting_key);
 
-	echo show_checkbox(array('name' => 'setting_users_no_spaces', 'value' => 1, 'compare' => $option));
+	$arr_data = array();
+
+	$arr_data[] = array(0, __("No", 'lang_users'));
+	$arr_data[] = array(1, __("Yes", 'lang_users'));
+
+	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'compare' => $option));
+
+	//echo show_checkbox(array('name' => $setting_key, 'value' => 1, 'compare' => $option));
 }
 
 function setting_users_register_name_callback()
 {
-	$option = get_option('setting_users_register_name');
+	$setting_key = get_setting_key(__FUNCTION__);
+	$option = get_option($setting_key);
 
-	echo show_checkbox(array('name' => 'setting_users_register_name', 'value' => 1, 'compare' => $option));
+	$arr_data = array();
+
+	$arr_data[] = array(0, __("No", 'lang_users'));
+	$arr_data[] = array(1, __("Yes", 'lang_users'));
+
+	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'compare' => $option));
+
+	//echo show_checkbox(array('name' => $setting_key, 'value' => 1, 'compare' => $option));
 }
 
 function setting_users_show_own_media_callback()
 {
-	$option = get_option('setting_users_show_own_media');
-	$roles = get_all_roles();
+	$setting_key = get_setting_key(__FUNCTION__);
+	$option = get_option($setting_key);
 
-	echo "<label>
-		<select name='setting_users_show_own_media'>
-			<option value=''>-- ".__("Choose here", 'lang_users')." --</option>";
+	$arr_data = array();
 
-			foreach($roles as $key => $value)
-			{
-				$key = get_role_first_capability($key);
+	get_roles_for_select($arr_data, true, false);
 
-				echo "<option value='".$key."'".($key == $option ? " selected" : "").">".__($value)."</option>";
-			}
+	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'compare' => $option, 'description' => __("Every user below this role only sees their own files in the Media Library", 'lang_users')));
+}
 
-		echo "</select>
-		<p class='description'>".__("Every user below this role only sees their own files in the Media Library", 'lang_users')."</p>
-	</label>";
+function setting_add_profile_fields_callback()
+{
+	$setting_key = get_setting_key(__FUNCTION__);
+	$option = get_option($setting_key);
+
+	$arr_data = array();
+
+	$arr_data[] = array('phone', __("Phone number", 'lang_users'));
+
+	echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'compare' => $option));
+}
+
+function setting_remove_profile_fields_callback()
+{
+	$setting_key = get_setting_key(__FUNCTION__);
+	$option = get_option($setting_key);
+
+	$arr_data = array();
+
+	$arr_data[] = array('headings', __("Headings", 'lang_users'));
+	$arr_data[] = array('rich_editing', __("Visual Editor", 'lang_users'));
+	$arr_data[] = array('admin_color', __("Admin Color Scheme", 'lang_users'));
+	$arr_data[] = array('comment_shortcuts', __("Keyboard Shortcuts", 'lang_users'));
+	$arr_data[] = array('show_admin_bar', __("Toolbar", 'lang_users'));
+	$arr_data[] = array('user_login', __("Username", 'lang_users'));
+	$arr_data[] = array('nickname', __("Nickname", 'lang_users'));
+	$arr_data[] = array('display_name', __("Display name", 'lang_users'));
+	$arr_data[] = array('url', __("Website", 'lang_users'));
+	$arr_data[] = array('description', __("Biographical Info", 'lang_users'));
+	$arr_data[] = array('profile_picture', __("Profile Picture", 'lang_users'));
+	$arr_data[] = array('password', __("Password", 'lang_users'));
+	$arr_data[] = array('sessions', __("Sessions", 'lang_users'));
+
+	echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'compare' => $option));
 }

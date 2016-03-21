@@ -1,9 +1,9 @@
 <?php 
 /*
 Plugin Name: MF Users
-Plugin URI: 
+Plugin URI: https://github.com/frostkom/mf_users
 Description: 
-Version: 1.4.0
+Version: 2.3.3
 Author: Martin Fors
 Author URI: http://frostkom.se
 */
@@ -13,20 +13,23 @@ include_once("include/functions.php");
 if(is_admin())
 {
 	register_activation_hook(__FILE__, 'activate_users');
-	register_deactivation_hook(__FILE__, 'deactivate_users');
+	//register_deactivation_hook(__FILE__, 'deactivate_users');
 	register_uninstall_hook(__FILE__, 'uninstall_users');
 
+	add_action('init', 'init_users');
 	add_action('admin_init', 'settings_users');
 	add_action('pre_get_posts', 'own_media_users');
+
+	add_action('show_user_profile', 'show_profile_users'); //personal_options, profile_personal_options
+	add_action('edit_user_profile', 'show_profile_users');
+	add_action('personal_options_update', 'save_profile_users');
+	add_action('edit_user_profile_update', 'save_profile_users');
 }
 
 else
 {
-	if(get_option('setting_users_register_name'))
-	{
-		add_action('register_form', 'register_form_users');
-		add_action('user_register', 'user_register_users');
-	}
+	add_action('register_form', 'register_form_users');
+	add_action('user_register', 'save_register_users');
 
 	if(get_option('setting_users_no_spaces'))
 	{
@@ -69,7 +72,7 @@ function activate_users()
 	}
 }
 
-function deactivate_users()
+/*function deactivate_users()
 {
 	$wp_user_roles_orig = get_option('wp_user_roles_orig');
 
@@ -78,11 +81,11 @@ function deactivate_users()
 		update_option('wp_user_roles', $wp_user_roles_orig);
 		delete_option('wp_user_roles_orig');
 	}
-}
+}*/
 
 function uninstall_users()
 {
 	mf_uninstall_plugin(array(
-		'options' => array('setting_users_roles_hidden', 'setting_users_roles_names', 'setting_users_register_name', 'setting_users_no_spaces', 'setting_users_show_own_media'),
+		'options' => array('setting_users_roles_hidden', 'setting_users_roles_names', 'setting_users_register_name', 'setting_users_no_spaces', 'setting_users_show_own_media', 'wp_user_roles_orig'),
 	));
 }
