@@ -408,7 +408,7 @@ function setting_users_show_own_media_callback()
 	$setting_key = get_setting_key(__FUNCTION__);
 	$option = get_option($setting_key);
 
-	$arr_data = get_roles_for_select(array('add_choose_here' => true, 'strict_key' => false));
+	$arr_data = get_roles_for_select(array('add_choose_here' => true, 'strict_key' => true));
 
 	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'compare' => $option, 'description' => __("Every user below this role only sees their own files in the Media Library", 'lang_users')));
 }
@@ -450,14 +450,17 @@ function setting_remove_profile_fields_callback()
 
 	$option_add = get_option('setting_add_profile_fields');
 
-	if(!in_array('profile_picture', $option_add))
+	if(is_array($option_add))
 	{
-		$arr_data['profile_picture'] = __("Profile Picture", 'lang_users');
-	}
+		if(!in_array('profile_picture', $option_add))
+		{
+			$arr_data['profile_picture'] = __("Profile Picture", 'lang_users');
+		}
 
-	if(!in_array('password', $option_add))
-	{
-		$arr_data['password'] = __("Password", 'lang_users');
+		if(!in_array('password', $option_add))
+		{
+			$arr_data['password'] = __("Password", 'lang_users');
+		}
 	}
 
 	$arr_data['sessions'] = __("Sessions", 'lang_users');

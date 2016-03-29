@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description: 
-Version: 3.0.3
+Version: 3.0.4
 Author: Martin Fors
 Author URI: http://frostkom.se
 Text Domain: lang_users
@@ -24,7 +24,7 @@ if(is_admin())
 	add_action('admin_init', 'settings_users');
 	add_action('pre_get_posts', 'own_media_users');
 
-	add_action('show_user_profile', 'show_profile_users'); //personal_options, profile_personal_options
+	add_action('show_user_profile', 'show_profile_users');
 	add_action('edit_user_profile', 'show_profile_users');
 	add_action('personal_options_update', 'save_profile_users');
 	add_action('edit_user_profile_update', 'save_profile_users');
