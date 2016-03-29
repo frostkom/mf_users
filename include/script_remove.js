@@ -40,6 +40,21 @@ jQuery(function($)
 		$('.user-url-wrap').remove();
 	}
 
+	if(script_users.aim == true)
+	{
+		$('.user-aim-wrap').remove();
+	}
+
+	if(script_users.yim == true)
+	{
+		$('.user-yim-wrap').remove();
+	}
+
+	if(script_users.jabber == true)
+	{
+		$('.user-jabber-wrap').remove();
+	}
+
 	if(script_users.description == true)
 	{
 		$('.user-description-wrap').remove();

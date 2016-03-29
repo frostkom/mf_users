@@ -62,6 +62,18 @@ if(!function_exists('wp_authenticate'))
 	}
 }
 
+function admin_color_users($color)
+{
+	$option = get_option('setting_admin_color');
+
+	if($option != '')
+	{
+		$color = $option;
+	}
+
+	return $color;
+}
+
 function replace_spaces($in)
 {
 	return str_replace(" ", "-", $in);
@@ -98,48 +110,90 @@ function save_register_users($user_id, $password = "", $meta = array())
 
 	$option = get_option('setting_add_profile_fields');
 
-	if(in_array("phone", $option))
+	if(is_array($option) && in_array('phone', $option))
 	{
 		$profile_phone = check_var('profile_phone');
 
 		update_user_meta($user_id, 'profile_phone', $profile_phone);
 	}
+
+	if(is_array($option) && in_array('profile_picture', $option))
+	{
+		$profile_phone = check_var('profile_picture');
+
+		update_user_meta($user_id, 'profile_picture', $profile_phone);
+	}
+
+	if(is_array($option) && in_array('password', $option))
+	{
+		$profile_password = check_var('profile_password');
+
+		if($profile_password != '')
+		{
+			/*update_user_meta($user_id, 'user_pass', $profile_password);
+			wp_update_user(array('ID' => $user_id, 'user_pass' => $profile_password));*/
+
+			wp_set_password($profile_password, $user_id);
+		}
+	}
 }
 
 function show_profile_users($user)
 {
+	$arr_remove = array();
+
 	$option = get_option('setting_remove_profile_fields');
 
 	if(is_array($option) && count($option) > 0)
 	{
-		$arr_remove = array();
-
 		foreach($option as $remove)
 		{
 			$arr_remove[$remove] = true;
-		}
-
-		if(count($arr_remove) > 0)
-		{
-			mf_enqueue_script('script_users', plugin_dir_url(__FILE__)."/script_remove.js", $arr_remove);
 		}
 	}
 
 	$option = get_option('setting_add_profile_fields');
 
-	if(is_array($option))
+	if(is_array($option) && count($option) > 0)
 	{
 		$out = "";
 
-		if(in_array("phone", $option))
+		if(in_array('phone', $option))
 		{
 			$meta_key = 'profile_phone';
-			$meta_value = get_the_author_meta('profile_phone', $user->ID);
-			$meta_text = __('Phone number', 'lang_users');
+			$meta_value = get_the_author_meta($meta_key, $user->ID);
+			$meta_text = __('Phone Number', 'lang_users');
 
 			$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
 				<th><label for='".$meta_key."'>".$meta_text."</label></th>
-				<td><input type='text' name='".$meta_key."' value='".$meta_value."'></td>
+				<td>".show_textfield(array('name' => $meta_key, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
+			</tr>";
+		}
+
+		if(in_array('profile_picture', $option))
+		{
+			$arr_remove['profile_picture'] = true;
+
+			$meta_key = 'profile_picture';
+			$meta_value = get_the_author_meta($meta_key, $user->ID);
+			$meta_text = __('Profile Picture', 'lang_users');
+
+			$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
+				<th><label for='".$meta_key."'>".$meta_text."</label></th>
+				<td>".get_file_button(array('setting_key' => $meta_key, 'option' => $meta_value))."</td>
+			</tr>";
+		}
+
+		if(in_array('password', $option))
+		{
+			$arr_remove['password'] = true;
+
+			$meta_key = 'profile_password';
+			$meta_text = __('New Password', 'lang_users');
+
+			$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
+				<th><label for='".$meta_key."'>".$meta_text."</label></th>
+				<td>".show_password_field(array('name' => $meta_key, 'placeholder' => __("Enter a new password here", 'lang_users'), 'xtra' => "class='regular-text'"))."</td>
 			</tr>";
 		}
 
@@ -147,6 +201,11 @@ function show_profile_users($user)
 		{
 			echo "<table class='form-table'>".$out."</table>";
 		}
+	}
+
+	if(count($arr_remove) > 0)
+	{
+		mf_enqueue_script('script_users', plugin_dir_url(__FILE__)."/script_remove.js", $arr_remove);
 	}
 }
 
@@ -179,6 +238,48 @@ function save_display_name($user)
 			wp_update_user(array('ID' => $user->ID, 'display_name' => $display_name));
 		}
 	}
+}
+
+function avatar_users($avatar, $id_or_email, $size, $default, $alt)
+{
+	$meta_key = 'profile_picture';
+
+	$user = false;
+
+	if(is_numeric($id_or_email))
+	{
+		$id = (int) $id_or_email;
+		$user = get_user_by('id', $id);
+	}
+	
+	else if(is_object($id_or_email))
+	{
+		if($id_or_email->user_id > 0)
+		{
+			$id = (int) $id_or_email->user_id;
+			$user = get_user_by('id', $id);
+		}
+	}
+	
+	else
+	{
+		$user = get_user_by('email', $id_or_email);   
+	}
+
+	if($user && is_object($user))
+	{
+		$meta_value = get_user_meta($user->ID, $meta_key, true);
+
+		if(isset($meta_value) && $meta_value != '')
+		{
+			//$upload_dir = wp_upload_dir();
+			//$custom_avatar = $upload_dir['baseurl'].$meta_value;
+
+			$avatar = "<img src='".$meta_value."' class='avatar avatar-".$size." photo' alt='".$alt."'>"; // height='".$size."' width='".$size."'
+		}
+	}
+
+	return $avatar;
 }
 
 function wp_login_users($username)
@@ -222,7 +323,7 @@ function own_media_users($wp_query)
 
 function settings_users()
 {
-	$options_area = "settings_users";
+	$options_area = __FUNCTION__;
 
 	add_settings_section($options_area, "", $options_area."_callback", BASE_OPTIONS_PAGE);
 
@@ -235,6 +336,13 @@ function settings_users()
 		"setting_add_profile_fields" => __("Add fields to profile", 'lang_users'),
 		"setting_remove_profile_fields" => __("Remove fields from profile", 'lang_users'),
 	);
+	
+	$option = get_option('setting_remove_profile_fields');
+
+	if(is_array($option) && in_array('admin_color', $option))
+	{
+		$arr_settings['setting_admin_color'] = __("Change Admin Color", 'lang_users');
+	}
 
 	foreach($arr_settings as $handle => $text)
 	{
@@ -282,16 +390,9 @@ function setting_users_roles_names_callback()
 function setting_users_no_spaces_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
-	$option = get_option($setting_key);
+	$option = get_option($setting_key, 1);
 
-	$arr_data = array();
-
-	$arr_data[] = array(0, __("No", 'lang_users'));
-	$arr_data[] = array(1, __("Yes", 'lang_users'));
-
-	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'compare' => $option));
-
-	//echo show_checkbox(array('name' => $setting_key, 'value' => 1, 'compare' => $option));
+	echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'compare' => $option));
 }
 
 function setting_users_register_name_callback()
@@ -299,14 +400,7 @@ function setting_users_register_name_callback()
 	$setting_key = get_setting_key(__FUNCTION__);
 	$option = get_option($setting_key);
 
-	$arr_data = array();
-
-	$arr_data[] = array(0, __("No", 'lang_users'));
-	$arr_data[] = array(1, __("Yes", 'lang_users'));
-
-	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'compare' => $option));
-
-	//echo show_checkbox(array('name' => $setting_key, 'value' => 1, 'compare' => $option));
+	echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'compare' => $option));
 }
 
 function setting_users_show_own_media_callback()
@@ -314,9 +408,7 @@ function setting_users_show_own_media_callback()
 	$setting_key = get_setting_key(__FUNCTION__);
 	$option = get_option($setting_key);
 
-	$arr_data = array();
-
-	get_roles_for_select($arr_data, true, false);
+	$arr_data = get_roles_for_select(array('add_choose_here' => true, 'strict_key' => false));
 
 	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'compare' => $option, 'description' => __("Every user below this role only sees their own files in the Media Library", 'lang_users')));
 }
@@ -326,9 +418,11 @@ function setting_add_profile_fields_callback()
 	$setting_key = get_setting_key(__FUNCTION__);
 	$option = get_option($setting_key);
 
-	$arr_data = array();
-
-	$arr_data[] = array('phone', __("Phone number", 'lang_users'));
+	$arr_data = array(
+		'phone' => __("Phone Number", 'lang_users'),
+		'profile_picture' => __("Profile Picture", 'lang_users'),
+		'password' => __("Password", 'lang_users'),
+	);
 
 	echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'compare' => $option));
 }
@@ -338,21 +432,54 @@ function setting_remove_profile_fields_callback()
 	$setting_key = get_setting_key(__FUNCTION__);
 	$option = get_option($setting_key);
 
-	$arr_data = array();
+	$arr_data = array(
+		'headings' => __("Headings", 'lang_users'),
+		'rich_editing' => __("Visual Editor", 'lang_users'),
+		'admin_color' => __("Admin Color Scheme", 'lang_users'),
+		'comment_shortcuts' => __("Keyboard Shortcuts", 'lang_users'),
+		'show_admin_bar' => __("Toolbar", 'lang_users'),
+		'user_login' => __("Username", 'lang_users'),
+		'nickname' => __("Nickname", 'lang_users'),
+		'display_name' => __("Display name", 'lang_users'),
+		'url' => __("Website", 'lang_users'),
+		'aim' => __("AIM", 'lang_users'),
+		'yim' => __("Yahoo IM", 'lang_users'),
+		'jabber' => __("Jabber", 'lang_users'),
+		'description' => __("Biographical Info", 'lang_users'),
+	);
 
-	$arr_data[] = array('headings', __("Headings", 'lang_users'));
-	$arr_data[] = array('rich_editing', __("Visual Editor", 'lang_users'));
-	$arr_data[] = array('admin_color', __("Admin Color Scheme", 'lang_users'));
-	$arr_data[] = array('comment_shortcuts', __("Keyboard Shortcuts", 'lang_users'));
-	$arr_data[] = array('show_admin_bar', __("Toolbar", 'lang_users'));
-	$arr_data[] = array('user_login', __("Username", 'lang_users'));
-	$arr_data[] = array('nickname', __("Nickname", 'lang_users'));
-	$arr_data[] = array('display_name', __("Display name", 'lang_users'));
-	$arr_data[] = array('url', __("Website", 'lang_users'));
-	$arr_data[] = array('description', __("Biographical Info", 'lang_users'));
-	$arr_data[] = array('profile_picture', __("Profile Picture", 'lang_users'));
-	$arr_data[] = array('password', __("Password", 'lang_users'));
-	$arr_data[] = array('sessions', __("Sessions", 'lang_users'));
+	$option_add = get_option('setting_add_profile_fields');
+
+	if(!in_array('profile_picture', $option_add))
+	{
+		$arr_data['profile_picture'] = __("Profile Picture", 'lang_users');
+	}
+
+	if(!in_array('password', $option_add))
+	{
+		$arr_data['password'] = __("Password", 'lang_users');
+	}
+
+	$arr_data['sessions'] = __("Sessions", 'lang_users');
 
 	echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'compare' => $option));
+}
+
+function setting_admin_color_callback()
+{
+	$setting_key = get_setting_key(__FUNCTION__);
+	$option = get_option($setting_key, 'fresh');
+
+	$arr_data = array(
+		'blue' => __("Blue", 'lang_users'),
+		'fresh' => __("Fresh", 'lang_users')." (".__("Default", 'lang_users').")",
+		'ectoplasm' => __("Ectoplasm", 'lang_users'),
+		'light' => __("Light", 'lang_users'),
+		'coffee' => __("Coffee", 'lang_users'),
+		'midnight' => __("Midnight", 'lang_users'),
+		'ocean' => __("Ocean", 'lang_users'),
+		'sunrise' => __("Sunrise", 'lang_users'),
+	);
+
+	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'compare' => $option));
 }

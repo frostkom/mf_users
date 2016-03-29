@@ -3,9 +3,13 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description: 
-Version: 2.3.3
+Version: 3.0.3
 Author: Martin Fors
 Author URI: http://frostkom.se
+Text Domain: lang_users
+Domain Path: /lang
+
+GitHub Plugin URI: frostkom/mf_users
 */
 
 include_once("include/functions.php");
@@ -24,6 +28,8 @@ if(is_admin())
 	add_action('edit_user_profile', 'show_profile_users');
 	add_action('personal_options_update', 'save_profile_users');
 	add_action('edit_user_profile_update', 'save_profile_users');
+
+	add_filter('get_user_option_admin_color', 'admin_color_users');
 }
 
 else
@@ -36,6 +42,8 @@ else
 		add_action('registration_errors', 'register_errors_users', 10, 3);
 	}
 }
+
+add_filter('get_avatar', 'avatar_users', 1, 5);
 
 if(get_option('setting_users_register_name'))
 {
