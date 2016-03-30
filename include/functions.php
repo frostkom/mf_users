@@ -6,6 +6,14 @@ function init_users()
 
 	update_option('wp_user_roles_orig', $wp_roles->roles);
 
+	rename_roles();
+	hide_roles();
+}
+
+function rename_roles()
+{
+	global $wp_roles;
+
 	$option = get_option('setting_users_roles_names');
 
 	if(is_array($option))
@@ -18,6 +26,11 @@ function init_users()
 			}
 		}
 	}
+}
+
+function hide_roles()
+{
+	global $wp_roles;
 
 	$option = get_option('setting_users_roles_hidden');
 
@@ -408,7 +421,7 @@ function setting_users_show_own_media_callback()
 	$setting_key = get_setting_key(__FUNCTION__);
 	$option = get_option($setting_key);
 
-	$arr_data = get_roles_for_select(array('add_choose_here' => true, 'strict_key' => true));
+	$arr_data = get_roles_for_select(array('add_choose_here' => true));
 
 	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'compare' => $option, 'description' => __("Every user below this role only sees their own files in the Media Library", 'lang_users')));
 }
