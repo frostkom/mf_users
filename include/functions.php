@@ -484,9 +484,10 @@ function setting_remove_profile_fields_callback()
 function setting_admin_color_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
-	$option = get_option($setting_key, 'fresh');
+	$option = get_option($setting_key);
 
 	$arr_data = array(
+		'' => "-- ".__("Choose here", 'lang_users')." --",
 		'blue' => __("Blue", 'lang_users'),
 		'fresh' => __("Fresh", 'lang_users')." (".__("Default", 'lang_users').")",
 		'ectoplasm' => __("Ectoplasm", 'lang_users'),
