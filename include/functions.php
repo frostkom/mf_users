@@ -125,28 +125,35 @@ function save_register_users($user_id, $password = "", $meta = array())
 
 	if(is_array($option) && in_array('phone', $option))
 	{
-		$profile_phone = check_var('profile_phone');
+		$meta_value = check_var('profile_phone');
 
-		update_user_meta($user_id, 'profile_phone', $profile_phone);
+		update_user_meta($user_id, 'profile_phone', $meta_value);
+	}
+
+	if(is_array($option) && in_array('edit_page_per_page', $option))
+	{
+		$meta_value = check_var('edit_page_per_page');
+
+		update_user_meta($user_id, 'edit_page_per_page', $meta_value);
 	}
 
 	if(is_array($option) && in_array('profile_picture', $option))
 	{
-		$profile_phone = check_var('profile_picture');
+		$meta_value = check_var('profile_picture');
 
-		update_user_meta($user_id, 'profile_picture', $profile_phone);
+		update_user_meta($user_id, 'profile_picture', $meta_value);
 	}
 
 	if(is_array($option) && in_array('password', $option))
 	{
-		$profile_password = check_var('profile_password');
+		$meta_value = check_var('profile_password');
 
-		if($profile_password != '')
+		if($meta_value != '')
 		{
-			/*update_user_meta($user_id, 'user_pass', $profile_password);
-			wp_update_user(array('ID' => $user_id, 'user_pass' => $profile_password));*/
+			/*update_user_meta($user_id, 'user_pass', $meta_value);
+			wp_update_user(array('ID' => $user_id, 'user_pass' => $meta_value));*/
 
-			wp_set_password($profile_password, $user_id);
+			wp_set_password($meta_value, $user_id);
 		}
 	}
 }
@@ -197,6 +204,18 @@ function show_profile_users($user)
 			</tr>";
 		}
 
+		if(in_array('edit_page_per_page', $option))
+		{
+			$meta_key = 'edit_page_per_page';
+			$meta_value = get_the_author_meta($meta_key, $user->ID);
+			$meta_text = __('Rows per page', 'lang_users');
+
+			$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
+				<th><label for='".$meta_key."'>".$meta_text."</label></th>
+				<td>".show_textfield(array('type' => 'number', 'name' => $meta_key, 'value' => $meta_value))."</td>
+			</tr>";
+		}
+
 		if(in_array('password', $option))
 		{
 			$arr_remove['password'] = true;
@@ -218,7 +237,7 @@ function show_profile_users($user)
 
 	if(count($arr_remove) > 0)
 	{
-		mf_enqueue_script('script_users', plugin_dir_url(__FILE__)."/script_remove.js", $arr_remove);
+		mf_enqueue_script('script_users', plugin_dir_url(__FILE__)."script_remove.js", $arr_remove);
 	}
 }
 
@@ -434,6 +453,7 @@ function setting_add_profile_fields_callback()
 	$arr_data = array(
 		'phone' => __("Phone Number", 'lang_users'),
 		'profile_picture' => __("Profile Picture", 'lang_users'),
+		'edit_page_per_page' => __("Rows per page", 'lang_users'),
 		'password' => __("Password", 'lang_users'),
 	);
 

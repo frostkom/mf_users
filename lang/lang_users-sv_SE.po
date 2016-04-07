@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MF Forms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-24 14:05+0100\n"
+"POT-Creation-Date: 2016-04-05 16:53+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: Martin Fors\n"
@@ -15,140 +15,195 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../include/functions.php:51
+#: ../include/functions.php:64
 msgid "Incorrect username or password"
 msgstr "Fel användarnamn eller lösenord"
 
-#: ../include/functions.php:78
+#: ../include/functions.php:103
 msgid "First Name"
 msgstr "Förnamn"
 
-#: ../include/functions.php:82
+#: ../include/functions.php:107
 msgid "Last Name"
 msgstr "Efternamn"
 
-#: ../include/functions.php:153
-#: ../include/functions.php:403
+#: ../include/functions.php:185
+#: ../include/functions.php:454
 msgid "Phone Number"
 msgstr "Telefonnummer"
 
-#: ../include/functions.php:167
-#: ../include/functions.php:404
-#: ../include/functions.php:433
+#: ../include/functions.php:199
+#: ../include/functions.php:455
+#: ../include/functions.php:490
 msgid "Profile Picture"
 msgstr "Profilbild"
 
-#: ../include/functions.php:180
+#: ../include/functions.php:211
+#: ../include/functions.php:456
+msgid "Rows per page"
+msgstr "Rader / sida"
+
+#: ../include/functions.php:224
 msgid "New Password"
 msgstr "Nytt lösenord"
 
-#: ../include/functions.php:184
+#: ../include/functions.php:228
 msgid "Enter a new password here"
 msgstr "Skriv in ett nytt lösenord här"
 
-#: ../include/functions.php:212
+#: ../include/functions.php:256
 msgid "Username must not contain spaces"
 msgstr "Användarnamn får inte innehålla mellanslag"
 
-#: ../include/functions.php:319
+#: ../include/functions.php:363
 msgid "Hide Roles"
 msgstr "Göm roller"
 
-#: ../include/functions.php:320
+#: ../include/functions.php:364
 msgid "Change Role Names"
 msgstr "Ändra rollnamn"
 
-#: ../include/functions.php:321
+#: ../include/functions.php:365
 msgid "Only show users own files"
 msgstr "Visa endast användarens egna filer"
 
-#: ../include/functions.php:322
+#: ../include/functions.php:366
 msgid "Prevent Username Spaces"
 msgstr "Motverka mellanslag i användarnamn"
 
-#: ../include/functions.php:323
+#: ../include/functions.php:367
 msgid "Collect name of user in registration form"
 msgstr "Spara namn på användare som registrar sig"
 
-#: ../include/functions.php:324
+#: ../include/functions.php:368
 msgid "Add fields to profile"
 msgstr "Lägg till fält i profilen"
 
-#: ../include/functions.php:325
+#: ../include/functions.php:369
 msgid "Remove fields from profile"
 msgstr "Ta bort fält från profilen"
 
-#: ../include/functions.php:340
+#: ../include/functions.php:376
+msgid "Change Admin Color"
+msgstr "Ändra adminfärger"
+
+#: ../include/functions.php:391
 msgid "Users"
 msgstr "Användare"
 
-#: ../include/functions.php:394
+#: ../include/functions.php:445
 msgid "Every user below this role only sees their own files in the Media Library"
 msgstr "Varje användare lägre än denna roll ser endast sina egna filer i Mediabiblioteket"
 
-#: ../include/functions.php:405
-#: ../include/functions.php:438
+#: ../include/functions.php:457
+#: ../include/functions.php:495
 msgid "Password"
 msgstr "Lösenord"
 
-#: ../include/functions.php:417
+#: ../include/functions.php:469
 msgid "Headings"
 msgstr "Rubriker"
 
-#: ../include/functions.php:418
+#: ../include/functions.php:470
 msgid "Visual Editor"
 msgstr "Visuell redigerare"
 
-#: ../include/functions.php:419
+#: ../include/functions.php:471
 msgid "Admin Color Scheme"
 msgstr "Färgschema för adminpanel"
 
-#: ../include/functions.php:420
+#: ../include/functions.php:472
 msgid "Keyboard Shortcuts"
 msgstr "Tangentbordsgenvägar"
 
-#: ../include/functions.php:421
+#: ../include/functions.php:473
 msgid "Toolbar"
 msgstr "Verktygsfält"
 
-#: ../include/functions.php:422
+#: ../include/functions.php:474
 msgid "Username"
 msgstr "Användarnamn"
 
-#: ../include/functions.php:423
+#: ../include/functions.php:475
 msgid "Nickname"
 msgstr "Smeknamn"
 
-#: ../include/functions.php:424
+#: ../include/functions.php:476
 msgid "Display name"
 msgstr "Visningsnamn"
 
-#: ../include/functions.php:425
+#: ../include/functions.php:477
 msgid "Website"
 msgstr "Webbplats"
 
-#: ../include/functions.php:426
+#: ../include/functions.php:478
+msgid "AIM"
+msgstr ""
+
+#: ../include/functions.php:479
+msgid "Yahoo IM"
+msgstr ""
+
+#: ../include/functions.php:480
+msgid "Jabber"
+msgstr ""
+
+#: ../include/functions.php:481
 msgid "Biographical Info"
 msgstr "Biografi"
 
-#: ../include/functions.php:441
+#: ../include/functions.php:499
 msgid "Sessions"
 msgstr "Sessioner"
 
+#: ../include/functions.php:510
+msgid "Choose here"
+msgstr "Välj här"
+
+#: ../include/functions.php:511
+msgid "Blue"
+msgstr "Blå"
+
+#: ../include/functions.php:512
+msgid "Fresh"
+msgstr ""
+
+#: ../include/functions.php:512
+msgid "Default"
+msgstr "Standard"
+
+#: ../include/functions.php:513
+msgid "Ectoplasm"
+msgstr ""
+
+#: ../include/functions.php:514
+msgid "Light"
+msgstr "Ljus"
+
+#: ../include/functions.php:515
+msgid "Coffee"
+msgstr "Kaffe"
+
+#: ../include/functions.php:516
+msgid "Midnight"
+msgstr "Midnatt"
+
+#: ../include/functions.php:517
+msgid "Ocean"
+msgstr "Hav"
+
+#: ../include/functions.php:518
+msgid "Sunrise"
+msgstr "Soluppgång"
+
 #~ msgid "Phone number"
 #~ msgstr "Telefonnummer"
-
-#~ msgid "Change name for"
-#~ msgstr "Ändra namn på"
 
 #~ msgid "No"
 #~ msgstr "Nej"
 
 #~ msgid "Yes"
 #~ msgstr "Ja"
-
-#~ msgid "Choose here"
-#~ msgstr "Välj här"
 
 #~ msgid "<strong>ERROR</strong>: Invalid username or incorrect password."
 #~ msgstr "<strong>FEL</strong>: Felaktigt användarnamn eller lösenord."
@@ -303,12 +358,6 @@ msgstr "Sessioner"
 #~ msgid "Max value"
 #~ msgstr "Högsta värde"
 
-#~ msgid "Default value"
-#~ msgstr "Standardvärde"
-
-#~ msgid "Value"
-#~ msgstr "Värde"
-
 #~ msgid "Add"
 #~ msgstr "Lägg till"
 
@@ -423,9 +472,6 @@ msgstr "Sessioner"
 #~ msgstr "Visa ett formulär som du har skapat"
 
 #~ msgid "Form"
-#~ msgstr "Formulär"
-
-#~ msgid "Forms"
 #~ msgstr "Formulär"
 
 #~ msgid "Click here to send e-mail"
