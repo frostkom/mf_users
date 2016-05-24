@@ -144,18 +144,21 @@ function save_register_users($user_id, $password = "", $meta = array())
 		update_user_meta($user_id, 'profile_picture', $meta_value);
 	}
 
-	if(is_array($option) && in_array('password', $option))
+	//Does not seam to work with special characters
+	/*if(is_array($option) && in_array('password', $option))
 	{
 		$meta_value = check_var('profile_password');
 
 		if($meta_value != '')
 		{
-			/*update_user_meta($user_id, 'user_pass', $meta_value);
-			wp_update_user(array('ID' => $user_id, 'user_pass' => $meta_value));*/
+			//$meta_value = wp_hash_password($meta_value);
+
+			//update_user_meta($user_id, 'user_pass', $meta_value);
+			//wp_update_user(array('ID' => $user_id, 'user_pass' => $meta_value));
 
 			wp_set_password($meta_value, $user_id);
 		}
-	}
+	}*/
 }
 
 function show_profile_users($user)
@@ -216,7 +219,7 @@ function show_profile_users($user)
 			</tr>";
 		}
 
-		if(in_array('password', $option))
+		/*if(in_array('password', $option))
 		{
 			$arr_remove['password'] = true;
 
@@ -227,7 +230,7 @@ function show_profile_users($user)
 				<th><label for='".$meta_key."'>".$meta_text."</label></th>
 				<td>".show_password_field(array('name' => $meta_key, 'placeholder' => __("Enter a new password here", 'lang_users'), 'xtra' => "class='regular-text'"))."</td>
 			</tr>";
-		}
+		}*/
 
 		if($out != '')
 		{
@@ -454,7 +457,7 @@ function setting_add_profile_fields_callback()
 		'phone' => __("Phone Number", 'lang_users'),
 		'profile_picture' => __("Profile Picture", 'lang_users'),
 		'edit_page_per_page' => __("Rows per page", 'lang_users'),
-		'password' => __("Password", 'lang_users'),
+		//'password' => __("Password", 'lang_users'),
 	);
 
 	echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'compare' => $option));
@@ -490,10 +493,10 @@ function setting_remove_profile_fields_callback()
 			$arr_data['profile_picture'] = __("Profile Picture", 'lang_users');
 		}
 
-		if(!in_array('password', $option_add))
+		/*if(!in_array('password', $option_add))
 		{
 			$arr_data['password'] = __("Password", 'lang_users');
-		}
+		}*/
 	}
 
 	$arr_data['sessions'] = __("Sessions", 'lang_users');
