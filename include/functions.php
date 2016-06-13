@@ -100,11 +100,11 @@ function register_form_users()
 		$last_name = check_var('last_name');
 
 		echo "<p>
-			<label for='first_name'>".__('First Name', 'lang_users').":</label><br>
+			<label for='first_name'>".__('First Name', 'lang_users')."</label><br>
 			<input type='text' name='first_name' value='".$first_name."' class='regular-text' required>
 		</p>
 		<p>
-			<label for='last_name'>".__('Last Name', 'lang_users').":</label><br>
+			<label for='last_name'>".__('Last Name', 'lang_users')."</label><br>
 			<input type='text' name='last_name' value='".$last_name."' class='regular-text' required>
 		</p>";
 	}
