@@ -486,18 +486,15 @@ function setting_remove_profile_fields_callback()
 
 	$option_add = get_option('setting_add_profile_fields');
 
-	if(is_array($option_add))
+	if(is_array($option_add) && !in_array('profile_picture', $option_add) || !is_array($option_add))
 	{
-		if(!in_array('profile_picture', $option_add))
-		{
-			$arr_data['profile_picture'] = __("Profile Picture", 'lang_users');
-		}
-
-		/*if(!in_array('password', $option_add))
-		{
-			$arr_data['password'] = __("Password", 'lang_users');
-		}*/
+		$arr_data['profile_picture'] = __("Profile Picture", 'lang_users');
 	}
+
+	/*if(is_array($option_add) && !in_array('password', $option_add) || !is_array($option_add))
+	{
+		$arr_data['password'] = __("Password", 'lang_users');
+	}*/
 
 	$arr_data['sessions'] = __("Sessions", 'lang_users');
 
