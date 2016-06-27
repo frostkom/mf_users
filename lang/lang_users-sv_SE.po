@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-27 15:45+0100\n"
+"POT-Creation-Date: 2016-06-22 11:35+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: \n"
@@ -27,128 +27,115 @@ msgstr "Förnamn"
 msgid "Last Name"
 msgstr "Efternamn"
 
-#: ../include/functions.php:185
-#: ../include/functions.php:454
+#: ../include/functions.php:188
+#: ../include/functions.php:457
 msgid "Phone Number"
 msgstr "Telefonnummer"
 
-#: ../include/functions.php:199
-#: ../include/functions.php:455
-#: ../include/functions.php:490
+#: ../include/functions.php:202
+#: ../include/functions.php:458
+#: ../include/functions.php:491
 msgid "Profile Picture"
 msgstr "Profilbild"
 
-#: ../include/functions.php:211
-#: ../include/functions.php:456
+#: ../include/functions.php:214
+#: ../include/functions.php:459
 msgid "Rows per page"
 msgstr "Rader / sida"
 
-#: ../include/functions.php:224
-msgid "New Password"
-msgstr "Nytt lösenord"
-
-#: ../include/functions.php:228
-msgid "Enter a new password here"
-msgstr "Skriv in ett nytt lösenord här"
-
-#: ../include/functions.php:256
+#: ../include/functions.php:259
 msgid "Username must not contain spaces"
 msgstr "Användarnamn får inte innehålla mellanslag"
 
-#: ../include/functions.php:363
+#: ../include/functions.php:366
 msgid "Hide Roles"
 msgstr "Göm roller"
 
-#: ../include/functions.php:364
+#: ../include/functions.php:367
 msgid "Change Role Names"
 msgstr "Ändra rollnamn"
 
-#: ../include/functions.php:365
+#: ../include/functions.php:368
 msgid "Only show users own files"
 msgstr "Visa endast användarens egna filer"
 
-#: ../include/functions.php:366
+#: ../include/functions.php:369
 msgid "Prevent Username Spaces"
 msgstr "Motverka mellanslag i användarnamn"
 
-#: ../include/functions.php:367
+#: ../include/functions.php:370
 msgid "Collect name of user in registration form"
 msgstr "Spara namn på användare som registrar sig"
 
-#: ../include/functions.php:368
+#: ../include/functions.php:371
 msgid "Add fields to profile"
 msgstr "Lägg till fält i profilen"
 
-#: ../include/functions.php:369
+#: ../include/functions.php:372
 msgid "Remove fields from profile"
 msgstr "Ta bort fält från profilen"
 
-#: ../include/functions.php:376
+#: ../include/functions.php:379
 msgid "Change Admin Color"
 msgstr "Ändra adminfärger"
 
-#: ../include/functions.php:391
+#: ../include/functions.php:394
 msgid "Users"
 msgstr "Användare"
 
-#: ../include/functions.php:445
+#: ../include/functions.php:448
 msgid "Every user below this role only sees their own files in the Media Library"
 msgstr "Varje användare lägre än denna roll ser endast sina egna filer i Mediabiblioteket"
 
-#: ../include/functions.php:457
-#: ../include/functions.php:495
-msgid "Password"
-msgstr "Lösenord"
-
-#: ../include/functions.php:469
+#: ../include/functions.php:472
 msgid "Headings"
 msgstr "Rubriker"
 
-#: ../include/functions.php:470
+#: ../include/functions.php:473
 msgid "Visual Editor"
 msgstr "Visuell redigerare"
 
-#: ../include/functions.php:471
+#: ../include/functions.php:474
 msgid "Admin Color Scheme"
 msgstr "Färgschema för adminpanel"
 
-#: ../include/functions.php:472
+#: ../include/functions.php:475
 msgid "Keyboard Shortcuts"
 msgstr "Tangentbordsgenvägar"
 
-#: ../include/functions.php:473
+#: ../include/functions.php:476
 msgid "Toolbar"
 msgstr "Verktygsfält"
 
-#: ../include/functions.php:474
+#: ../include/functions.php:477
 msgid "Username"
 msgstr "Användarnamn"
 
-#: ../include/functions.php:475
+#: ../include/functions.php:478
 msgid "Nickname"
 msgstr "Smeknamn"
 
-#: ../include/functions.php:476
+#: ../include/functions.php:479
 msgid "Display name"
 msgstr "Visningsnamn"
 
-#: ../include/functions.php:477
+#: ../include/functions.php:480
 msgid "Website"
 msgstr "Webbplats"
 
-#: ../include/functions.php:478
+#: ../include/functions.php:481
 msgid "AIM"
 msgstr ""
 
-#: ../include/functions.php:479
+#: ../include/functions.php:482
 msgid "Yahoo IM"
 msgstr ""
 
-#: ../include/functions.php:480
+#: ../include/functions.php:483
 msgid "Jabber"
 msgstr ""
 
-#: ../include/functions.php:481
+#: ../include/functions.php:484
 msgid "Biographical Info"
 msgstr "Biografi"
 
@@ -195,6 +182,15 @@ msgstr "Hav"
 #: ../include/functions.php:518
 msgid "Sunrise"
 msgstr "Soluppgång"
+
+#~ msgid "New Password"
+#~ msgstr "Nytt lösenord"
+
+#~ msgid "Enter a new password here"
+#~ msgstr "Skriv in ett nytt lösenord här"
+
+#~ msgid "Password"
+#~ msgstr "Lösenord"
 
 #~ msgid "Phone number"
 #~ msgstr "Telefonnummer"
