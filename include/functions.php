@@ -54,7 +54,7 @@ if(!function_exists('wp_authenticate'))
 		//This is the extra line for replacing spaces in the username
 		if(get_option('setting_users_no_spaces'))
 		{
-			$username = replace_spaces($username);
+			$username = replace_spaces_users($username);
 		}
 
 		$user = apply_filters('authenticate', null, $username, $password);
@@ -87,7 +87,7 @@ function admin_color_users($color)
 	return $color;
 }
 
-function replace_spaces($in)
+function replace_spaces_users($in)
 {
 	return str_replace(" ", "-", $in);
 }
@@ -258,7 +258,7 @@ function register_errors_users($errors, $user_login, $user_email)
 	{
 		$errors->add('user_login', __("Username must not contain spaces", 'lang_users'));
 	}
-	
+
 	return $errors;
 }
 
@@ -286,7 +286,7 @@ function avatar_users($avatar, $id_or_email, $size, $default, $alt)
 		$id = (int) $id_or_email;
 		$user = get_user_by('id', $id);
 	}
-	
+
 	else if(is_object($id_or_email))
 	{
 		if($id_or_email->user_id > 0)
@@ -295,7 +295,7 @@ function avatar_users($avatar, $id_or_email, $size, $default, $alt)
 			$user = get_user_by('id', $id);
 		}
 	}
-	
+
 	else
 	{
 		$user = get_user_by('email', $id_or_email);   
@@ -319,20 +319,52 @@ function avatar_users($avatar, $id_or_email, $size, $default, $alt)
 
 function wp_login_users($username)
 {
-	$user = get_user_by('login', $username);
+	$setting_users_register_name = get_option('setting_users_register_name');
 
-	save_display_name($user);
+	if($setting_users_register_name)
+	{
+		$user = get_user_by('login', $username);
+
+		save_display_name($user);
+	}
 }
 
 function admin_head_users()
 {
-	$users = get_users(array('fields' => 'all'));
-
-	foreach($users as $user)
+	if(IS_ADMIN)
 	{
-		$user = get_userdata($user->ID);
+		$setting_users_no_spaces = get_option('setting_users_no_spaces');
+		$setting_users_register_name = get_option('setting_users_register_name');
 
-		save_display_name($user);
+		if($setting_users_no_spaces)
+		{
+			$users = get_users(array('fields' => 'all'));
+
+			foreach($users as $user)
+			{
+				$user_data = get_userdata($user->ID);
+
+				$username = replace_spaces_users($user_data->user_login);
+
+				if($username != $user_data->user_login)
+				{
+					//wp_update_user(array('ID' => $user->ID, 'user_login' => $username)); //Does not work
+					$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->users." SET user_login = %s WHERE ID = '%d'", $username, $user->ID));
+				}
+			}
+		}
+
+		if($setting_users_register_name)
+		{
+			$users = get_users(array('fields' => 'all'));
+
+			foreach($users as $user)
+			{
+				$user = get_userdata($user->ID);
+
+				save_display_name($user);
+			}
+		}
 	}
 }
 
@@ -341,7 +373,7 @@ function own_media_users($wp_query)
 	global $current_user;
 
 	$wp_query = $wp_query;
-	
+
 	if(isset($wp_query->query['post_type']))
 	{
 		$option = get_option('setting_users_show_own_media');
@@ -371,7 +403,7 @@ function settings_users()
 		"setting_add_profile_fields" => __("Add fields to profile", 'lang_users'),
 		"setting_remove_profile_fields" => __("Remove fields from profile", 'lang_users'),
 	);
-	
+
 	$option = get_option('setting_remove_profile_fields');
 
 	if(is_array($option) && in_array('admin_color', $option))
