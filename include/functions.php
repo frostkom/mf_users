@@ -459,7 +459,7 @@ function setting_users_no_spaces_callback()
 	$setting_key = get_setting_key(__FUNCTION__);
 	$option = get_option($setting_key, 1);
 
-	echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'compare' => $option));
+	echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'value' => $option));
 }
 
 function setting_users_register_name_callback()
@@ -467,7 +467,7 @@ function setting_users_register_name_callback()
 	$setting_key = get_setting_key(__FUNCTION__);
 	$option = get_option($setting_key);
 
-	echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'compare' => $option));
+	echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'value' => $option));
 }
 
 function setting_users_show_own_media_callback()
@@ -477,7 +477,7 @@ function setting_users_show_own_media_callback()
 
 	$arr_data = get_roles_for_select(array('add_choose_here' => true));
 
-	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'compare' => $option, 'description' => __("Every user below this role only sees their own files in the Media Library", 'lang_users')));
+	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'value' => $option, 'description' => __("Every user below this role only sees their own files in the Media Library", 'lang_users')));
 }
 
 function setting_add_profile_fields_callback()
@@ -492,7 +492,7 @@ function setting_add_profile_fields_callback()
 		//'password' => __("Password", 'lang_users'),
 	);
 
-	echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'compare' => $option));
+	echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
 }
 
 function setting_remove_profile_fields_callback()
@@ -530,7 +530,7 @@ function setting_remove_profile_fields_callback()
 
 	$arr_data['sessions'] = __("Sessions", 'lang_users');
 
-	echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'compare' => $option));
+	echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
 }
 
 function setting_admin_color_callback()
@@ -550,5 +550,5 @@ function setting_admin_color_callback()
 		'sunrise' => __("Sunrise", 'lang_users'),
 	);
 
-	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'compare' => $option));
+	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'value' => $option));
 }
