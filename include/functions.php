@@ -331,6 +331,8 @@ function wp_login_users($username)
 
 function admin_head_users()
 {
+	global $wpdb;
+
 	if(IS_ADMIN)
 	{
 		$setting_users_no_spaces = get_option('setting_users_no_spaces');
