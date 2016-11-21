@@ -380,12 +380,9 @@ function own_media_users($wp_query)
 	{
 		$option = get_option('setting_users_show_own_media');
 
-		if($option != '')
+		if($option != '' && !current_user_can($option) && (is_admin() && $wp_query->query['post_type'] === 'attachment'))
 		{
-			if(!current_user_can($option) && (is_admin() && $wp_query->query['post_type'] === 'attachment'))
-			{
-				$wp_query->set('author', $current_user->ID);
-			}
+			$wp_query->set('author', $current_user->ID);
 		}
 	}
 }
