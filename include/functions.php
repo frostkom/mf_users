@@ -61,7 +61,7 @@ if(!function_exists('wp_authenticate'))
 
 		if($user == null)
 		{
-			$user = new WP_Error('authentication_failed', __('Incorrect username or password', 'lang_users'));
+			$user = new WP_Error('authentication_failed', __("Incorrect username or password", 'lang_users'));
 		}
 
 		$ignore_codes = array('empty_username', 'empty_password');
@@ -100,11 +100,11 @@ function register_form_users()
 		$last_name = check_var('last_name');
 
 		echo "<p>
-			<label for='first_name'>".__('First Name', 'lang_users')."</label><br>
+			<label for='first_name'>".__("First Name", 'lang_users')."</label><br>
 			<input type='text' name='first_name' value='".$first_name."' class='regular-text' required>
 		</p>
 		<p>
-			<label for='last_name'>".__('Last Name', 'lang_users')."</label><br>
+			<label for='last_name'>".__("Last Name", 'lang_users')."</label><br>
 			<input type='text' name='last_name' value='".$last_name."' class='regular-text' required>
 		</p>";
 	}
@@ -185,7 +185,7 @@ function show_profile_users($user)
 		{
 			$meta_key = 'profile_phone';
 			$meta_value = get_the_author_meta($meta_key, $user->ID);
-			$meta_text = __('Phone Number', 'lang_users');
+			$meta_text = __("Phone Number", 'lang_users');
 
 			$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
 				<th><label for='".$meta_key."'>".$meta_text."</label></th>
@@ -199,7 +199,7 @@ function show_profile_users($user)
 
 			$meta_key = 'profile_picture';
 			$meta_value = get_the_author_meta($meta_key, $user->ID);
-			$meta_text = __('Profile Picture', 'lang_users');
+			$meta_text = __("Profile Picture", 'lang_users');
 
 			$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
 				<th><label for='".$meta_key."'>".$meta_text."</label></th>
@@ -211,7 +211,7 @@ function show_profile_users($user)
 		{
 			$meta_key = 'edit_page_per_page';
 			$meta_value = get_the_author_meta($meta_key, $user->ID);
-			$meta_text = __('Rows per page', 'lang_users');
+			$meta_text = __("Rows per page", 'lang_users');
 
 			$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
 				<th><label for='".$meta_key."'>".$meta_text."</label></th>
@@ -224,7 +224,7 @@ function show_profile_users($user)
 			$arr_remove['password'] = true;
 
 			$meta_key = 'profile_password';
-			$meta_text = __('New Password', 'lang_users');
+			$meta_text = __("New Password", 'lang_users');
 
 			$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
 				<th><label for='".$meta_key."'>".$meta_text."</label></th>
