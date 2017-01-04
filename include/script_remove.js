@@ -20,6 +20,11 @@ jQuery(function($)
 		$('.show-admin-bar').remove();
 	}
 
+	if(script_users.language == true)
+	{
+		$('.user-language-wrap').remove();
+	}
+
 	if(script_users.user_login == true)
 	{
 		$('.user-user-login-wrap').hide();

@@ -505,6 +505,7 @@ function setting_remove_profile_fields_callback()
 		'admin_color' => __("Admin Color Scheme", 'lang_users'),
 		'comment_shortcuts' => __("Keyboard Shortcuts", 'lang_users'),
 		'show_admin_bar' => __("Toolbar", 'lang_users'),
+		'language' => __("Language", 'lang_users'),
 		'user_login' => __("Username", 'lang_users'),
 		'nickname' => __("Nickname", 'lang_users'),
 		'display_name' => __("Display name", 'lang_users'),
