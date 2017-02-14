@@ -203,7 +203,7 @@ function show_profile_users($user)
 
 			$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
 				<th><label for='".$meta_key."'>".$meta_text."</label></th>
-				<td>".get_file_button(array('setting_key' => $meta_key, 'option' => $meta_value))."</td>
+				<td>".get_file_button(array('name' => $meta_key, 'value' => $meta_value))."</td>
 			</tr>";
 		}
 
