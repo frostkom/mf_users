@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description: 
-Version: 3.3.7
+Version: 3.3.8
 Author: Martin Fors
 Author URI: http://frostkom.se
 Text Domain: lang_users
@@ -52,6 +52,6 @@ load_plugin_textdomain('lang_users', false, dirname(plugin_basename(__FILE__)).'
 function uninstall_users()
 {
 	mf_uninstall_plugin(array(
-		'options' => array('setting_users_roles_hidden', 'setting_users_roles_names', 'setting_users_register_name', 'setting_users_no_spaces', 'setting_users_show_own_media', 'wp_user_roles_orig'),
+		'options' => array('setting_users_roles_hidden', 'setting_users_roles_names', 'setting_users_register_name', 'setting_users_no_spaces', 'setting_users_show_own_media', $wpdb->prefix.'user_roles_orig'),
 	));
 }

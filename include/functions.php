@@ -4,7 +4,7 @@ function init_users()
 {
 	global $wp_roles;
 
-	update_option('wp_user_roles_orig', $wp_roles->roles);
+	update_option($wpdb->prefix.'user_roles_orig', $wp_roles->roles);
 
 	rename_roles();
 	hide_roles();
