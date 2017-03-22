@@ -2,7 +2,7 @@
 
 function init_users()
 {
-	global $wp_roles;
+	global $wpdb, $wp_roles;
 
 	update_option($wpdb->prefix.'user_roles_orig', $wp_roles->roles);
 
