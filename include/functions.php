@@ -410,12 +410,7 @@ function settings_users()
 		$arr_settings['setting_admin_color'] = __("Change Admin Color", 'lang_users');
 	}
 
-	foreach($arr_settings as $handle => $text)
-	{
-		add_settings_field($handle, $text, $handle."_callback", BASE_OPTIONS_PAGE, $options_area);
-
-		register_setting(BASE_OPTIONS_PAGE, $handle);
-	}
+	show_settings_fields(array('area' => $options_area, 'settings' => $arr_settings));
 }
 
 function settings_users_callback()
