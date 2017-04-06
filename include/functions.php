@@ -298,7 +298,7 @@ function avatar_users($avatar, $id_or_email, $size, $default, $alt)
 
 	else
 	{
-		$user = get_user_by('email', $id_or_email);   
+		$user = get_user_by('email', $id_or_email);
 	}
 
 	if($user && is_object($user))
