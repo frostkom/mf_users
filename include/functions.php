@@ -213,6 +213,11 @@ function show_profile_users($user)
 			$meta_value = get_the_author_meta($meta_key, $user->ID);
 			$meta_text = __("Rows per page", 'lang_users');
 
+			if(!($meta_value > 0))
+			{
+				$meta_value = 20;
+			}
+
 			$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
 				<th><label for='".$meta_key."'>".$meta_text."</label></th>
 				<td>".show_textfield(array('type' => 'number', 'name' => $meta_key, 'value' => $meta_value))."</td>
