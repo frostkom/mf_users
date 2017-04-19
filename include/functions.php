@@ -245,7 +245,7 @@ function show_profile_users($user)
 
 	if(count($arr_remove) > 0)
 	{
-		mf_enqueue_script('script_users', plugin_dir_url(__FILE__)."script_remove.js", $arr_remove);
+		mf_enqueue_script('script_users', plugin_dir_url(__FILE__)."script_remove.js", $arr_remove, get_plugin_version(__FILE__));
 	}
 }
 
