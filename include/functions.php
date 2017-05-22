@@ -96,16 +96,11 @@ function register_form_users()
 {
 	if(get_option('setting_users_register_name'))
 	{
-		$first_name = check_var('first_name');
-		$last_name = check_var('last_name');
+		$full_name = check_var('full_name');
 
 		echo "<p>
-			<label for='first_name'>".__("First Name", 'lang_users')."</label><br>
-			<input type='text' name='first_name' value='".$first_name."' class='regular-text' required>
-		</p>
-		<p>
-			<label for='last_name'>".__("Last Name", 'lang_users')."</label><br>
-			<input type='text' name='last_name' value='".$last_name."' class='regular-text' required>
+			<label for='first_name'>".__("Full Name", 'lang_users')."</label><br>
+			<input type='text' name='full_name' value='".$full_name."' class='regular-text' required>
 		</p>";
 	}
 }
@@ -114,8 +109,9 @@ function save_register_users($user_id, $password = "", $meta = array())
 {
 	if(get_option('setting_users_register_name'))
 	{
-		$first_name = check_var('first_name');
-		$last_name = check_var('last_name');
+		$full_name = check_var('full_name');
+
+		list($first_name, $last_name) = explode(" ", $full_name, 2);
 
 		update_user_meta($user_id, 'first_name', $first_name);
 		update_user_meta($user_id, 'last_name', $last_name);
