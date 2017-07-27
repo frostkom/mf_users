@@ -111,7 +111,7 @@ function save_register_users($user_id, $password = "", $meta = array())
 	{
 		$full_name = check_var('full_name');
 
-		list($first_name, $last_name) = explode(" ", $full_name, 2);
+		@list($first_name, $last_name) = explode(" ", $full_name, 2);
 
 		update_user_meta($user_id, 'first_name', $first_name);
 		update_user_meta($user_id, 'last_name', $last_name);
