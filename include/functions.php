@@ -308,10 +308,7 @@ function avatar_users($avatar, $id_or_email, $size, $default, $alt)
 
 		if(isset($meta_value) && $meta_value != '')
 		{
-			//$upload_dir = wp_upload_dir();
-			//$custom_avatar = $upload_dir['baseurl'].$meta_value;
-
-			$avatar = "<img src='".$meta_value."' class='avatar avatar-".$size." photo' alt='".$alt."'>"; // height='".$size."' width='".$size."'
+			$avatar = "<img src='".$meta_value."' class='avatar avatar-".$size." photo' alt='".$alt."'>";
 		}
 	}
 
