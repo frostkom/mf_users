@@ -1,5 +1,68 @@
 <?php
 
+/*function cron_users()
+{
+	global $wpdb;
+
+	$site_name = get_bloginfo('name');
+
+	$users = get_users(array('fields' => 'all'));
+
+	foreach($users as $user)
+	{
+		$user_id = $user->ID;
+
+		$profile_reminder = get_the_author_meta('profile_reminder', $user_id);
+
+		if($profile_reminder != '')
+		{
+			$user_last_active = get_user_meta($user_id, 'last_active', true);
+
+			if($user_last_active > DEFAULT_DATE)
+			{
+				$reminder_cutoff = date("Y-m-d H:i:s", strtotime($user_last_active." -1 ".$profile_reminder));
+
+				if($reminder_cutoff > date("Y-m-d H:i:s"))
+				{
+					$array = apply_filters('get_user_reminders', array('user_id' => $user_id, 'cutoff' => $reminder_cutoff, 'reminder' => array()));
+
+					$mail_content = "";
+
+					foreach($array['reminder'] as $reminder)
+					{
+						$mail_content .= "";
+					}
+
+					if($mail_content != '')
+					{
+						$user_data = get_userdata($user_id);
+
+						$mail_to = $user_data->user_email;
+						$mail_subject = sprintf(__("Here comes the latest updates from %s", 'lang_users'), $site_name);
+
+						$data = array('to' => $mail_to, 'subject' => $mail_subject, 'content' => $mail_content);
+
+						do_log("Send: ".var_export($data, true));
+						$sent = true;
+
+						//$sent = send_email($data);
+
+						if($sent)
+						{
+							update_user_meta($user_id, 'last_active', date("Y-m-d H:i:s"));
+						}
+
+						else
+						{
+							do_log(sprintf(__("I could not send the email to %s", 'lang_users'), $mail_to));
+						}
+					}
+				}
+			}
+		}
+	}
+}*/
+
 function init_users()
 {
 	global $wpdb, $wp_roles;
@@ -155,6 +218,9 @@ function save_register_users($user_id, $password = "", $meta = array())
 			wp_set_password($meta_value, $user_id);
 		}
 	}*/
+
+	/*$meta_value = check_var('profile_reminder');
+	update_user_meta($user_id, 'profile_reminder', $meta_value);*/
 }
 
 function show_profile_users($user)
@@ -239,6 +305,27 @@ function show_profile_users($user)
 		}
 	}
 
+	/*if(IS_SUPER_ADMIN)
+	{
+		$meta_key = 'profile_reminder';
+		$meta_value = get_the_author_meta($meta_key, $user->ID);
+		$meta_text = __("Send Updates", 'lang_users');
+
+		$arr_data = array(
+			'' => "-- ".__("Choose here", 'lang_users')." --",
+			'day' => __("Daily", 'lang_users'),
+			'week' => __("Weekly", 'lang_users'),
+			'month' => __("Monthly", 'lang_users'),
+		);
+
+		echo "<table class='form-table'>
+			<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
+				<th><label for='".$meta_key."'>".$meta_text."</label></th>
+				<td>".show_select(array('data' => $arr_data, 'name' => $meta_key, 'value' => $meta_value, 'description' => __("This will send you an update of what has happened since you last was online or got an update last time", 'lang_users')))."</td>
+			</tr>
+		</table>";
+	}*/
+
 	if(count($arr_remove) > 0)
 	{
 		mf_enqueue_script('script_users', plugin_dir_url(__FILE__)."script_remove.js", $arr_remove, get_plugin_version(__FILE__));
@@ -317,14 +404,21 @@ function avatar_users($avatar, $id_or_email, $size, $default, $alt)
 
 function wp_login_users($username)
 {
+	$user = get_user_by('login', $username);
+
+	update_user_meta($user->ID, 'last_active', date("Y-m-d H:i:s"));
+
 	$setting_users_register_name = get_option('setting_users_register_name');
 
 	if($setting_users_register_name)
 	{
-		$user = get_user_by('login', $username);
-
 		save_display_name($user);
 	}
+}
+
+function wp_logout_users()
+{
+	update_user_meta(get_current_user_id(), 'last_active', date("Y-m-d H:i:s"));
 }
 
 function admin_head_users()

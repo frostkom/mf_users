@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-22 21:28+0100\n"
+"POT-Creation-Date: 2017-10-25 10:35+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: \n"
@@ -15,171 +15,197 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../include/functions.php:64
+#: ../include/functions.php:39
+#, php-format
+msgid "Here comes the latest updates from %s"
+msgstr "Här kommer senast uppdateringar från %s"
+
+#: ../include/functions.php:118
 msgid "Incorrect username or password"
 msgstr "Fel användarnamn eller lösenord"
 
-#: ../include/functions.php:102
+#: ../include/functions.php:156
 msgid "Full Name"
 msgstr "Namn"
 
-#: ../include/functions.php:184
-#: ../include/functions.php:484
+#: ../include/functions.php:242
+#: ../include/functions.php:567
 msgid "Phone Number"
 msgstr "Telefonnummer"
 
-#: ../include/functions.php:198
-#: ../include/functions.php:485
-#: ../include/functions.php:519
+#: ../include/functions.php:256
+#: ../include/functions.php:568
+#: ../include/functions.php:602
 msgid "Profile Picture"
 msgstr "Profilbild"
 
-#: ../include/functions.php:210
-#: ../include/functions.php:486
+#: ../include/functions.php:268
+#: ../include/functions.php:569
 msgid "Rows per page"
 msgstr "Rader / sida"
 
-#: ../include/functions.php:260
-msgid "Username must not contain spaces"
-msgstr "Användarnamn får inte innehålla mellanslag"
+#: ../include/functions.php:304
+msgid "Send Updates"
+msgstr "Skicka uppdateringar"
 
-#: ../include/functions.php:398
-msgid "Hide Roles"
-msgstr "Göm roller"
-
-#: ../include/functions.php:399
-msgid "Change Role Names"
-msgstr "Ändra rollnamn"
-
-#: ../include/functions.php:400
-msgid "Only show users own files"
-msgstr "Visa endast användarens egna filer"
-
-#: ../include/functions.php:401
-msgid "Prevent Username Spaces"
-msgstr "Motverka mellanslag i användarnamn"
-
-#: ../include/functions.php:402
-msgid "Collect name of user in registration form"
-msgstr "Spara namn på användare som registrar sig"
-
-#: ../include/functions.php:403
-msgid "Add fields to profile"
-msgstr "Lägg till fält i profilen"
-
-#: ../include/functions.php:404
-msgid "Remove fields from profile"
-msgstr "Ta bort fält från profilen"
-
-#: ../include/functions.php:411
-msgid "Change Admin Color"
-msgstr "Ändra adminfärger"
-
-#: ../include/functions.php:421
-msgid "Users"
-msgstr "Användare"
-
-#: ../include/functions.php:475
-msgid "Every user below this role only sees their own files in the Media Library"
-msgstr "Varje användare lägre än denna roll ser endast sina egna filer i Mediabiblioteket"
-
-#: ../include/functions.php:499
-msgid "Headings"
-msgstr "Rubriker"
-
-#: ../include/functions.php:500
-msgid "Visual Editor"
-msgstr "Visuell redigerare"
-
-#: ../include/functions.php:501
-msgid "Admin Color Scheme"
-msgstr "Färgschema för adminpanel"
-
-#: ../include/functions.php:502
-msgid "Keyboard Shortcuts"
-msgstr "Tangentbordsgenvägar"
-
-#: ../include/functions.php:503
-msgid "Toolbar"
-msgstr "Verktygsfält"
-
-#: ../include/functions.php:504
-msgid "Language"
-msgstr "Språk"
-
-#: ../include/functions.php:505
-msgid "Username"
-msgstr "Användarnamn"
-
-#: ../include/functions.php:506
-msgid "Nickname"
-msgstr "Smeknamn"
-
-#: ../include/functions.php:507
-msgid "Display name"
-msgstr "Visningsnamn"
-
-#: ../include/functions.php:508
-msgid "Website"
-msgstr "Webbplats"
-
-#: ../include/functions.php:509
-msgid "AIM"
-msgstr ""
-
-#: ../include/functions.php:510
-msgid "Yahoo IM"
-msgstr ""
-
-#: ../include/functions.php:511
-msgid "Jabber"
-msgstr ""
-
-#: ../include/functions.php:512
-msgid "Biographical Info"
-msgstr "Biografi"
-
-#: ../include/functions.php:527
-msgid "Sessions"
-msgstr "Sessioner"
-
-#: ../include/functions.php:538
+#: ../include/functions.php:307
+#: ../include/functions.php:621
 msgid "Choose here"
 msgstr "Välj här"
 
-#: ../include/functions.php:539
+#: ../include/functions.php:308
+msgid "Daily"
+msgstr "Varje dag"
+
+#: ../include/functions.php:309
+msgid "Weekly"
+msgstr "Varje vecka"
+
+#: ../include/functions.php:310
+msgid "Monthly"
+msgstr "Varje månad"
+
+#: ../include/functions.php:316
+msgid "This will send you an update of what has happened since you last was online or got an update last time"
+msgstr "Detta kommer att skicka en uppdatering om vad som har hänt sedan du senast var inloggad eller senast fick en uppdatering"
+
+#: ../include/functions.php:339
+msgid "Username must not contain spaces"
+msgstr "Användarnamn får inte innehålla mellanslag"
+
+#: ../include/functions.php:481
+msgid "Hide Roles"
+msgstr "Göm roller"
+
+#: ../include/functions.php:482
+msgid "Change Role Names"
+msgstr "Ändra rollnamn"
+
+#: ../include/functions.php:483
+msgid "Only show users own files"
+msgstr "Visa endast användarens egna filer"
+
+#: ../include/functions.php:484
+msgid "Prevent Username Spaces"
+msgstr "Motverka mellanslag i användarnamn"
+
+#: ../include/functions.php:485
+msgid "Collect name of user in registration form"
+msgstr "Spara namn på användare som registrar sig"
+
+#: ../include/functions.php:486
+msgid "Add fields to profile"
+msgstr "Lägg till fält i profilen"
+
+#: ../include/functions.php:487
+msgid "Remove fields from profile"
+msgstr "Ta bort fält från profilen"
+
+#: ../include/functions.php:494
+msgid "Change Admin Color"
+msgstr "Ändra adminfärger"
+
+#: ../include/functions.php:504
+msgid "Users"
+msgstr "Användare"
+
+#: ../include/functions.php:558
+msgid "Every user below this role only sees their own files in the Media Library"
+msgstr "Varje användare lägre än denna roll ser endast sina egna filer i Mediabiblioteket"
+
+#: ../include/functions.php:582
+msgid "Headings"
+msgstr "Rubriker"
+
+#: ../include/functions.php:583
+msgid "Visual Editor"
+msgstr "Visuell redigerare"
+
+#: ../include/functions.php:584
+msgid "Admin Color Scheme"
+msgstr "Färgschema för adminpanel"
+
+#: ../include/functions.php:585
+msgid "Keyboard Shortcuts"
+msgstr "Tangentbordsgenvägar"
+
+#: ../include/functions.php:586
+msgid "Toolbar"
+msgstr "Verktygsfält"
+
+#: ../include/functions.php:587
+msgid "Language"
+msgstr "Språk"
+
+#: ../include/functions.php:588
+msgid "Username"
+msgstr "Användarnamn"
+
+#: ../include/functions.php:589
+msgid "Nickname"
+msgstr "Smeknamn"
+
+#: ../include/functions.php:590
+msgid "Display name"
+msgstr "Visningsnamn"
+
+#: ../include/functions.php:591
+msgid "Website"
+msgstr "Webbplats"
+
+#: ../include/functions.php:592
+msgid "AIM"
+msgstr ""
+
+#: ../include/functions.php:593
+msgid "Yahoo IM"
+msgstr ""
+
+#: ../include/functions.php:594
+msgid "Jabber"
+msgstr ""
+
+#: ../include/functions.php:595
+msgid "Biographical Info"
+msgstr "Biografi"
+
+#: ../include/functions.php:610
+msgid "Sessions"
+msgstr "Sessioner"
+
+#: ../include/functions.php:622
 msgid "Blue"
 msgstr "Blå"
 
-#: ../include/functions.php:540
+#: ../include/functions.php:623
 msgid "Fresh"
 msgstr ""
 
-#: ../include/functions.php:540
+#: ../include/functions.php:623
 msgid "Default"
 msgstr "Standard"
 
-#: ../include/functions.php:541
+#: ../include/functions.php:624
 msgid "Ectoplasm"
 msgstr ""
 
-#: ../include/functions.php:542
+#: ../include/functions.php:625
 msgid "Light"
 msgstr "Ljus"
 
-#: ../include/functions.php:543
+#: ../include/functions.php:626
 msgid "Coffee"
 msgstr "Kaffe"
 
-#: ../include/functions.php:544
+#: ../include/functions.php:627
 msgid "Midnight"
 msgstr "Midnatt"
 
-#: ../include/functions.php:545
+#: ../include/functions.php:628
 msgid "Ocean"
 msgstr "Hav"
 
-#: ../include/functions.php:546
+#: ../include/functions.php:629
 msgid "Sunrise"
 msgstr "Soluppgång"
 
