@@ -51,11 +51,6 @@
 						{
 							update_user_meta($user_id, 'last_active', date("Y-m-d H:i:s"));
 						}
-
-						else
-						{
-							do_log(sprintf(__("I could not send the email to %s", 'lang_users'), $mail_to));
-						}
 					}
 				}
 			}
