@@ -5,6 +5,11 @@ jQuery(function($)
 		$('.user-rich-editing-wrap').remove();
 	}
 
+	if(script_users.syntax_highlight == true)
+	{
+		$('.user-syntax-highlighting-wrap').remove();
+	}
+
 	if(script_users.admin_color == true)
 	{
 		$('.user-admin-color-wrap').remove();

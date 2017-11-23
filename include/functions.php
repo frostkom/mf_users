@@ -579,11 +579,12 @@ function setting_add_profile_fields_callback()
 function setting_remove_profile_fields_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
-	$option = get_option($setting_key);
+	$option = get_option($setting_key, array('headings', 'rich_editing', 'syntax_highlight', 'admin_color', 'comment_shortcuts', 'show_admin_bar', 'language', 'user_login', 'nickname', 'url', 'aim', 'yim', 'jabber', 'description', 'profile_picture', 'sessions'));
 
 	$arr_data = array(
 		'headings' => __("Headings", 'lang_users'),
 		'rich_editing' => __("Visual Editor", 'lang_users'),
+		'syntax_highlight' => __("Syntax Highlighting", 'lang_users'),
 		'admin_color' => __("Admin Color Scheme", 'lang_users'),
 		'comment_shortcuts' => __("Keyboard Shortcuts", 'lang_users'),
 		'show_admin_bar' => __("Toolbar", 'lang_users'),
