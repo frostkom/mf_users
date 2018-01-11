@@ -42,7 +42,7 @@
 
 						$data = array('to' => $mail_to, 'subject' => $mail_subject, 'content' => $mail_content);
 
-						do_log("Send: ".var_export($data, true));
+						error_log("Send: ".var_export($data, true));
 						$sent = true;
 
 						//$sent = send_email($data);
@@ -72,7 +72,7 @@ function rename_roles()
 {
 	global $wp_roles;
 
-	$option = get_option('setting_users_roles_names');
+	$option = get_site_option('setting_users_roles_names');
 
 	if(is_array($option))
 	{
@@ -90,7 +90,7 @@ function hide_roles()
 {
 	global $wp_roles;
 
-	$option = get_option('setting_users_roles_hidden');
+	$option = get_site_option('setting_users_roles_hidden');
 
 	if(is_array($option))
 	{
@@ -110,7 +110,7 @@ if(!function_exists('wp_authenticate'))
 		$password = trim($password);
 
 		//This is the extra line for replacing spaces in the username
-		if(get_option('setting_users_no_spaces'))
+		if(get_site_option('setting_users_no_spaces'))
 		{
 			$username = replace_spaces_users($username);
 		}
@@ -422,7 +422,7 @@ function admin_head_users()
 
 	if(IS_ADMIN)
 	{
-		$setting_users_no_spaces = get_option('setting_users_no_spaces');
+		$setting_users_no_spaces = get_site_option('setting_users_no_spaces');
 		$setting_users_register_name = get_option('setting_users_register_name');
 
 		if($setting_users_no_spaces)
@@ -480,15 +480,24 @@ function settings_users()
 
 	add_settings_section($options_area, "", $options_area."_callback", BASE_OPTIONS_PAGE);
 
-	$arr_settings = array(
-		"setting_users_roles_hidden" => __("Hide Roles", 'lang_users'),
-		"setting_users_roles_names" => __("Change Role Names", 'lang_users'),
-		"setting_users_show_own_media" => __("Only show users own files", 'lang_users'),
-		"setting_users_no_spaces" => __("Prevent Username Spaces", 'lang_users'),
-		"setting_users_register_name" => __("Collect name of user in registration form", 'lang_users'),
-		"setting_add_profile_fields" => __("Add fields to profile", 'lang_users'),
-		"setting_remove_profile_fields" => __("Remove fields from profile", 'lang_users'),
-	);
+	$arr_settings = array();
+
+	if(IS_SUPER_ADMIN)
+	{
+		$arr_settings['setting_users_roles_hidden'] = __("Hide Roles", 'lang_users');
+		$arr_settings['setting_users_roles_names'] = __("Change Role Names", 'lang_users');
+	}
+
+	$arr_settings['setting_users_show_own_media'] = __("Only show users own files", 'lang_users');
+
+	if(IS_SUPER_ADMIN)
+	{
+		$arr_settings['setting_users_no_spaces'] = __("Prevent Username Spaces", 'lang_users');
+	}
+
+	$arr_settings['setting_users_register_name'] = __("Collect name of user in registration form", 'lang_users');
+	$arr_settings['setting_add_profile_fields'] = __("Add fields to profile", 'lang_users');
+	$arr_settings['setting_remove_profile_fields'] = __("Remove fields from profile", 'lang_users');
 
 	$option = get_option('setting_remove_profile_fields');
 
@@ -510,7 +519,9 @@ function settings_users_callback()
 function setting_users_roles_hidden_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
-	$option = get_option($setting_key);
+	settings_save_site_wide($setting_key);
+	$option = get_site_option($setting_key);
+
 	$roles = get_all_roles(array('orig' => true));
 
 	foreach($roles as $key => $value)
@@ -524,7 +535,9 @@ function setting_users_roles_hidden_callback()
 function setting_users_roles_names_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
-	$option = get_option($setting_key);
+	settings_save_site_wide($setting_key);
+	$option = get_site_option($setting_key);
+
 	$roles = get_all_roles();
 
 	foreach($roles as $key => $value)
@@ -538,7 +551,8 @@ function setting_users_roles_names_callback()
 function setting_users_no_spaces_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
-	$option = get_option($setting_key, 1);
+	settings_save_site_wide($setting_key);
+	$option = get_site_option($setting_key, 1);
 
 	echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'value' => $option));
 }

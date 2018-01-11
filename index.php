@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description: 
-Version: 4.0.6
+Version: 4.1.0
 Author: Martin Fors
 Author URI: http://frostkom.se
 Text Domain: lang_users
@@ -39,7 +39,7 @@ else
 	add_action('register_form', 'register_form_users', 0);
 	add_action('user_register', 'save_register_users');
 
-	if(get_option('setting_users_no_spaces'))
+	if(get_site_option('setting_users_no_spaces'))
 	{
 		add_action('registration_errors', 'register_errors_users', 10, 3);
 	}
