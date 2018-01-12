@@ -520,7 +520,7 @@ function setting_users_roles_hidden_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
 	settings_save_site_wide($setting_key);
-	$option = get_site_option($setting_key);
+	$option = get_site_option($setting_key, get_option($setting_key));
 
 	$roles = get_all_roles(array('orig' => true));
 
@@ -536,7 +536,7 @@ function setting_users_roles_names_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
 	settings_save_site_wide($setting_key);
-	$option = get_site_option($setting_key);
+	$option = get_site_option($setting_key, get_option($setting_key));
 
 	$roles = get_all_roles();
 
@@ -552,7 +552,7 @@ function setting_users_no_spaces_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
 	settings_save_site_wide($setting_key);
-	$option = get_site_option($setting_key, 1);
+	$option = get_site_option($setting_key, get_option($setting_key, 1));
 
 	echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'value' => $option));
 }
