@@ -12,11 +12,11 @@
 	{
 		$user_id = $user->ID;
 
-		$profile_reminder = get_the_author_meta('profile_reminder', $user_id);
+		$profile_reminder = get_user_meta('meta_profile_reminder', $user_id);
 
 		if($profile_reminder != '')
 		{
-			$user_last_active = get_user_meta($user_id, 'last_active', true);
+			$user_last_active = get_user_meta($user_id, 'meta_last_active', true);
 
 			if($user_last_active > DEFAULT_DATE)
 			{
@@ -49,7 +49,7 @@
 
 						if($sent)
 						{
-							update_user_meta($user_id, 'last_active', date("Y-m-d H:i:s"));
+							update_user_meta($user_id, 'meta_last_active', date("Y-m-d H:i:s"));
 						}
 					}
 				}
@@ -214,8 +214,8 @@ function save_register_users($user_id, $password = "", $meta = array())
 		}
 	}*/
 
-	/*$meta_value = check_var('profile_reminder');
-	update_user_meta($user_id, 'profile_reminder', $meta_value);*/
+	/*$meta_value = check_var('meta_profile_reminder');
+	update_user_meta($user_id, 'meta_profile_reminder', $meta_value);*/
 }
 
 function show_profile_users($user)
@@ -302,8 +302,8 @@ function show_profile_users($user)
 
 	/*if(IS_SUPER_ADMIN)
 	{
-		$meta_key = 'profile_reminder';
-		$meta_value = get_the_author_meta($meta_key, $user->ID);
+		$meta_key = 'meta_profile_reminder';
+		$meta_value = get_user_meta($meta_key, $user->ID);
 		$meta_text = __("Send Updates", 'lang_users');
 
 		$arr_data = array(
@@ -401,7 +401,7 @@ function wp_login_users($username)
 {
 	$user = get_user_by('login', $username);
 
-	update_user_meta($user->ID, 'last_active', date("Y-m-d H:i:s"));
+	update_user_meta($user->ID, 'meta_last_active', date("Y-m-d H:i:s"));
 
 	$setting_users_register_name = get_option('setting_users_register_name');
 
@@ -413,7 +413,7 @@ function wp_login_users($username)
 
 function wp_logout_users()
 {
-	update_user_meta(get_current_user_id(), 'last_active', date("Y-m-d H:i:s"));
+	update_user_meta(get_current_user_id(), 'meta_last_active', date("Y-m-d H:i:s"));
 }
 
 function admin_head_users()
