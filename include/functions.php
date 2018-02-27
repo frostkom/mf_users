@@ -177,25 +177,36 @@ function save_register_users($user_id, $password = "", $meta = array())
 
 	$option = get_option('setting_add_profile_fields');
 
+	$meta_key = 'profile_birthday';
+	if(is_array($option) && in_array($meta_key, $option))
+	{
+		$meta_value = check_var($meta_key);
+
+		update_user_meta($user_id, $meta_key, $meta_value);
+	}
+
 	if(is_array($option) && in_array('phone', $option))
 	{
-		$meta_value = check_var('profile_phone');
+		$meta_key = 'profile_phone';
+		$meta_value = check_var($meta_key);
 
-		update_user_meta($user_id, 'profile_phone', $meta_value);
+		update_user_meta($user_id, $meta_key, $meta_value);
 	}
 
-	if(is_array($option) && in_array('edit_page_per_page', $option))
+	$meta_key = 'edit_page_per_page';
+	if(is_array($option) && in_array($meta_key, $option))
 	{
-		$meta_value = check_var('edit_page_per_page');
+		$meta_value = check_var($meta_key);
 
-		update_user_meta($user_id, 'edit_page_per_page', $meta_value);
+		update_user_meta($user_id, $meta_key, $meta_value);
 	}
 
-	if(is_array($option) && in_array('profile_picture', $option))
+	$meta_key = 'profile_picture';
+	if(is_array($option) && in_array($meta_key, $option))
 	{
-		$meta_value = check_var('profile_picture');
+		$meta_value = check_var($meta_key);
 
-		update_user_meta($user_id, 'profile_picture', $meta_value);
+		update_user_meta($user_id, $meta_key, $meta_value);
 	}
 
 	//Does not seam to work with special characters
@@ -238,6 +249,18 @@ function show_profile_users($user)
 	{
 		$out = "";
 
+		$meta_key = 'profile_birthday';
+		if(in_array($meta_key, $option))
+		{
+			$meta_value = get_the_author_meta($meta_key, $user->ID);
+			$meta_text = __("Birthday", 'lang_users');
+
+			$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
+				<th><label for='".$meta_key."'>".$meta_text."</label></th>
+				<td>".show_textfield(array('type' => 'date', 'name' => $meta_key, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
+			</tr>";
+		}
+
 		if(in_array('phone', $option))
 		{
 			$meta_key = 'profile_phone';
@@ -250,11 +273,11 @@ function show_profile_users($user)
 			</tr>";
 		}
 
-		if(in_array('profile_picture', $option))
+		$meta_key = 'profile_picture';
+		if(in_array($meta_key, $option))
 		{
-			$arr_remove['profile_picture'] = true;
-
-			$meta_key = 'profile_picture';
+			$arr_remove[$meta_key] = true;
+			
 			$meta_value = get_the_author_meta($meta_key, $user->ID);
 			$meta_text = __("Profile Picture", 'lang_users');
 
@@ -264,9 +287,9 @@ function show_profile_users($user)
 			</tr>";
 		}
 
-		if(in_array('edit_page_per_page', $option))
+		$meta_key = 'edit_page_per_page';
+		if(in_array($meta_key, $option))
 		{
-			$meta_key = 'edit_page_per_page';
 			$meta_value = get_the_author_meta($meta_key, $user->ID);
 			$meta_text = __("Rows per page", 'lang_users');
 
@@ -354,6 +377,41 @@ function save_display_name($user)
 		if($user->display_name != $display_name)
 		{
 			wp_update_user(array('ID' => $user->ID, 'display_name' => $display_name));
+		}
+	}
+}
+
+function footer_users()
+{
+	$option = get_option('setting_add_profile_fields');
+
+	$meta_key = 'profile_birthday';
+	if(is_array($option) && in_array($meta_key, $option))
+	{
+		$meta_value = get_the_author_meta($meta_key, get_current_user_id());
+
+		if(date('m-d', strtotime($meta_value)) == date('m-d'))
+		{
+			$user_data = get_userdata(get_current_user_id());
+
+			echo "<div id='modal_birthday'>"
+				."<div class='balloons'>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+				<div class='content'>"
+					//."<i class='fa fa-birthday-cake'></i> "
+					.sprintf(__("Happy Birthday %s!", 'lang_users'), ($user_data->first_name != '' ? $user_data->first_name : $user_data->display_name))
+				."</div>
+			</div>";
+
+			$plugin_include_url = plugin_dir_url(__FILE__);
+			$plugin_version = get_plugin_version(__FILE__);
+
+			mf_enqueue_style('style_users_birthday', $plugin_include_url."style_birthday.css", $plugin_version);
 		}
 	}
 }
@@ -581,6 +639,7 @@ function setting_add_profile_fields_callback()
 	$option = get_option($setting_key);
 
 	$arr_data = array(
+		'profile_birthday' => __("Birthday", 'lang_users'),
 		'phone' => __("Phone Number", 'lang_users'),
 		'profile_picture' => __("Profile Picture", 'lang_users'),
 		'edit_page_per_page' => __("Rows per page", 'lang_users'),
