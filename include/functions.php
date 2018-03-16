@@ -209,6 +209,14 @@ function save_register_users($user_id, $password = "", $meta = array())
 		update_user_meta($user_id, $meta_key, $meta_value);
 	}
 
+	$meta_key = 'profile_country';
+	if(is_array($option) && in_array($meta_key, $option) && is_plugin_active('mf_address/index.php'))
+	{
+		$meta_value = check_var($meta_key);
+
+		update_user_meta($user_id, $meta_key, $meta_value);
+	}
+
 	//Does not seam to work with special characters
 	/*if(is_array($option) && in_array('password', $option))
 	{
@@ -284,6 +292,20 @@ function show_profile_users($user)
 			$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
 				<th><label for='".$meta_key."'>".$meta_text."</label></th>
 				<td>".get_media_library(array('name' => $meta_key, 'value' => $meta_value, 'type' => 'image'))."</td>
+			</tr>";
+		}
+
+		$meta_key = 'profile_country';
+		if(in_array($meta_key, $option) && is_plugin_active('mf_address/index.php'))
+		{
+			$meta_value = get_the_author_meta($meta_key, $user->ID);
+			$meta_text = __("Country", 'lang_users');
+
+			$obj_address = new mf_address();
+
+			$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
+				<th><label for='".$meta_key."'>".$meta_text."</label></th>
+				<td>".show_select(array('data' => $obj_address->get_countries_for_select(), 'name' => $meta_key, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
 			</tr>";
 		}
 
@@ -642,9 +664,15 @@ function setting_add_profile_fields_callback()
 		'profile_birthday' => __("Birthday", 'lang_users'),
 		'phone' => __("Phone Number", 'lang_users'),
 		'profile_picture' => __("Profile Picture", 'lang_users'),
-		'edit_page_per_page' => __("Rows per page", 'lang_users'),
-		//'password' => __("Password", 'lang_users'),
 	);
+
+	if(is_plugin_active('mf_address/index.php'))
+	{
+		$arr_data['profile_country'] = __("Country", 'lang_users');
+	}
+
+	$arr_data['edit_page_per_page'] = __("Rows per page", 'lang_users');
+	//$arr_data['password'] = __("Password", 'lang_users');
 
 	echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
 }
