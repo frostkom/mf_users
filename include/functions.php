@@ -285,7 +285,7 @@ function show_profile_users($user)
 		if(in_array($meta_key, $option))
 		{
 			$arr_remove[$meta_key] = true;
-			
+
 			$meta_value = get_the_author_meta($meta_key, $user->ID);
 			$meta_text = __("Profile Picture", 'lang_users');
 
