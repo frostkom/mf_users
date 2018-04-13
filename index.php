@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description: 
-Version: 4.2.3
+Version: 4.2.4
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: http://frostkom.se
@@ -14,7 +14,10 @@ Depends: MF Base
 GitHub Plugin URI: frostkom/mf_users
 */
 
+include_once("include/classes.php");
 include_once("include/functions.php");
+
+$obj_users = new mf_users();
 
 add_action('cron_base', 'activate_users', mt_rand(1, 10));
 //add_action('cron_base', 'cron_users', mt_rand(1, 10));
@@ -26,6 +29,7 @@ if(is_admin())
 
 	add_action('init', 'init_users');
 	add_action('admin_init', 'settings_users');
+	add_action('admin_init', array($obj_users, 'admin_init'));
 	add_action('pre_get_posts', 'own_media_users');
 
 	add_action('show_user_profile', 'show_profile_users');
@@ -36,7 +40,7 @@ if(is_admin())
 	add_filter('get_user_option_admin_color', 'admin_color_users');
 
 	add_action('admin_head', 'admin_head_users');
-	add_action('admin_footer', 'footer_users', 0);
+	add_action('admin_footer', array($obj_users, 'admin_footer'), 0);
 }
 
 else
@@ -49,7 +53,8 @@ else
 		add_action('registration_errors', 'register_errors_users', 10, 3);
 	}
 
-	add_action('wp_footer', 'footer_users', 0);
+	add_action('wp_head', array($obj_users, 'wp_head'));
+	add_action('wp_footer', array($obj_users, 'wp_footer'), 0);
 }
 
 add_filter('get_avatar', 'avatar_users', 1, 5);

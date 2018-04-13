@@ -368,7 +368,7 @@ function show_profile_users($user)
 
 	if(count($arr_remove) > 0)
 	{
-		mf_enqueue_script('script_users', plugin_dir_url(__FILE__)."script_remove.js", $arr_remove, get_plugin_version(__FILE__));
+		mf_enqueue_script('script_users', plugin_dir_url(__FILE__)."script_remove.js", $arr_remove, get_plugin_version(__FILE__)); //Should be moved to admin_init
 	}
 }
 
@@ -399,41 +399,6 @@ function save_display_name($user)
 		if($user->display_name != $display_name)
 		{
 			wp_update_user(array('ID' => $user->ID, 'display_name' => $display_name));
-		}
-	}
-}
-
-function footer_users()
-{
-	$option = get_option('setting_add_profile_fields');
-
-	$meta_key = 'profile_birthday';
-	if(is_array($option) && in_array($meta_key, $option))
-	{
-		$meta_value = get_the_author_meta($meta_key, get_current_user_id());
-
-		if(date('m-d', strtotime($meta_value)) == date('m-d'))
-		{
-			$user_data = get_userdata(get_current_user_id());
-
-			echo "<div id='modal_birthday'>"
-				."<div class='balloons'>
-					<div></div>
-					<div></div>
-					<div></div>
-					<div></div>
-					<div></div>
-				</div>
-				<div class='content'>"
-					//."<i class='fa fa-birthday-cake'></i> "
-					.sprintf(__("Happy Birthday %s!", 'lang_users'), ($user_data->first_name != '' ? $user_data->first_name : $user_data->display_name))
-				."</div>
-			</div>";
-
-			$plugin_include_url = plugin_dir_url(__FILE__);
-			$plugin_version = get_plugin_version(__FILE__);
-
-			mf_enqueue_style('style_users_birthday', $plugin_include_url."style_birthday.css", $plugin_version);
 		}
 	}
 }
