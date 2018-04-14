@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description: 
-Version: 4.2.4
+Version: 4.2.5
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: http://frostkom.se
@@ -29,7 +29,7 @@ if(is_admin())
 
 	add_action('init', 'init_users');
 	add_action('admin_init', 'settings_users');
-	add_action('admin_init', array($obj_users, 'admin_init'));
+	add_action('admin_init', array($obj_users, 'admin_init'), 0);
 	add_action('pre_get_posts', 'own_media_users');
 
 	add_action('show_user_profile', 'show_profile_users');
@@ -53,7 +53,7 @@ else
 		add_action('registration_errors', 'register_errors_users', 10, 3);
 	}
 
-	add_action('wp_head', array($obj_users, 'wp_head'));
+	add_action('wp_head', array($obj_users, 'wp_head'), 0);
 	add_action('wp_footer', array($obj_users, 'wp_footer'), 0);
 }
 
