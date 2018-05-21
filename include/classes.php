@@ -2,11 +2,8 @@
 
 class mf_users
 {
-	function __construct()
-	{
-		
-	}
-	
+	function __construct(){}
+
 	function admin_init()
 	{
 		$this->wp_head();

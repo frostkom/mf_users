@@ -42,7 +42,7 @@
 
 						$data = array('to' => $mail_to, 'subject' => $mail_subject, 'content' => $mail_content);
 
-						error_log("Send: ".var_export($data, true));
+						do_log("Send: ".var_export($data, true));
 						$sent = true;
 
 						//$sent = send_email($data);
@@ -62,7 +62,7 @@ function init_users()
 {
 	global $wpdb, $wp_roles;
 
-	update_option($wpdb->prefix.'user_roles_orig', $wp_roles->roles);
+	update_option($wpdb->prefix.'user_roles_orig', $wp_roles->roles, 'no');
 
 	rename_roles();
 	hide_roles();
