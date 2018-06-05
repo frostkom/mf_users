@@ -154,11 +154,13 @@ function register_form_users()
 {
 	if(get_option('setting_users_register_name'))
 	{
-		$full_name = check_var('full_name');
+		$meta_key = 'full_name';
+		$meta_value = check_var($meta_key);
+		$meta_text = __("Full Name", 'lang_users');
 
 		echo "<p>
-			<label for='first_name'>".__("Full Name", 'lang_users')."</label><br>
-			<input type='text' name='full_name' value='".$full_name."' class='regular-text' required>
+			<label for='".$meta_key."'>".$meta_text."</label><br>
+			<input type='text' name='".$meta_key."' value='".$meta_value."' class='regular-text' required>
 		</p>";
 	}
 }
@@ -191,6 +193,25 @@ function save_register_users($user_id, $password = "", $meta = array())
 		$meta_value = check_var($meta_key);
 
 		update_user_meta($user_id, $meta_key, $meta_value);
+	}
+
+	$meta_key = 'profile_address';
+	if(is_array($option) && in_array($meta_key, $option))
+	{
+		$meta_key_temp = $meta_key.'_street';
+		$meta_value = check_var($meta_key_temp);
+
+		update_user_meta($user_id, $meta_key_temp, $meta_value);
+
+		$meta_key_temp = $meta_key.'_zipcode';
+		$meta_value = check_var($meta_key_temp);
+
+		update_user_meta($user_id, $meta_key_temp, $meta_value);
+
+		$meta_key_temp = $meta_key.'_city';
+		$meta_value = check_var($meta_key_temp);
+
+		update_user_meta($user_id, $meta_key_temp, $meta_value);
 	}
 
 	$meta_key = 'edit_page_per_page';
@@ -278,6 +299,37 @@ function show_profile_users($user)
 			$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
 				<th><label for='".$meta_key."'>".$meta_text."</label></th>
 				<td>".show_textfield(array('name' => $meta_key, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
+			</tr>";
+		}
+
+		$meta_key = 'profile_address';
+		if(in_array($meta_key, $option))
+		{
+			$meta_key_temp = $meta_key.'_street';
+			$meta_value = get_the_author_meta($meta_key_temp, $user->ID);
+			$meta_text = __("Street Address", 'lang_users');
+
+			$out .= "<tr class='".str_replace("_", "-", $meta_key_temp)."-wrap'>
+				<th><label for='".$meta_key_temp."'>".$meta_text."</label></th>
+				<td>".show_textfield(array('name' => $meta_key_temp, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
+			</tr>";
+
+			$meta_key_temp = $meta_key.'_zipcode';
+			$meta_value = get_the_author_meta($meta_key_temp, $user->ID);
+			$meta_text = __("Zipcode", 'lang_users');
+
+			$out .= "<tr class='".str_replace("_", "-", $meta_key_temp)."-wrap'>
+				<th><label for='".$meta_key_temp."'>".$meta_text."</label></th>
+				<td>".show_textfield(array('name' => $meta_key_temp, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
+			</tr>";
+
+			$meta_key_temp = $meta_key.'_city';
+			$meta_value = get_the_author_meta($meta_key_temp, $user->ID);
+			$meta_text = __("City", 'lang_users');
+
+			$out .= "<tr class='".str_replace("_", "-", $meta_key_temp)."-wrap'>
+				<th><label for='".$meta_key_temp."'>".$meta_text."</label></th>
+				<td>".show_textfield(array('name' => $meta_key_temp, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
 			</tr>";
 		}
 
@@ -628,6 +680,7 @@ function setting_add_profile_fields_callback()
 	$arr_data = array(
 		'profile_birthday' => __("Birthday", 'lang_users'),
 		'phone' => __("Phone Number", 'lang_users'),
+		'profile_address' => __("Address", 'lang_users'),
 		'profile_picture' => __("Profile Picture", 'lang_users'),
 	);
 
