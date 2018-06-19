@@ -404,7 +404,7 @@ function show_profile_users($user)
 		$meta_text = __("Send Updates", 'lang_users');
 
 		$arr_data = array(
-			'' => "-- ".__("Choose here", 'lang_users')." --",
+			'' => "-- ".__("Choose Here", 'lang_users')." --",
 			'day' => __("Daily", 'lang_users'),
 			'week' => __("Weekly", 'lang_users'),
 			'month' => __("Monthly", 'lang_users'),
@@ -741,7 +741,7 @@ function setting_admin_color_callback()
 	$option = get_option($setting_key);
 
 	$arr_data = array(
-		'' => "-- ".__("Choose here", 'lang_users')." --",
+		'' => "-- ".__("Choose Here", 'lang_users')." --",
 		'blue' => __("Blue", 'lang_users'),
 		'fresh' => __("Fresh", 'lang_users')." (".__("Default", 'lang_users').")",
 		'ectoplasm' => __("Ectoplasm", 'lang_users'),
