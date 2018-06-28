@@ -1,0 +1,221 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-06-28 08:12+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Martin Fors\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: nb_NO\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: esc_html__;esc_html_e;esc_attr__;esc_attr_e;__;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../include/classes.php:35
+#, php-format
+msgid "Happy Birthday %s!"
+msgstr ""
+
+#: ../include/functions.php:122
+msgid "Incorrect username or password"
+msgstr ""
+
+#: ../include/functions.php:159
+msgid "Full Name"
+msgstr "Fullt Navn"
+
+#: ../include/functions.php:285
+#: ../include/functions.php:681
+msgid "Birthday"
+msgstr ""
+
+#: ../include/functions.php:297
+#: ../include/functions.php:682
+msgid "Phone Number"
+msgstr "Telefonnummer"
+
+#: ../include/functions.php:310
+msgid "Street Address"
+msgstr ""
+
+#: ../include/functions.php:319
+msgid "Zipcode"
+msgstr ""
+
+#: ../include/functions.php:328
+msgid "City"
+msgstr ""
+
+#: ../include/functions.php:342
+#: ../include/functions.php:684
+#: ../include/functions.php:725
+msgid "Profile Picture"
+msgstr "Profil Bilde"
+
+#: ../include/functions.php:354
+#: ../include/functions.php:689
+msgid "Country"
+msgstr "Land"
+
+#: ../include/functions.php:368
+#: ../include/functions.php:692
+msgid "Rows per page"
+msgstr ""
+
+#: ../include/functions.php:439
+msgid "Username must not contain spaces"
+msgstr ""
+
+#: ../include/functions.php:584
+msgid "Hide Roles"
+msgstr ""
+
+#: ../include/functions.php:585
+msgid "Change Role Names"
+msgstr ""
+
+#: ../include/functions.php:588
+msgid "Only show users own files"
+msgstr ""
+
+#: ../include/functions.php:592
+msgid "Prevent Username Spaces"
+msgstr ""
+
+#: ../include/functions.php:595
+msgid "Collect name of user in registration form"
+msgstr ""
+
+#: ../include/functions.php:596
+msgid "Add fields to profile"
+msgstr ""
+
+#: ../include/functions.php:597
+msgid "Remove fields from profile"
+msgstr ""
+
+#: ../include/functions.php:603
+msgid "Change Admin Color"
+msgstr ""
+
+#: ../include/functions.php:613
+msgid "Users"
+msgstr "Brukere"
+
+#: ../include/functions.php:672
+msgid "Every user below this role only sees their own files in the Media Library"
+msgstr ""
+
+#: ../include/functions.php:683
+msgid "Address"
+msgstr ""
+
+#: ../include/functions.php:704
+msgid "Headings"
+msgstr ""
+
+#: ../include/functions.php:705
+msgid "Visual Editor"
+msgstr ""
+
+#: ../include/functions.php:706
+msgid "Syntax Highlighting"
+msgstr ""
+
+#: ../include/functions.php:707
+msgid "Admin Color Scheme"
+msgstr ""
+
+#: ../include/functions.php:708
+msgid "Keyboard Shortcuts"
+msgstr ""
+
+#: ../include/functions.php:709
+msgid "Toolbar"
+msgstr ""
+
+#: ../include/functions.php:710
+msgid "Language"
+msgstr ""
+
+#: ../include/functions.php:711
+#, fuzzy
+msgid "Username"
+msgstr "Brukere"
+
+#: ../include/functions.php:712
+msgid "Nickname"
+msgstr ""
+
+#: ../include/functions.php:713
+msgid "Display name"
+msgstr ""
+
+#: ../include/functions.php:714
+msgid "Website"
+msgstr ""
+
+#: ../include/functions.php:715
+msgid "AIM"
+msgstr ""
+
+#: ../include/functions.php:716
+msgid "Yahoo IM"
+msgstr ""
+
+#: ../include/functions.php:717
+msgid "Jabber"
+msgstr ""
+
+#: ../include/functions.php:718
+msgid "Biographical Info"
+msgstr ""
+
+#: ../include/functions.php:733
+msgid "Sessions"
+msgstr ""
+
+#: ../include/functions.php:744
+msgid "Choose Here"
+msgstr ""
+
+#: ../include/functions.php:745
+msgid "Blue"
+msgstr ""
+
+#: ../include/functions.php:746
+msgid "Fresh"
+msgstr ""
+
+#: ../include/functions.php:746
+msgid "Default"
+msgstr ""
+
+#: ../include/functions.php:747
+msgid "Ectoplasm"
+msgstr ""
+
+#: ../include/functions.php:748
+msgid "Light"
+msgstr ""
+
+#: ../include/functions.php:749
+msgid "Coffee"
+msgstr ""
+
+#: ../include/functions.php:750
+msgid "Midnight"
+msgstr ""
+
+#: ../include/functions.php:751
+msgid "Ocean"
+msgstr ""
+
+#: ../include/functions.php:752
+msgid "Sunrise"
+msgstr ""
+
