@@ -96,8 +96,17 @@ function hide_roles()
 	{
 		foreach($option as $key => $value)
 		{
-			unset($wp_roles->roles[$key]);
-			unset($wp_roles->role_names[$key]);
+			if($value == 1) // old vaw
+			{
+				unset($wp_roles->roles[$key]);
+				unset($wp_roles->role_names[$key]);
+			}
+
+			else // new way
+			{
+				unset($wp_roles->roles[$value]);
+				unset($wp_roles->role_names[$value]);
+			}
 		}
 	}
 }
@@ -621,12 +630,26 @@ function setting_users_roles_hidden_callback()
 
 	$roles = get_all_roles(array('orig' => true));
 
+	$arr_data = array();
+
 	foreach($roles as $key => $value)
 	{
-		$option_value = isset($option[$key]) ? $option[$key] : "";
+		//$option_value = isset($option[$key]) ? $option[$key] : "";
 
-		echo show_checkbox(array('name' => "setting_users_roles_hidden[".$key."]", 'text' => __($value), 'value' => 1, 'compare' => $option_value));
+		if(isset($option[$key]) && $option[$key] == 1) // Convert from old to new way
+		{
+			$option[] = $key;
+		}
+
+		$arr_data[$key] = __($value); //." (".$key.", ".$option_value.")"
+
+		/*if(!IS_SUPER_ADMIN)
+		{
+			echo show_checkbox(array('name' => "setting_users_roles_hidden[".$key."]", 'text' => __($value), 'value' => 1, 'compare' => $option_value));
+		}*/
 	}
+
+	echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option)); //.", ".var_export($option, true)
 }
 
 function setting_users_roles_names_callback()
