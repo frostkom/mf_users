@@ -64,7 +64,7 @@
 
 				#modal_birthday .balloons > div:after
 				{
-					background:rgba(0, 0, 0, .2); 
+					background:rgba(0, 0, 0, .2);
 					content: '';
 					display: inline-block;
 					height: 10em;

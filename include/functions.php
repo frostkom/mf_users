@@ -509,9 +509,7 @@ function wp_login_users($username)
 
 	update_user_meta($user->ID, 'meta_last_active', date("Y-m-d H:i:s"));
 
-	$setting_users_register_name = get_option('setting_users_register_name');
-
-	if($setting_users_register_name)
+	if(get_option('setting_users_register_name'))
 	{
 		save_display_name($user);
 	}
@@ -528,10 +526,7 @@ function admin_head_users()
 
 	if(IS_ADMIN)
 	{
-		$setting_users_no_spaces = get_site_option('setting_users_no_spaces');
-		$setting_users_register_name = get_option('setting_users_register_name');
-
-		if($setting_users_no_spaces)
+		if(get_site_option('setting_users_no_spaces'))
 		{
 			$users = get_users(array('fields' => 'all'));
 
@@ -549,7 +544,7 @@ function admin_head_users()
 			}
 		}
 
-		if($setting_users_register_name)
+		if(get_option('setting_users_register_name'))
 		{
 			$users = get_users(array('fields' => 'all'));
 
@@ -634,22 +629,15 @@ function setting_users_roles_hidden_callback()
 
 	foreach($roles as $key => $value)
 	{
-		//$option_value = isset($option[$key]) ? $option[$key] : "";
-
 		if(isset($option[$key]) && $option[$key] == 1) // Convert from old to new way
 		{
 			$option[] = $key;
 		}
 
-		$arr_data[$key] = __($value); //." (".$key.", ".$option_value.")"
-
-		/*if(!IS_SUPER_ADMIN)
-		{
-			echo show_checkbox(array('name' => "setting_users_roles_hidden[".$key."]", 'text' => __($value), 'value' => 1, 'compare' => $option_value));
-		}*/
+		$arr_data[$key] = __($value);
 	}
 
-	echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option)); //.", ".var_export($option, true)
+	echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
 }
 
 function setting_users_roles_names_callback()
@@ -677,14 +665,6 @@ function setting_users_no_spaces_callback()
 	echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'value' => $option));
 }
 
-function setting_users_register_name_callback()
-{
-	$setting_key = get_setting_key(__FUNCTION__);
-	$option = get_option($setting_key);
-
-	echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'value' => $option));
-}
-
 function setting_users_show_own_media_callback()
 {
 	$setting_key = get_setting_key(__FUNCTION__);
@@ -693,6 +673,14 @@ function setting_users_show_own_media_callback()
 	$arr_data = get_roles_for_select(array('add_choose_here' => true));
 
 	echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'value' => $option, 'description' => __("Every user below this role only sees their own files in the Media Library", 'lang_users')));
+}
+
+function setting_users_register_name_callback()
+{
+	$setting_key = get_setting_key(__FUNCTION__);
+	$option = get_option($setting_key);
+
+	echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'value' => $option));
 }
 
 function setting_add_profile_fields_callback()
