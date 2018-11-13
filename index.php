@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description: 
-Version: 4.2.13
+Version: 4.3.0
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://frostkom.se
@@ -15,52 +15,51 @@ GitHub Plugin URI: frostkom/mf_users
 */
 
 include_once("include/classes.php");
-include_once("include/functions.php");
 
 $obj_users = new mf_users();
 
 add_action('cron_base', 'activate_users', mt_rand(1, 10));
-//add_action('cron_base', 'cron_users', mt_rand(1, 10));
+add_action('cron_base', array($obj_users, 'cron_base'), mt_rand(1, 10));
 
 if(is_admin())
 {
 	register_activation_hook(__FILE__, 'activate_users');
 	register_uninstall_hook(__FILE__, 'uninstall_users');
 
-	add_action('init', 'init_users');
-	add_action('admin_init', 'settings_users');
+	add_action('init', array($obj_users, 'init'));
+	add_action('admin_init', array($obj_users, 'settings_users'));
 	add_action('admin_init', array($obj_users, 'admin_init'), 0);
-	add_action('pre_get_posts', 'own_media_users');
+	add_action('pre_get_posts', array($obj_users, 'pre_get_posts'));
 
-	add_action('show_user_profile', 'show_profile_users');
-	add_action('edit_user_profile', 'show_profile_users');
-	add_action('personal_options_update', 'save_profile_users');
-	add_action('edit_user_profile_update', 'save_profile_users');
+	add_action('show_user_profile', array($obj_users, 'edit_user_profile'));
+	add_action('edit_user_profile', array($obj_users, 'edit_user_profile'));
+	add_action('personal_options_update', array($obj_users, 'edit_user_profile_update'));
+	add_action('edit_user_profile_update', array($obj_users, 'edit_user_profile_update'));
 
-	add_filter('get_user_option_admin_color', 'admin_color_users');
+	add_filter('get_user_option_admin_color', array($obj_users, 'get_user_option_admin_color'));
 
-	add_action('admin_head', 'admin_head_users');
+	//add_action('admin_head', array($obj_users, 'admin_head'));
 	add_action('admin_footer', array($obj_users, 'admin_footer'), 0);
 }
 
 else
 {
-	add_action('register_form', 'register_form_users', 0);
-	add_action('user_register', 'save_register_users');
+	add_action('register_form', array($obj_users, 'register_form'), 0);
+	add_action('user_register', array($obj_users, 'user_register'));
 
 	if(get_site_option('setting_users_no_spaces'))
 	{
-		add_action('registration_errors', 'register_errors_users', 10, 3);
+		add_action('registration_errors', array($obj_users, 'registration_errors'), 10, 3);
 	}
 
 	add_action('wp_head', array($obj_users, 'wp_head'), 0);
 	add_action('wp_footer', array($obj_users, 'wp_footer'), 0);
 }
 
-add_filter('get_avatar', 'avatar_users', 1, 5);
+add_filter('get_avatar', array($obj_users, 'get_avatar'), 1, 5);
 
-add_action('wp_login', 'wp_login_users');
-add_action('wp_logout', 'wp_logout_users');
+add_action('wp_login', array($obj_users, 'wp_login'));
+add_action('wp_logout', array($obj_users, 'wp_logout'));
 
 load_plugin_textdomain('lang_users', false, dirname(plugin_basename(__FILE__)).'/lang/');
 
