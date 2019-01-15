@@ -593,7 +593,7 @@ class mf_users
 		return $color;
 	}
 
-	/*function admin_head()
+	/*function admin_init()
 	{
 		global $wpdb;
 
