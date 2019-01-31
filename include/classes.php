@@ -164,7 +164,7 @@ class mf_users
 							$user_data = get_userdata($user_id);
 
 							$mail_to = $user_data->user_email;
-							$mail_subject = sprintf(__("Here comes the latest updates from %s", 'lang_users'), $site_name);
+							$mail_subject = sprintf("Here comes the latest updates from %s", $site_name);
 
 							$data = array('to' => $mail_to, 'subject' => $mail_subject, 'content' => $mail_content);
 
@@ -320,7 +320,6 @@ class mf_users
 		}
 
 		$arr_data['edit_page_per_page'] = __("Rows per page", 'lang_users');
-		//$arr_data['password'] = __("Password", 'lang_users');
 
 		echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
 	}
@@ -354,11 +353,6 @@ class mf_users
 		{
 			$arr_data['profile_picture'] = __("Profile Picture", 'lang_users');
 		}
-
-		/*if(is_array($option_add) && !in_array('password', $option_add) || !is_array($option_add))
-		{
-			$arr_data['password'] = __("Password", 'lang_users');
-		}*/
 
 		$arr_data['sessions'] = __("Sessions", 'lang_users');
 
@@ -527,19 +521,6 @@ class mf_users
 				</tr>";
 			}
 
-			/*if(in_array('password', $option))
-			{
-				$arr_remove['password'] = true;
-
-				$meta_key = 'profile_password';
-				$meta_text = __("New Password", 'lang_users');
-
-				$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
-					<th><label for='".$meta_key."'>".$meta_text."</label></th>
-					<td>".show_password_field(array('name' => $meta_key, 'placeholder' => __("Enter a new password here", 'lang_users'), 'xtra' => "class='regular-text'"))."</td>
-				</tr>";
-			}*/
-
 			if($out != '')
 			{
 				echo "<table class='form-table'>".$out."</table>";
@@ -550,19 +531,19 @@ class mf_users
 		{
 			$meta_key = 'meta_profile_reminder';
 			$meta_value = get_user_meta($meta_key, $user->ID);
-			$meta_text = __("Send Updates", 'lang_users');
+			$meta_text = "Send Updates";
 
 			$arr_data = array(
-				'' => "-- ".__("Choose Here", 'lang_users')." --",
-				'day' => __("Daily", 'lang_users'),
-				'week' => __("Weekly", 'lang_users'),
-				'month' => __("Monthly", 'lang_users'),
+				'' => "-- "."Choose Here"." --",
+				'day' => "Daily",
+				'week' => "Weekly",
+				'month' => "Monthly",
 			);
 
 			echo "<table class='form-table'>
 				<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
 					<th><label for='".$meta_key."'>".$meta_text."</label></th>
-					<td>".show_select(array('data' => $arr_data, 'name' => $meta_key, 'value' => $meta_value, 'description' => __("This will send you an update of what has happened since you last was online or got an update last time", 'lang_users')))."</td>
+					<td>".show_select(array('data' => $arr_data, 'name' => $meta_key, 'value' => $meta_value, 'description' => "This will send you an update of what has happened since you last was online or got an update last time"))."</td>
 				</tr>
 			</table>";
 		}*/
@@ -724,22 +705,6 @@ class mf_users
 			update_user_meta($user_id, $meta_key, $meta_value);
 		}
 
-		//Does not seam to work with special characters
-		/*if(is_array($option) && in_array('password', $option))
-		{
-			$meta_value = check_var('profile_password');
-
-			if($meta_value != '')
-			{
-				//$meta_value = wp_hash_password($meta_value);
-
-				//update_user_meta($user_id, 'user_pass', $meta_value);
-				//wp_update_user(array('ID' => $user_id, 'user_pass' => $meta_value));
-
-				wp_set_password($meta_value, $user_id);
-			}
-		}*/
-
 		/*$meta_value = check_var('meta_profile_reminder');
 		update_user_meta($user_id, 'meta_profile_reminder', $meta_value);*/
 	}
@@ -763,7 +728,7 @@ class mf_users
 		{
 			$meta_value = get_the_author_meta($meta_key, get_current_user_id());
 
-			if(date('m-d', strtotime($meta_value)) == date('m-d'))
+			if(date("m-d", strtotime($meta_value)) == date("m-d"))
 			{
 				$user_data = get_userdata(get_current_user_id());
 

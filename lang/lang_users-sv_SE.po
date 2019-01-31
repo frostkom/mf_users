@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-19 06:56+0100\n"
+"POT-Creation-Date: 2019-01-31 09:19+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: \n"
@@ -15,206 +15,206 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../include/classes.php:35
-#, php-format
-msgid "Happy Birthday %s!"
-msgstr "Grattis på födelsedagen %s!"
-
-#: ../include/functions.php:122
+#: ../include/classes.php:25
 msgid "Incorrect username or password"
 msgstr "Fel användarnamn eller lösenord"
 
-#: ../include/functions.php:159
-msgid "Full Name"
-msgstr "Namn"
-
-#: ../include/functions.php:285
-#: ../include/functions.php:681
-msgid "Birthday"
-msgstr "Födelsedag"
-
-#: ../include/functions.php:297
-#: ../include/functions.php:682
-msgid "Phone Number"
-msgstr "Telefonnummer"
-
-#: ../include/functions.php:310
-msgid "Street Address"
-msgstr "Gatuadress"
-
-#: ../include/functions.php:319
-msgid "Zipcode"
-msgstr "Postnummer"
-
-#: ../include/functions.php:328
-msgid "City"
-msgstr "Ort"
-
-#: ../include/functions.php:342
-#: ../include/functions.php:684
-#: ../include/functions.php:725
-msgid "Profile Picture"
-msgstr "Profilbild"
-
-#: ../include/functions.php:354
-#: ../include/functions.php:689
-msgid "Country"
-msgstr "Land"
-
-#: ../include/functions.php:368
-#: ../include/functions.php:692
-msgid "Rows per page"
-msgstr "Rader / sida"
-
-#: ../include/functions.php:439
-msgid "Username must not contain spaces"
-msgstr "Användarnamn får inte innehålla mellanslag"
-
-#: ../include/functions.php:584
+#: ../include/classes.php:207
 msgid "Hide Roles"
 msgstr "Göm roller"
 
-#: ../include/functions.php:585
+#: ../include/classes.php:208
 msgid "Change Role Names"
 msgstr "Ändra rollnamn"
 
-#: ../include/functions.php:588
+#: ../include/classes.php:211
 msgid "Only show users own files"
 msgstr "Visa endast användarens egna filer"
 
-#: ../include/functions.php:592
+#: ../include/classes.php:215
 msgid "Prevent Username Spaces"
 msgstr "Motverka mellanslag i användarnamn"
 
-#: ../include/functions.php:595
+#: ../include/classes.php:218
 msgid "Collect name of user in registration form"
 msgstr "Spara namn på användare som registrar sig"
 
-#: ../include/functions.php:596
+#: ../include/classes.php:219
 msgid "Add fields to profile"
 msgstr "Lägg till fält i profilen"
 
-#: ../include/functions.php:597
+#: ../include/classes.php:220
 msgid "Remove fields from profile"
 msgstr "Ta bort fält från profilen"
 
-#: ../include/functions.php:603
+#: ../include/classes.php:226
 msgid "Change Admin Color"
 msgstr "Ändra adminfärger"
 
-#: ../include/functions.php:613
+#: ../include/classes.php:236
 msgid "Users"
 msgstr "Användare"
 
-#: ../include/functions.php:672
+#: ../include/classes.php:294
 msgid "Every user below this role only sees their own files in the Media Library"
 msgstr "Varje användare lägre än denna roll ser endast sina egna filer i Mediabiblioteket"
 
-#: ../include/functions.php:683
+#: ../include/classes.php:311
+#: ../include/classes.php:434
+msgid "Birthday"
+msgstr "Födelsedag"
+
+#: ../include/classes.php:312
+#: ../include/classes.php:446
+msgid "Phone Number"
+msgstr "Telefonnummer"
+
+#: ../include/classes.php:313
 msgid "Address"
 msgstr "Adress"
 
-#: ../include/functions.php:704
+#: ../include/classes.php:314
+#: ../include/classes.php:355
+#: ../include/classes.php:491
+msgid "Profile Picture"
+msgstr "Profilbild"
+
+#: ../include/classes.php:319
+#: ../include/classes.php:503
+msgid "Country"
+msgstr "Land"
+
+#: ../include/classes.php:322
+#: ../include/classes.php:517
+msgid "Rows per page"
+msgstr "Rader / sida"
+
+#: ../include/classes.php:334
 msgid "Headings"
 msgstr "Rubriker"
 
-#: ../include/functions.php:705
+#: ../include/classes.php:335
 msgid "Visual Editor"
 msgstr "Visuell redigerare"
 
-#: ../include/functions.php:706
+#: ../include/classes.php:336
 msgid "Syntax Highlighting"
 msgstr "Syntaxmarkering"
 
-#: ../include/functions.php:707
+#: ../include/classes.php:337
 msgid "Admin Color Scheme"
 msgstr "Färgschema för adminpanel"
 
-#: ../include/functions.php:708
+#: ../include/classes.php:338
 msgid "Keyboard Shortcuts"
 msgstr "Tangentbordsgenvägar"
 
-#: ../include/functions.php:709
+#: ../include/classes.php:339
 msgid "Toolbar"
 msgstr "Verktygsfält"
 
-#: ../include/functions.php:710
+#: ../include/classes.php:340
 msgid "Language"
 msgstr "Språk"
 
-#: ../include/functions.php:711
+#: ../include/classes.php:341
 msgid "Username"
 msgstr "Användarnamn"
 
-#: ../include/functions.php:712
+#: ../include/classes.php:342
 msgid "Nickname"
 msgstr "Smeknamn"
 
-#: ../include/functions.php:713
+#: ../include/classes.php:343
 msgid "Display name"
 msgstr "Visningsnamn"
 
-#: ../include/functions.php:714
+#: ../include/classes.php:344
 msgid "Website"
 msgstr "Webbplats"
 
-#: ../include/functions.php:715
+#: ../include/classes.php:345
 msgid "AIM"
 msgstr ""
 
-#: ../include/functions.php:716
+#: ../include/classes.php:346
 msgid "Yahoo IM"
 msgstr ""
 
-#: ../include/functions.php:717
+#: ../include/classes.php:347
 msgid "Jabber"
 msgstr ""
 
-#: ../include/functions.php:718
+#: ../include/classes.php:348
 msgid "Biographical Info"
 msgstr "Biografi"
 
-#: ../include/functions.php:733
+#: ../include/classes.php:363
 msgid "Sessions"
 msgstr "Sessioner"
 
-#: ../include/functions.php:744
+#: ../include/classes.php:374
 msgid "Choose Here"
 msgstr "Välj här"
 
-#: ../include/functions.php:745
+#: ../include/classes.php:375
 msgid "Blue"
 msgstr "Blå"
 
-#: ../include/functions.php:746
+#: ../include/classes.php:376
 msgid "Fresh"
 msgstr ""
 
-#: ../include/functions.php:746
+#: ../include/classes.php:376
 msgid "Default"
 msgstr "Standard"
 
-#: ../include/functions.php:747
+#: ../include/classes.php:377
 msgid "Ectoplasm"
 msgstr ""
 
-#: ../include/functions.php:748
+#: ../include/classes.php:378
 msgid "Light"
 msgstr "Ljus"
 
-#: ../include/functions.php:749
+#: ../include/classes.php:379
 msgid "Coffee"
 msgstr "Kaffe"
 
-#: ../include/functions.php:750
+#: ../include/classes.php:380
 msgid "Midnight"
 msgstr "Midnatt"
 
-#: ../include/functions.php:751
+#: ../include/classes.php:381
 msgid "Ocean"
 msgstr "Hav"
 
-#: ../include/functions.php:752
+#: ../include/classes.php:382
 msgid "Sunrise"
 msgstr "Soluppgång"
+
+#: ../include/classes.php:459
+msgid "Street Address"
+msgstr "Gatuadress"
+
+#: ../include/classes.php:468
+msgid "Zipcode"
+msgstr "Postnummer"
+
+#: ../include/classes.php:477
+msgid "City"
+msgstr "Ort"
+
+#: ../include/classes.php:645
+msgid "Full Name"
+msgstr "Namn"
+
+#: ../include/classes.php:751
+msgid "Username must not contain spaces"
+msgstr "Användarnamn får inte innehålla mellanslag"
+
+#: ../include/classes.php:780
+#, php-format
+msgid "Happy Birthday %s!"
+msgstr "Grattis på födelsedagen %s!"
 

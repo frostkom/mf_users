@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description: 
-Version: 4.3.2
+Version: 4.3.3
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://frostkom.se
@@ -66,7 +66,6 @@ load_plugin_textdomain('lang_users', false, dirname(plugin_basename(__FILE__)).'
 function activate_users()
 {
 	replace_user_meta(array('old' => 'last_active', 'new' => 'meta_last_active'));
-	replace_user_meta(array('old' => 'profile_reminder', 'new' => 'meta_profile_reminder'));
 }
 
 function uninstall_users()
