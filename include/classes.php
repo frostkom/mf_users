@@ -319,7 +319,7 @@ class mf_users
 			$arr_data['profile_country'] = __("Country", 'lang_users');
 		}
 
-		$arr_data['edit_page_per_page'] = __("Rows per page", 'lang_users');
+		$arr_data['edit_page_per_page'] = __("Rows / Page", 'lang_users');
 
 		echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
 	}
@@ -508,7 +508,7 @@ class mf_users
 			if(in_array($meta_key, $option))
 			{
 				$meta_value = get_the_author_meta($meta_key, $user->ID);
-				$meta_text = __("Rows per page", 'lang_users');
+				$meta_text = __("Rows / Page", 'lang_users');
 
 				if(!($meta_value > 0))
 				{
@@ -707,6 +707,82 @@ class mf_users
 
 		/*$meta_value = check_var('meta_profile_reminder');
 		update_user_meta($user_id, 'meta_profile_reminder', $meta_value);*/
+	}
+
+	function filter_profile_fields($arr_fields)
+	{
+		$arr_remove = array();
+
+		$option = get_option('setting_remove_profile_fields');
+
+		if(is_array($option) && count($option) > 0)
+		{
+			foreach($option as $remove)
+			{
+				$arr_remove[$remove] = true;
+			}
+		}
+
+		$option = get_option('setting_add_profile_fields');
+
+		if(is_array($option) && count($option) > 0)
+		{
+			$meta_key = 'profile_birthday';
+			if(in_array($meta_key, $option))
+			{
+				$arr_fields[] = array('type' => 'date', 'name' => $meta_key, 'text' => __("Birthday", 'lang_users'));
+			}
+
+			if(in_array('phone', $option))
+			{
+				$meta_key = 'profile_phone';
+
+				$arr_fields[] = array('type' => 'text', 'name' => $meta_key, 'text' => __("Phone Number", 'lang_users'));
+			}
+
+			$meta_key = 'profile_address';
+			if(in_array($meta_key, $option))
+			{
+				$arr_fields[] = array('type' => 'text', 'name' => $meta_key.'_street', 'text' => __("Street Address", 'lang_users'));
+				$arr_fields[] = array('type' => 'text', 'name' => $meta_key.'_zipcode', 'text' => __("Zipcode", 'lang_users'));
+				$arr_fields[] = array('type' => 'text', 'name' => $meta_key.'_city', 'text' => __("City", 'lang_users'));
+			}
+
+			$meta_key = 'profile_picture';
+			if(in_array($meta_key, $option))
+			{
+				$arr_remove[$meta_key] = true;
+
+				$arr_fields[] = array('type' => 'media_image', 'name' => $meta_key, 'text' => __("Profile Picture", 'lang_users'));
+			}
+
+			$meta_key = 'profile_country';
+			if(in_array($meta_key, $option) && is_plugin_active('mf_address/index.php'))
+			{
+				$obj_address = new mf_address();
+
+				$arr_fields[] = array('type' => 'select', 'options' => $obj_address->get_countries_for_select(), 'name' => $meta_key, 'text' => __("Country", 'lang_users'));
+			}
+
+			$meta_key = 'edit_page_per_page';
+			if(in_array($meta_key, $option))
+			{
+				$arr_fields[] = array('type' => 'number', 'name' => $meta_key, 'text' => __("Rows / Page", 'lang_users'));
+			}
+		}
+
+		foreach($arr_remove as $remove_key => $remove_value)
+		{
+			foreach($arr_fields as $field_key => $field_value)
+			{
+				if(isset($field_value['name']) && $remove_key == $field_value['name'])
+				{
+					unset($arr_fields[$field_key]);
+				}
+			}
+		}
+
+		return $arr_fields;
 	}
 
 	function registration_errors($errors, $user_login, $user_email)

@@ -75,16 +75,16 @@
 				}
 
 				#modal_birthday .balloons > div:nth-child(2){ background:hsl(245,40%,65%); animation-duration:3.5s; }
-				#modal_birthday .balloons > div:nth-child(2):before { color:hsl(245,40%,65%);  }
+				#modal_birthday .balloons > div:nth-child(2):before { color:hsl(245,40%,65%);}
 
 				#modal_birthday .balloons > div:nth-child(3){ background:hsl(139,50%,60%); animation-duration:3s; }
-				#modal_birthday .balloons > div:nth-child(3):before { color:hsl(139,30%,50%);  }
+				#modal_birthday .balloons > div:nth-child(3):before { color:hsl(139,30%,50%);}
 
 				#modal_birthday .balloons > div:nth-child(4){ background:hsl(59,50%,58%); animation-duration:4.5s; }
-				#modal_birthday .balloons > div:nth-child(4):before { color:hsl(59,30%,52%);  }
+				#modal_birthday .balloons > div:nth-child(4):before { color:hsl(59,30%,52%);}
 
 				#modal_birthday .balloons > div:nth-child(5){ background:hsl(23,55%,57%); animation-duration:5s; }
-				#modal_birthday .balloons > div:nth-child(5):before { color:hsl(23,44%,46%);  }
+				#modal_birthday .balloons > div:nth-child(5):before { color:hsl(23,44%,46%);}
 
 		#modal_birthday .content
 		{

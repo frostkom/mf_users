@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description: 
-Version: 4.3.3
+Version: 4.3.5
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://frostkom.se
@@ -46,6 +46,8 @@ else
 {
 	add_action('register_form', array($obj_users, 'register_form'), 0);
 	add_action('user_register', array($obj_users, 'user_register'));
+
+	add_filter('filter_profile_fields', array($obj_users, 'filter_profile_fields'));
 
 	if(get_site_option('setting_users_no_spaces'))
 	{
