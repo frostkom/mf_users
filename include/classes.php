@@ -390,11 +390,11 @@ class mf_users
 
 		$wp_query = $wp_query;
 
-		if(isset($wp_query->query['post_type']))
+		if(isset($wp_query->query['post_type']) && $wp_query->query['post_type'] === 'attachment') //(is_admin() && )
 		{
 			$option = get_option('setting_users_show_own_media');
 
-			if($option != '' && !current_user_can($option) && (is_admin() && $wp_query->query['post_type'] === 'attachment'))
+			if($option != '' && !current_user_can($option))
 			{
 				$wp_query->set('author', $current_user->ID);
 			}
