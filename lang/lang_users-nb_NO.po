@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-02 05:11+0100\n"
+"POT-Creation-Date: 2019-03-22 09:52+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: \n"
@@ -18,8 +18,8 @@ msgstr ""
 msgid "Incorrect username or password"
 msgstr "Feil brukernavn eller passord"
 
-msgid "Full Name"
-msgstr "Fullt Navn"
+msgid "Users"
+msgstr "Brukere"
 
 msgid "Birthday"
 msgstr "Bursdag"
@@ -27,26 +27,14 @@ msgstr "Bursdag"
 msgid "Phone Number"
 msgstr "Telefonnummer"
 
+msgid "Address"
+msgstr "Adresse"
+
 msgid "Profile Picture"
 msgstr "Profil Bilde"
 
 msgid "Country"
 msgstr "Land"
-
-msgid "Rows per page"
-msgstr "Rader per side"
-
-msgid "New Password"
-msgstr "Nytt Passord"
-
-msgid "Choose Here"
-msgstr "Velg Her"
-
-msgid "Users"
-msgstr "Brukere"
-
-msgid "Password"
-msgstr "Passord"
 
 msgid "Username"
 msgstr "Brukernavn"
@@ -54,15 +42,12 @@ msgstr "Brukernavn"
 msgid "Website"
 msgstr "Nettstedet"
 
-msgid "AIM"
-msgstr "AIM"
-
-msgid "Yahoo IM"
-msgstr "Yahoo IM"
-
-msgid "Jabber"
-msgstr "Jabber"
+msgid "Choose Here"
+msgstr "Velg Her"
 
 msgid "Default"
 msgstr "Standard"
+
+msgid "Full Name"
+msgstr "Fullt Navn"
 
