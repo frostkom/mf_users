@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description: 
-Version: 4.3.7
+Version: 4.3.9
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://frostkom.se
@@ -72,6 +72,8 @@ function activate_users()
 
 function uninstall_users()
 {
+	global $wpdb;
+
 	mf_uninstall_plugin(array(
 		'options' => array('setting_users_roles_hidden', 'setting_users_roles_names', 'setting_users_show_own_media', 'setting_users_no_spaces', 'setting_users_register_name', 'setting_add_profile_fields', 'setting_remove_profile_fields', 'setting_admin_color', $wpdb->prefix.'user_roles_orig'),
 		'meta' => array('meta_last_active', 'meta_profile_reminder'),

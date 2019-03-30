@@ -308,6 +308,7 @@ class mf_users
 		$arr_data = array(
 			'profile_birthday' => __("Birthday", 'lang_users'),
 			'phone' => __("Phone Number", 'lang_users'),
+			'profile_company' => __("Company", 'lang_users'),
 			'profile_address' => __("Address", 'lang_users'),
 			'profile_picture' => __("Profile Picture", 'lang_users'),
 		);
@@ -339,9 +340,9 @@ class mf_users
 			'nickname' => __("Nickname", 'lang_users'),
 			'display_name' => __("Display name", 'lang_users'),
 			'url' => __("Website", 'lang_users'),
-			'aim' => __("AIM", 'lang_users'),
-			'yim' => __("Yahoo IM", 'lang_users'),
-			'jabber' => __("Jabber", 'lang_users'),
+			'aim' => "AIM",
+			'yim' => "Yahoo IM",
+			'jabber' => "Jabber",
 			'description' => __("Biographical Info", 'lang_users'),
 		);
 
@@ -436,6 +437,18 @@ class mf_users
 				$meta_key = 'profile_phone';
 				$meta_value = get_the_author_meta($meta_key, $user->ID);
 				$meta_text = __("Phone Number", 'lang_users');
+
+				$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
+					<th><label for='".$meta_key."'>".$meta_text."</label></th>
+					<td>".show_textfield(array('name' => $meta_key, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
+				</tr>";
+			}
+
+			$meta_key = 'profile_company';
+			if(in_array($meta_key, $option))
+			{
+				$meta_value = get_the_author_meta($meta_key, $user->ID);
+				$meta_text = __("Company", 'lang_users');
 
 				$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
 					<th><label for='".$meta_key."'>".$meta_text."</label></th>
@@ -660,6 +673,14 @@ class mf_users
 			update_user_meta($user_id, $meta_key, $meta_value);
 		}
 
+		$meta_key = 'profile_company';
+		if(is_array($option) && in_array($meta_key, $option))
+		{
+			$meta_value = check_var($meta_key);
+
+			update_user_meta($user_id, $meta_key, $meta_value);
+		}
+
 		$meta_key = 'profile_address';
 		if(is_array($option) && in_array($meta_key, $option))
 		{
@@ -736,6 +757,12 @@ class mf_users
 				$meta_key = 'profile_phone';
 
 				$arr_fields[] = array('type' => 'text', 'name' => $meta_key, 'text' => __("Phone Number", 'lang_users'));
+			}
+
+			$meta_key = 'profile_company';
+			if(in_array($meta_key, $option))
+			{
+				$arr_fields[] = array('type' => 'text', 'name' => $meta_key, 'text' => __("Company", 'lang_users'));
 			}
 
 			$meta_key = 'profile_address';

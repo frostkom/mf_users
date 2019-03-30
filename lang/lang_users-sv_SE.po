@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-20 14:59+0100\n"
+"POT-Creation-Date: 2019-03-30 07:36+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: \n"
@@ -55,173 +55,167 @@ msgstr "Ändra adminfärger"
 msgid "Users"
 msgstr "Användare"
 
-#: ../include/classes.php:294
+#: ../include/classes.php:292
 msgid "Every user below this role only sees their own files in the Media Library"
 msgstr "Varje användare lägre än denna roll ser endast sina egna filer i Mediabiblioteket"
 
-#: ../include/classes.php:311
-#: ../include/classes.php:428
-#: ../include/classes.php:733
+#: ../include/classes.php:309
+#: ../include/classes.php:427
+#: ../include/classes.php:752
 msgid "Birthday"
 msgstr "Födelsedag"
 
-#: ../include/classes.php:312
-#: ../include/classes.php:440
-#: ../include/classes.php:740
+#: ../include/classes.php:310
+#: ../include/classes.php:439
+#: ../include/classes.php:759
 msgid "Phone Number"
 msgstr "Telefonnummer"
 
-#: ../include/classes.php:313
+#: ../include/classes.php:311
+#: ../include/classes.php:451
+#: ../include/classes.php:765
+msgid "Company"
+msgstr "Företag"
+
+#: ../include/classes.php:312
 msgid "Address"
 msgstr "Adress"
 
-#: ../include/classes.php:314
-#: ../include/classes.php:354
-#: ../include/classes.php:485
-#: ../include/classes.php:756
+#: ../include/classes.php:313
+#: ../include/classes.php:353
+#: ../include/classes.php:496
+#: ../include/classes.php:781
 msgid "Profile Picture"
 msgstr "Profilbild"
 
-#: ../include/classes.php:319
-#: ../include/classes.php:497
-#: ../include/classes.php:764
+#: ../include/classes.php:318
+#: ../include/classes.php:508
+#: ../include/classes.php:789
 msgid "Country"
 msgstr "Land"
 
-#: ../include/classes.php:322
-#: ../include/classes.php:511
-#: ../include/classes.php:770
+#: ../include/classes.php:321
+#: ../include/classes.php:522
+#: ../include/classes.php:795
 msgid "Rows / Page"
 msgstr "Rader / sida"
 
-#: ../include/classes.php:333
+#: ../include/classes.php:332
 msgid "Headings"
 msgstr "Rubriker"
 
-#: ../include/classes.php:334
+#: ../include/classes.php:333
 msgid "Visual Editor"
 msgstr "Visuell redigerare"
 
-#: ../include/classes.php:335
+#: ../include/classes.php:334
 msgid "Syntax Highlighting"
 msgstr "Syntaxmarkering"
 
-#: ../include/classes.php:336
+#: ../include/classes.php:335
 msgid "Admin Color Scheme"
 msgstr "Färgschema för adminpanel"
 
-#: ../include/classes.php:337
+#: ../include/classes.php:336
 msgid "Keyboard Shortcuts"
 msgstr "Tangentbordsgenvägar"
 
-#: ../include/classes.php:338
+#: ../include/classes.php:337
 msgid "Toolbar"
 msgstr "Verktygsfält"
 
-#: ../include/classes.php:339
+#: ../include/classes.php:338
 msgid "Language"
 msgstr "Språk"
 
-#: ../include/classes.php:340
+#: ../include/classes.php:339
 msgid "Username"
 msgstr "Användarnamn"
 
-#: ../include/classes.php:341
+#: ../include/classes.php:340
 msgid "Nickname"
 msgstr "Smeknamn"
 
-#: ../include/classes.php:342
+#: ../include/classes.php:341
 msgid "Display name"
 msgstr "Visningsnamn"
 
-#: ../include/classes.php:343
+#: ../include/classes.php:342
 msgid "Website"
 msgstr "Webbplats"
 
-#: ../include/classes.php:344
-msgid "AIM"
-msgstr ""
-
-#: ../include/classes.php:345
-msgid "Yahoo IM"
-msgstr ""
-
 #: ../include/classes.php:346
-msgid "Jabber"
-msgstr ""
-
-#: ../include/classes.php:347
 msgid "Biographical Info"
 msgstr "Biografi"
 
-#: ../include/classes.php:357
+#: ../include/classes.php:356
 msgid "Sessions"
 msgstr "Sessioner"
 
-#: ../include/classes.php:368
+#: ../include/classes.php:367
 msgid "Choose Here"
 msgstr "Välj här"
 
-#: ../include/classes.php:369
+#: ../include/classes.php:368
 msgid "Blue"
 msgstr "Blå"
 
-#: ../include/classes.php:370
+#: ../include/classes.php:369
 msgid "Fresh"
-msgstr ""
+msgstr "Färsk"
 
-#: ../include/classes.php:370
+#: ../include/classes.php:369
 msgid "Default"
 msgstr "Standard"
 
-#: ../include/classes.php:371
+#: ../include/classes.php:370
 msgid "Ectoplasm"
-msgstr ""
+msgstr "Ektoplasma"
 
-#: ../include/classes.php:372
+#: ../include/classes.php:371
 msgid "Light"
 msgstr "Ljus"
 
-#: ../include/classes.php:373
+#: ../include/classes.php:372
 msgid "Coffee"
 msgstr "Kaffe"
 
-#: ../include/classes.php:374
+#: ../include/classes.php:373
 msgid "Midnight"
 msgstr "Midnatt"
 
-#: ../include/classes.php:375
+#: ../include/classes.php:374
 msgid "Ocean"
 msgstr "Hav"
 
-#: ../include/classes.php:376
+#: ../include/classes.php:375
 msgid "Sunrise"
 msgstr "Soluppgång"
 
-#: ../include/classes.php:453
-#: ../include/classes.php:746
+#: ../include/classes.php:464
+#: ../include/classes.php:771
 msgid "Street Address"
 msgstr "Gatuadress"
 
-#: ../include/classes.php:462
-#: ../include/classes.php:747
+#: ../include/classes.php:473
+#: ../include/classes.php:772
 msgid "Zipcode"
 msgstr "Postnummer"
 
-#: ../include/classes.php:471
-#: ../include/classes.php:748
+#: ../include/classes.php:482
+#: ../include/classes.php:773
 msgid "City"
 msgstr "Ort"
 
-#: ../include/classes.php:626
+#: ../include/classes.php:637
 msgid "Full Name"
 msgstr "Namn"
 
-#: ../include/classes.php:792
+#: ../include/classes.php:817
 msgid "Username must not contain spaces"
 msgstr "Användarnamn får inte innehålla mellanslag"
 
-#: ../include/classes.php:821
+#: ../include/classes.php:846
 #, php-format
 msgid "Happy Birthday %s!"
 msgstr "Grattis på födelsedagen %s!"
