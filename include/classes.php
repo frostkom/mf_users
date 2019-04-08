@@ -112,7 +112,6 @@ class mf_users
 
 				if($username != $user_data->user_login)
 				{
-					//wp_update_user(array('ID' => $user->ID, 'user_login' => $username)); //Does not work
 					$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->users." SET user_login = %s WHERE ID = '%d'", $username, $user->ID));
 				}
 			}
@@ -584,44 +583,6 @@ class mf_users
 
 		return $color;
 	}
-
-	/*function admin_init()
-	{
-		global $wpdb;
-
-		if(IS_ADMIN)
-		{
-			if(get_site_option('setting_users_no_spaces'))
-			{
-				$users = get_users(array('fields' => 'all'));
-
-				foreach($users as $user)
-				{
-					$user_data = get_userdata($user->ID);
-
-					$username = $this->replace_spaces($user_data->user_login);
-
-					if($username != $user_data->user_login)
-					{
-						//wp_update_user(array('ID' => $user->ID, 'user_login' => $username)); //Does not work
-						$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->users." SET user_login = %s WHERE ID = '%d'", $username, $user->ID));
-					}
-				}
-			}
-
-			if(get_option('setting_users_register_name'))
-			{
-				$users = get_users(array('fields' => 'all'));
-
-				foreach($users as $user)
-				{
-					$user = get_userdata($user->ID);
-
-					$this->save_display_name($user);
-				}
-			}
-		}
-	}*/
 
 	function admin_footer()
 	{
