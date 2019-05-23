@@ -399,6 +399,56 @@ class mf_users
 		}
 	}
 
+	function admin_action_inactivate_user()
+	{
+		global $wpdb;
+
+		check_admin_referer('inactivate_user');
+
+		if(current_user_can('edit_user', get_current_user_id()))
+		{
+			$user_id = check_var('user_id', 'int');
+
+			if(is_multisite() && $wpdb->blogid > 0)
+			{
+				$wp_capabilities = "wp_".$wpdb->blogid."_capabilities";
+				$wp_user_level = "wp_".$wpdb->blogid."_user_level";
+			}
+
+			else
+			{
+				$wp_capabilities = "wp_capabilities";
+				$wp_user_level = "wp_user_level";
+			}
+
+			update_user_meta($user_id, $wp_capabilities, array());
+			update_user_meta($user_id, $wp_user_level, 0);
+		}
+	}
+
+	function user_row_actions($actions, $user)
+	{
+		if(!isset($user->roles[0]) || $user->roles[0] == '')
+		{
+			$actions['inactive'] = "<span class='grey'>".__("Inactive", 'lang_users')."</span><i class='set_tr_color' rel='red'></i>";
+		}
+
+		else if(get_current_user_id() != $user->ID && current_user_can('edit_user'))
+		{
+			$site_id = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
+			$url = ('site-users-network' == get_current_screen()->id ? add_query_arg(array('id' => $site_id), 'site-users.php') : 'users.php');
+
+			$url = wp_nonce_url(add_query_arg(array(
+				'action' => 'inactivate_user',
+				'user_id' => $user->ID,
+			), $url), 'inactivate_user');
+
+			$actions['inactivate'] = "<a href='".esc_url($url)."' rel='confirm'>".__("Inactivate", 'lang_users')."</a>";
+		}
+
+		return $actions;
+	}
+
 	function edit_user_profile($user)
 	{
 		$arr_remove = array();
