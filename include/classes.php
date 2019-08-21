@@ -546,7 +546,7 @@ class mf_users
 
 				$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
 					<th><label for='".$meta_key."'>".$meta_text."</label></th>
-					<td>".get_media_library(array('name' => $meta_key, 'value' => $meta_value, 'type' => 'image'))."</td>
+					<td>".get_media_library(array('type' => 'image', 'name' => $meta_key, 'value' => $meta_value))."</td>
 				</tr>";
 			}
 
@@ -787,8 +787,6 @@ class mf_users
 			$meta_key = 'profile_picture';
 			if(in_array($meta_key, $option))
 			{
-				$arr_remove[$meta_key] = true;
-
 				$arr_fields[] = array('type' => 'media_image', 'name' => $meta_key, 'text' => __("Profile Picture", 'lang_users'));
 			}
 
