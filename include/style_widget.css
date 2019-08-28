@@ -1,0 +1,19 @@
+@media all
+{
+	.widget.user
+	{
+		overflow: hidden;
+	}
+
+		.widget.user .image
+		{
+			float: left;
+			margin: 0 .5em .5em 0;
+			max-width: 20%;
+		}
+
+			.widget.user .image img
+			{
+				display: block;
+			}
+}

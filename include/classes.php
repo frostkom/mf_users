@@ -868,6 +868,14 @@ class mf_users
 				mf_enqueue_style('style_users_birthday', $plugin_include_url."style_birthday.css", $plugin_version);
 			}
 		}
+
+		if(!is_plugin_active("mf_widget_logic_select/index.php") || apply_filters('get_widget_search', 'user-widget') > 0)
+		{
+			$plugin_include_url = plugin_dir_url(__FILE__);
+			$plugin_version = get_plugin_version(__FILE__);
+
+			mf_enqueue_style('style_user_widget', $plugin_include_url."style_widget.css", $plugin_version);
+		}
 	}
 
 	function wp_footer()
@@ -932,5 +940,113 @@ class mf_users
 	function wp_logout()
 	{
 		update_user_meta(get_current_user_id(), 'meta_last_active', date("Y-m-d H:i:s"));
+	}
+
+	function widgets_init()
+	{
+		register_widget('widget_user');
+	}
+}
+
+class widget_user extends WP_Widget
+{
+	function __construct()
+	{
+		$widget_ops = array(
+			'classname' => 'user',
+			'description' => __("Display information about a user", 'lang_users')
+		);
+
+		$this->arr_default = array(
+			'user_heading' => "",
+			'user_ids' => array(),
+		);
+
+		parent::__construct('user-widget', __("User", 'lang_users'), $widget_ops);
+	}
+
+	function widget($args, $instance)
+	{
+		extract($args);
+		$instance = wp_parse_args((array)$instance, $this->arr_default);
+
+		$user_amount = count($instance['user_ids']);
+
+		if($user_amount > 0)
+		{
+			echo $before_widget;
+
+				if($instance['user_heading'] != '')
+				{
+					$instance['user_heading'] = apply_filters('widget_title', $instance['user_heading'], $instance, $this->id_base);
+
+					echo $before_title
+						.$instance['user_heading']
+					.$after_title;
+				}
+
+				if($user_amount > 1)
+				{
+					$date_week = date("W"); //, strtotime("2019-01-01")
+					$user_keys = ($user_amount - 1);
+
+					//$user_id_key = mt_rand(1, $user_keys);
+					$user_id_key = ($user_keys >= $date_week ? ($user_keys % $date_week) : ($date_week % $user_keys));
+
+					$user_id = $instance['user_ids'][$user_id_key];
+				}
+
+				else
+				{
+					$user_id = $instance['user_ids'][0];
+				}
+
+				$user_data = get_userdata($user_id);
+				$profile_description = get_the_author_meta('description', $user_id);
+				$profile_picture = get_the_author_meta('profile_picture', $user_id);
+
+				echo "<div class='section'>
+					<h4>".$user_data->display_name."</h4>";
+
+					if($profile_picture != '')
+					{
+						echo "<div class='image'><img src='".$profile_picture."'></div>";
+					}
+
+					echo "<div>".apply_filters('the_content', $profile_description)."</div>"
+				."</div>"
+			.$after_widget;
+		}
+	}
+
+	function update($new_instance, $old_instance)
+	{
+		$instance = $old_instance;
+		$new_instance = wp_parse_args((array)$new_instance, $this->arr_default);
+
+		$instance['user_heading'] = sanitize_text_field($new_instance['user_heading']);
+		$instance['user_ids'] = is_array($new_instance['user_ids']) ? $new_instance['user_ids'] : array();
+
+		return $instance;
+	}
+
+	function filter_user_info_callback($data, $user, $arr_data)
+	{
+		if(get_the_author_meta('description', $user->ID) != '') // && get_the_author_meta('profile_picture', $user->ID) != ''
+		{
+			$arr_data[$user->ID] = $user->display_name;
+		}
+
+		return $arr_data;
+	}
+
+	function form($instance)
+	{
+		$instance = wp_parse_args((array)$instance, $this->arr_default);
+
+		echo "<div class='mf_form'>"
+			.show_textfield(array('name' => $this->get_field_name('user_heading'), 'text' => __("Heading", 'lang_users'), 'value' => $instance['user_heading'], 'xtra' => " id='form-title'"))
+			.show_select(array('data' => get_users_for_select(array('callback' => array($this, 'filter_user_info_callback'))), 'name' => $this->get_field_name('user_ids')."[]", 'text' => __("Users", 'lang_users'), 'value' => $instance['user_ids']))
+		."</div>";
 	}
 }
