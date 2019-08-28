@@ -1002,8 +1002,8 @@ class widget_user extends WP_Widget
 				}
 
 				$user_data = get_userdata($user_id);
-				$profile_description = get_the_author_meta('description', $user_id);
 				$profile_picture = get_the_author_meta('profile_picture', $user_id);
+				$profile_description = apply_filters('filter_profile_description', get_the_author_meta('description', $user_id), $user_id);
 
 				echo "<div class='section'>
 					<h4>".$user_data->display_name."</h4>";
@@ -1013,7 +1013,9 @@ class widget_user extends WP_Widget
 						echo "<div class='image'><img src='".$profile_picture."'></div>";
 					}
 
-					echo "<div>".apply_filters('the_content', $profile_description)."</div>"
+					echo "<div>"
+						.apply_filters('the_content', $profile_description)
+					."</div>"
 				."</div>"
 			.$after_widget;
 		}
