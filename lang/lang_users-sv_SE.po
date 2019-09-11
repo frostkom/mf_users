@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-02 06:19+0100\n"
+"POT-Creation-Date: 2019-09-11 09:43+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: \n"
@@ -161,4 +161,13 @@ msgstr "Användarnamn får inte innehålla mellanslag"
 
 msgid "Happy Birthday %s!"
 msgstr "Grattis på födelsedagen %s!"
+
+msgid "Display information about a user"
+msgstr "Visa information om en användare"
+
+msgid "User"
+msgstr "Användare"
+
+msgid "Heading"
+msgstr "Rubrik"
 
