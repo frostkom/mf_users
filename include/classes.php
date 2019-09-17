@@ -962,7 +962,7 @@ class widget_user extends WP_Widget
 			'user_ids' => array(),
 		);
 
-		parent::__construct('user-widget', __("User", 'lang_users'), $widget_ops);
+		parent::__construct($widget_ops['classname'].'-widget', __("User", 'lang_users'), $widget_ops);
 	}
 
 	function widget($args, $instance)
