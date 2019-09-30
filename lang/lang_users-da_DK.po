@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-17 09:44+0100\n"
+"POT-Creation-Date: 2019-09-18 09:41+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: \n"
@@ -15,11 +15,17 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
+msgid "Users"
+msgstr "Brugere"
+
 msgid "Phone Number"
 msgstr "Telefonnummer"
 
 msgid "Address"
 msgstr "Adresse"
+
+msgid "Display name"
+msgstr "Vis navn"
 
 msgid "Choose Here"
 msgstr "Vælg her"
@@ -29,6 +35,9 @@ msgstr "Standard"
 
 msgid "City"
 msgstr "By"
+
+msgid "User"
+msgstr "Bruger"
 
 msgid "Heading"
 msgstr "Overskrift"

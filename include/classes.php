@@ -614,7 +614,7 @@ class mf_users
 		}
 	}
 
-	function edit_user_profile_update($user_id)
+	function profile_update($user_id)
 	{
 		if(current_user_can('edit_user', $user_id))
 		{

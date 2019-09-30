@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description: 
-Version: 4.4.3
+Version: 4.4.4
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://frostkom.se
@@ -37,8 +37,8 @@ if(is_admin())
 
 	add_action('show_user_profile', array($obj_users, 'edit_user_profile'));
 	add_action('edit_user_profile', array($obj_users, 'edit_user_profile'));
-	add_action('personal_options_update', array($obj_users, 'edit_user_profile_update'));
-	add_action('edit_user_profile_update', array($obj_users, 'edit_user_profile_update'));
+	//add_action('personal_options_update', array($obj_users, 'edit_user_profile_update'));
+	add_action('profile_update', array($obj_users, 'profile_update'));
 
 	add_filter('get_user_option_admin_color', array($obj_users, 'get_user_option_admin_color'));
 
