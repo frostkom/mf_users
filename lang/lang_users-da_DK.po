@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-18 09:41+0100\n"
+"POT-Creation-Date: 2019-10-08 20:49+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: \n"
@@ -21,8 +21,14 @@ msgstr "Brugere"
 msgid "Phone Number"
 msgstr "Telefonnummer"
 
+msgid "Company"
+msgstr "Selskab"
+
 msgid "Address"
 msgstr "Adresse"
+
+msgid "Username"
+msgstr "Brugernavn"
 
 msgid "Display name"
 msgstr "Vis navn"
@@ -35,6 +41,9 @@ msgstr "Standard"
 
 msgid "City"
 msgstr "By"
+
+msgid "Full Name"
+msgstr "Fuldt Navn"
 
 msgid "User"
 msgstr "Bruger"
