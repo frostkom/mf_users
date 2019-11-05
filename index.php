@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description: 
-Version: 4.4.5
+Version: 4.4.7
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://frostkom.se
@@ -18,12 +18,10 @@ include_once("include/classes.php");
 
 $obj_users = new mf_users();
 
-add_action('cron_base', 'activate_users', mt_rand(1, 10));
 add_action('cron_base', array($obj_users, 'cron_base'), mt_rand(1, 10));
 
 if(is_admin())
 {
-	register_activation_hook(__FILE__, 'activate_users');
 	register_uninstall_hook(__FILE__, 'uninstall_users');
 
 	add_action('init', array($obj_users, 'init'));
@@ -37,7 +35,6 @@ if(is_admin())
 
 	add_action('show_user_profile', array($obj_users, 'edit_user_profile'));
 	add_action('edit_user_profile', array($obj_users, 'edit_user_profile'));
-	//add_action('personal_options_update', array($obj_users, 'edit_user_profile_update'));
 	add_action('profile_update', array($obj_users, 'profile_update'));
 
 	add_filter('get_user_option_admin_color', array($obj_users, 'get_user_option_admin_color'));
@@ -69,11 +66,6 @@ add_action('wp_logout', array($obj_users, 'wp_logout'));
 add_action('widgets_init', array($obj_users, 'widgets_init'));
 
 load_plugin_textdomain('lang_users', false, dirname(plugin_basename(__FILE__)).'/lang/');
-
-function activate_users()
-{
-	replace_user_meta(array('old' => 'last_active', 'new' => 'meta_last_active'));
-}
 
 function uninstall_users()
 {
