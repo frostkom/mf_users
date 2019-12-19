@@ -656,7 +656,7 @@ class mf_users
 
 	function user_register($user_id, $password = "", $meta = array())
 	{
-		if(get_option('setting_users_register_name'))
+		if(get_option('setting_users_register_name') && isset($_REQUEST['full_name']))
 		{
 			$full_name = check_var('full_name');
 
