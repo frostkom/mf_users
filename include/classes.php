@@ -743,7 +743,7 @@ class mf_users
 	{
 		$arr_remove = array();
 
-		$option = get_option('setting_remove_profile_fields');
+		$option = get_option('setting_remove_profile_fields', array());
 
 		if(is_array($option) && count($option) > 0)
 		{
