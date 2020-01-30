@@ -1001,12 +1001,11 @@ class widget_user extends WP_Widget
 					$user_id = $instance['user_ids'][0];
 				}
 
-				$user_data = get_userdata($user_id);
 				$profile_picture = get_the_author_meta('profile_picture', $user_id);
 				$profile_description = apply_filters('filter_profile_description', get_the_author_meta('description', $user_id), $user_id);
 
 				echo "<div class='section'>
-					<h4>".$user_data->display_name."</h4>";
+					<h4>".get_user_info(array('id' => $user_id))."</h4>";
 
 					if($profile_picture != '')
 					{
