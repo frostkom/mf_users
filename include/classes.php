@@ -754,7 +754,7 @@ class mf_users
 		}
 
 		$meta_key = 'description';
-		if(!in_array($meta_key, $option))
+		if(is_array($option) && !in_array($meta_key, $option))
 		{
 			$arr_fields[] = array('type' => 'textarea', 'name' => $meta_key, 'text' => __("Biographical Info", 'lang_users'));
 		}
