@@ -987,11 +987,18 @@ class widget_user extends WP_Widget
 
 				if($user_amount > 1)
 				{
-					$date_week = date("W"); //, strtotime("2019-01-01")
+					$date_week = (int) date("W"); //, strtotime("2019-01-01")
+					$date_weeks = 52; //date("w", strtotime(date("Y-12-31")))
 					$user_keys = ($user_amount - 1);
 
 					//$user_id_key = mt_rand(1, $user_keys);
-					$user_id_key = ($user_keys >= $date_week ? ($user_keys % $date_week) : ($date_week % $user_keys));
+					//$user_id_key = ($user_keys >= $date_weeks ? ($user_keys % $date_weeks) : ($user_keys % $date_week));
+					$user_id_key = $date_week;
+
+					while($user_id_key > $user_keys)
+					{
+						$user_id_key -= $user_keys;
+					}
 
 					$user_id = $instance['user_ids'][$user_id_key];
 				}
@@ -1033,7 +1040,7 @@ class widget_user extends WP_Widget
 
 	function filter_user_info_callback($data, $user, $arr_data)
 	{
-		if(get_the_author_meta('description', $user->ID) != '') // && get_the_author_meta('profile_picture', $user->ID) != ''
+		if(get_the_author_meta('description', $user->ID) != '')
 		{
 			$arr_data[$user->ID] = $user->display_name;
 		}
