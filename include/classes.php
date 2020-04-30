@@ -100,87 +100,95 @@ class mf_users
 	{
 		global $wpdb;
 
-		if(get_site_option('setting_users_no_spaces'))
+		$obj_cron = new mf_cron();
+		$obj_cron->start(__CLASS__);
+
+		if($obj_cron->is_running == false)
 		{
-			$users = get_users(array('fields' => 'all'));
-
-			foreach($users as $user)
+			if(get_site_option('setting_users_no_spaces'))
 			{
-				$user_data = get_userdata($user->ID);
+				$users = get_users(array('fields' => 'all'));
 
-				$username = $this->replace_spaces($user_data->user_login);
-
-				if($username != $user_data->user_login)
+				foreach($users as $user)
 				{
-					$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->users." SET user_login = %s WHERE ID = '%d'", $username, $user->ID));
+					$user_data = get_userdata($user->ID);
+
+					$username = $this->replace_spaces($user_data->user_login);
+
+					if($username != $user_data->user_login)
+					{
+						$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->users." SET user_login = %s WHERE ID = '%d'", $username, $user->ID));
+					}
 				}
 			}
-		}
 
-		if(get_option('setting_users_register_name'))
-		{
+			if(get_option('setting_users_register_name'))
+			{
+				$users = get_users(array('fields' => 'all'));
+
+				foreach($users as $user)
+				{
+					$user = get_userdata($user->ID);
+
+					$this->save_display_name($user);
+				}
+			}
+
+			/*$site_name = get_bloginfo('name');
+
 			$users = get_users(array('fields' => 'all'));
 
 			foreach($users as $user)
 			{
-				$user = get_userdata($user->ID);
+				$user_id = $user->ID;
 
-				$this->save_display_name($user);
-			}
-		}
+				$profile_reminder = get_user_meta('meta_profile_reminder', $user_id);
 
-		/*$site_name = get_bloginfo('name');
-
-		$users = get_users(array('fields' => 'all'));
-
-		foreach($users as $user)
-		{
-			$user_id = $user->ID;
-
-			$profile_reminder = get_user_meta('meta_profile_reminder', $user_id);
-
-			if($profile_reminder != '')
-			{
-				$user_last_active = get_user_meta($user_id, 'meta_last_active', true);
-
-				if($user_last_active > DEFAULT_DATE)
+				if($profile_reminder != '')
 				{
-					$reminder_cutoff = date("Y-m-d H:i:s", strtotime($user_last_active." -1 ".$profile_reminder));
+					$user_last_active = get_user_meta($user_id, 'meta_last_active', true);
 
-					if($reminder_cutoff > date("Y-m-d H:i:s"))
+					if($user_last_active > DEFAULT_DATE)
 					{
-						$array = apply_filters('get_user_reminders', array('user_id' => $user_id, 'cutoff' => $reminder_cutoff, 'reminder' => array()));
+						$reminder_cutoff = date("Y-m-d H:i:s", strtotime($user_last_active." -1 ".$profile_reminder));
 
-						$mail_content = "";
-
-						foreach($array['reminder'] as $reminder)
+						if($reminder_cutoff > date("Y-m-d H:i:s"))
 						{
-							$mail_content .= "";
-						}
+							$array = apply_filters('get_user_reminders', array('user_id' => $user_id, 'cutoff' => $reminder_cutoff, 'reminder' => array()));
 
-						if($mail_content != '')
-						{
-							$user_data = get_userdata($user_id);
+							$mail_content = "";
 
-							$mail_to = $user_data->user_email;
-							$mail_subject = sprintf("Here comes the latest updates from %s", $site_name);
-
-							$data = array('to' => $mail_to, 'subject' => $mail_subject, 'content' => $mail_content);
-
-							do_log("Send: ".var_export($data, true));
-							$sent = true;
-
-							//$sent = send_email($data);
-
-							if($sent)
+							foreach($array['reminder'] as $reminder)
 							{
-								update_user_meta($user_id, 'meta_last_active', date("Y-m-d H:i:s"));
+								$mail_content .= "";
+							}
+
+							if($mail_content != '')
+							{
+								$user_data = get_userdata($user_id);
+
+								$mail_to = $user_data->user_email;
+								$mail_subject = sprintf("Here comes the latest updates from %s", $site_name);
+
+								$data = array('to' => $mail_to, 'subject' => $mail_subject, 'content' => $mail_content);
+
+								do_log("Send: ".var_export($data, true));
+								$sent = true;
+
+								//$sent = send_email($data);
+
+								if($sent)
+								{
+									update_user_meta($user_id, 'meta_last_active', date("Y-m-d H:i:s"));
+								}
 							}
 						}
 					}
 				}
-			}
-		}*/
+			}*/
+		}
+
+		$obj_cron->end();
 	}
 
 	function init()
