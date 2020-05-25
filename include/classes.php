@@ -417,7 +417,7 @@ class mf_users
 		{
 			$user_id = check_var('user_id', 'int');
 
-			if(is_multisite() && $wpdb->blogid > 0)
+			if(is_multisite() && $wpdb->blogid > 1)
 			{
 				$wp_capabilities = "wp_".$wpdb->blogid."_capabilities";
 				$wp_user_level = "wp_".$wpdb->blogid."_user_level";
