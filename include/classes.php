@@ -390,6 +390,54 @@ class mf_users
 		$this->wp_head();
 	}
 
+	/*function pre_user_query($wp_user_query)
+	{
+		if(strpos($wp_user_query->query_where, '@') === false && isset($_GET['s']) && $_GET['s'] != '')
+		{
+			global $wpdb;
+
+			$arr_users = array();
+
+			$search = strtolower(check_var('s'));
+
+			if(preg_match('/\s/', $search))
+			{
+				$pieces = explode(" ", $search);
+
+				$result = $wpdb->get_results("SELECT DISTINCT user_id FROM ".$wpdb->usermeta." WHERE (meta_key = 'first_name' AND LOWER(meta_value) LIKE '%".$pieces[0]."%')");
+
+				foreach($result as $user)
+				{
+					if(strtolower(get_user_meta($user->user_id, 'last_name', true)) == strtolower($pieces[1]))
+					{
+						array_push($arr_users, $user->user_id);
+					}
+				}
+			}
+
+			else
+			{
+				$result = $wpdb->get_results("SELECT DISTINCT user_id FROM ".$wpdb->usermeta." WHERE (meta_key = 'first_name' OR meta_key = 'last_name') AND LOWER(meta_value) LIKE '%".$search."%'");
+
+				foreach($result as $user)
+				{
+					array_push($arr_users, $user->user_id);
+				}
+			}
+
+			if(count($arr_users) > 0)
+			{
+				$id_string = implode(",", $arr_users);
+
+				$wp_user_query->query_where = str_replace("WHERE 1=1 AND (", "WHERE (ID IN (".$id_string.") OR ", $wp_user_query->query_where);
+
+				do_log("Test: ".var_export($wp_user_query, true));
+			}
+		}
+
+		return $wp_user_query;
+	}*/
+
 	function pre_get_posts($wp_query)
 	{
 		global $current_user;
@@ -939,10 +987,7 @@ class mf_users
 
 		update_user_meta($user->ID, 'meta_last_active', date("Y-m-d H:i:s"));
 
-		if(get_option('setting_users_register_name'))
-		{
-			$this->save_display_name($user);
-		}
+		$this->save_display_name($user);
 	}
 
 	function wp_logout()
@@ -960,7 +1005,7 @@ class widget_user extends WP_Widget
 {
 	function __construct()
 	{
-		$widget_ops = array(
+		$this->widget_ops = array(
 			'classname' => 'user',
 			'description' => __("Display information about a user", 'lang_users')
 		);
@@ -970,7 +1015,7 @@ class widget_user extends WP_Widget
 			'user_ids' => array(),
 		);
 
-		parent::__construct($widget_ops['classname'].'-widget', __("User", 'lang_users'), $widget_ops);
+		parent::__construct(str_replace("_", "-", $this->widget_ops['classname']).'-widget', __("User", 'lang_users'), $this->widget_ops);
 	}
 
 	function widget($args, $instance)
@@ -1061,7 +1106,7 @@ class widget_user extends WP_Widget
 		$instance = wp_parse_args((array)$instance, $this->arr_default);
 
 		echo "<div class='mf_form'>"
-			.show_textfield(array('name' => $this->get_field_name('user_heading'), 'text' => __("Heading", 'lang_users'), 'value' => $instance['user_heading'], 'xtra' => " id='form-title'"))
+			.show_textfield(array('name' => $this->get_field_name('user_heading'), 'text' => __("Heading", 'lang_users'), 'value' => $instance['user_heading'], 'xtra' => " id='".$this->widget_ops['classname']."-title'"))
 			.show_select(array('data' => get_users_for_select(array('callback' => array($this, 'filter_user_info_callback'))), 'name' => $this->get_field_name('user_ids')."[]", 'text' => __("Users", 'lang_users'), 'value' => $instance['user_ids']))
 		."</div>";
 	}
