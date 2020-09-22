@@ -387,6 +387,11 @@ class mf_users
 
 	function admin_init()
 	{
+		if(!is_plugin_active("mf_base/index.php"))
+		{
+			deactivate_plugins(str_replace("include/classes.php", "index.php", plugin_basename(__FILE__)));
+		}
+
 		$this->wp_head();
 	}
 
