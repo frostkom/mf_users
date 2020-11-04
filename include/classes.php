@@ -487,11 +487,16 @@ class mf_users
 		}
 	}
 
-	function user_row_actions($actions, $user)
+	function user_row_actions($actions, $user, $is_multisite = false)
 	{
-		if(!isset($user->roles[0]) || $user->roles[0] == '')
+		if($is_multisite == false && (!isset($user->roles[0]) || $user->roles[0] == ''))
 		{
 			$actions['inactive'] = "<span class='grey'>".__("Inactive", 'lang_users')."</span><i class='set_tr_color' rel='red'></i>";
+
+			/*if(IS_SUPER_ADMIN)
+			{
+				$actions['inactive'] .= " (".var_export($user->roles, true).")";
+			}*/
 		}
 
 		else if(get_current_user_id() != $user->ID && current_user_can('edit_user'))
@@ -508,6 +513,11 @@ class mf_users
 		}
 
 		return $actions;
+	}
+
+	function ms_user_row_actions($actions, $user)
+	{
+		return $this->user_row_actions($actions, $user, true);
 	}
 
 	function edit_user_profile($user)
