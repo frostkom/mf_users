@@ -387,9 +387,16 @@ class mf_users
 
 	function admin_init()
 	{
+		global $wpdb, $pagenow;
+
 		if(!is_plugin_active("mf_base/index.php"))
 		{
 			deactivate_plugins(str_replace("include/classes.php", "index.php", plugin_basename(__FILE__)));
+		}
+
+		if(IS_SUPER_ADMIN && is_multisite() && $pagenow == 'user-new.php')
+		{
+			mf_redirect(network_admin_url("site-users.php?id=".$wpdb->blogid."#add-existing-user"));
 		}
 
 		$this->wp_head();
