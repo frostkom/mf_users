@@ -1049,56 +1049,66 @@ class widget_user extends WP_Widget
 
 		if($user_amount > 0)
 		{
-			echo $before_widget;
+			if($user_amount > 1)
+			{
+				$date_week = (int) date("W"); //, strtotime("2019-01-01")
+				$date_weeks = 52; //date("w", strtotime(date("Y-12-31")))
+				$user_keys = ($user_amount - 1);
 
-				if($instance['user_heading'] != '')
+				//$user_id_key = mt_rand(1, $user_keys);
+				//$user_id_key = ($user_keys >= $date_weeks ? ($user_keys % $date_weeks) : ($user_keys % $date_week));
+				$user_id_key = $date_week;
+
+				while($user_id_key > $user_keys)
 				{
-					$instance['user_heading'] = apply_filters('widget_title', $instance['user_heading'], $instance, $this->id_base);
-
-					echo $before_title
-						.$instance['user_heading']
-					.$after_title;
+					$user_id_key -= $user_keys;
 				}
 
-				if($user_amount > 1)
-				{
-					$date_week = (int) date("W"); //, strtotime("2019-01-01")
-					$date_weeks = 52; //date("w", strtotime(date("Y-12-31")))
-					$user_keys = ($user_amount - 1);
+				$user_id = $instance['user_ids'][$user_id_key];
+			}
 
-					//$user_id_key = mt_rand(1, $user_keys);
-					//$user_id_key = ($user_keys >= $date_weeks ? ($user_keys % $date_weeks) : ($user_keys % $date_week));
-					$user_id_key = $date_week;
+			else
+			{
+				$user_id = $instance['user_ids'][0];
+			}
 
-					while($user_id_key > $user_keys)
-					{
-						$user_id_key -= $user_keys;
-					}
+			$profile_name = get_user_info(array('id' => $user_id));
 
-					$user_id = $instance['user_ids'][$user_id_key];
-				}
-
-				else
-				{
-					$user_id = $instance['user_ids'][0];
-				}
-
+			if($profile_name != '')
+			{
 				$profile_picture = get_the_author_meta('profile_picture', $user_id);
 				$profile_description = apply_filters('filter_profile_description', get_the_author_meta('description', $user_id), $user_id);
 
-				echo "<div class='section'>
-					<h4>".get_user_info(array('id' => $user_id))."</h4>";
+				echo $before_widget;
 
-					if($profile_picture != '')
+					if($instance['user_heading'] != '')
 					{
-						echo "<div class='image'><img src='".$profile_picture."'></div>";
+						$instance['user_heading'] = apply_filters('widget_title', $instance['user_heading'], $instance, $this->id_base);
+
+						echo $before_title
+							.$instance['user_heading']
+						.$after_title;
 					}
 
-					echo "<div>"
-						.apply_filters('the_content', $profile_description)
+					echo "<div class='section'>
+						<h4>".$profile_name."</h4>";
+
+						if($profile_picture != '')
+						{
+							echo "<div class='image'><img src='".$profile_picture."'></div>";
+						}
+
+						echo "<div>"
+							.apply_filters('the_content', $profile_description)
+						."</div>"
 					."</div>"
-				."</div>"
-			.$after_widget;
+				.$after_widget;
+			}
+
+			else
+			{
+				do_log("The user ".$user_id." could not be found in widget_user()");
+			}
 		}
 	}
 
