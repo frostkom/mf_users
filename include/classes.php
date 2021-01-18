@@ -333,7 +333,7 @@ class mf_users
 	function setting_remove_profile_fields_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key, array('headings', 'rich_editing', 'syntax_highlight', 'admin_color', 'comment_shortcuts', 'show_admin_bar', 'language', 'user_login', 'nickname', 'url', 'aim', 'yim', 'jabber', 'description', 'profile_picture', 'sessions'));
+		$option = get_option($setting_key, array('headings', 'rich_editing', 'syntax_highlight', 'admin_color', 'comment_shortcuts', 'show_admin_bar', 'language', 'user_login', 'nickname', 'url', 'aim', 'yim', 'jabber', 'description', 'profile_picture', 'application_password', 'sessions'));
 
 		$arr_data = array(
 			'headings' => __("Headings", 'lang_users'),
@@ -360,6 +360,7 @@ class mf_users
 			$arr_data['profile_picture'] = __("Profile Picture", 'lang_users');
 		}
 
+		$arr_data['application_password'] = __("Application Password", 'lang_users');
 		$arr_data['sessions'] = __("Sessions", 'lang_users');
 
 		echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));

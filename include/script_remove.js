@@ -80,6 +80,11 @@ jQuery(function($)
 		$(".user-pass1-wrap, .user-pass2-wrap, .pw-weak").remove();
 	}
 
+	if(script_users.application_password == true)
+	{
+		$("#application-passwords-section").remove();
+	}
+
 	if(script_users.sessions == true)
 	{
 		$(".user-sessions-wrap").remove();
