@@ -203,17 +203,11 @@ class mf_users
 
 	function settings_users()
 	{
-		$options_area = __FUNCTION__;
+		$options_area_orig = $options_area = __FUNCTION__;
 
 		add_settings_section($options_area, "", array($this, $options_area."_callback"), BASE_OPTIONS_PAGE);
 
 		$arr_settings = array();
-
-		if(IS_SUPER_ADMIN)
-		{
-			$arr_settings['setting_users_roles_hidden'] = __("Hide Roles", 'lang_users');
-			$arr_settings['setting_users_roles_names'] = __("Change Role Names", 'lang_users');
-		}
 
 		$arr_settings['setting_users_show_own_media'] = __("Only show users own files", 'lang_users');
 
@@ -223,6 +217,27 @@ class mf_users
 		}
 
 		$arr_settings['setting_users_register_name'] = __("Collect name of user in registration form", 'lang_users');
+
+		show_settings_fields(array('area' => $options_area, 'object' => $this, 'settings' => $arr_settings));
+
+		if(IS_SUPER_ADMIN)
+		{
+			$options_area = $options_area_orig."_roles";
+
+			add_settings_section($options_area, "", array($this, $options_area."_callback"), BASE_OPTIONS_PAGE);
+
+			$arr_settings = array();
+			$arr_settings['setting_users_roles_hidden'] = __("Hide Roles", 'lang_users');
+			$arr_settings['setting_users_roles_names'] = __("Change Role Names", 'lang_users');
+
+			show_settings_fields(array('area' => $options_area, 'object' => $this, 'settings' => $arr_settings));
+		}
+
+		$options_area = $options_area_orig."_profile";
+
+		add_settings_section($options_area, "", array($this, $options_area."_callback"), BASE_OPTIONS_PAGE);
+
+		$arr_settings = array();
 		$arr_settings['setting_add_profile_fields'] = __("Add fields to profile", 'lang_users');
 		$arr_settings['setting_remove_profile_fields'] = __("Remove fields from profile", 'lang_users');
 
@@ -243,148 +258,162 @@ class mf_users
 		echo settings_header($setting_key, __("Users", 'lang_users'));
 	}
 
-	function setting_users_roles_hidden_callback()
+		function setting_users_no_spaces_callback()
+		{
+			$setting_key = get_setting_key(__FUNCTION__);
+			settings_save_site_wide($setting_key);
+			$option = get_site_option($setting_key, get_option($setting_key, 1));
+
+			echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'value' => $option));
+		}
+
+		function setting_users_show_own_media_callback()
+		{
+			$setting_key = get_setting_key(__FUNCTION__);
+			$option = get_option($setting_key);
+
+			echo show_select(array('data' => get_roles_for_select(array('add_choose_here' => true)), 'name' => $setting_key, 'value' => $option, 'description' => __("Every user below this role only sees their own files in the Media Library", 'lang_users')));
+		}
+
+		function setting_users_register_name_callback()
+		{
+			$setting_key = get_setting_key(__FUNCTION__);
+			$option = get_option($setting_key);
+
+			echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'value' => $option));
+		}
+
+	function settings_users_roles_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		settings_save_site_wide($setting_key);
-		$option = get_site_option($setting_key, get_option($setting_key));
 
-		$roles = get_all_roles(array('orig' => true));
+		echo settings_header($setting_key, __("Users", 'lang_users')." - ".__("Roles", 'lang_users'));
+	}
 
-		$arr_data = array();
-
-		foreach($roles as $key => $value)
+		function setting_users_roles_hidden_callback()
 		{
-			if(isset($option[$key]) && $option[$key] == 1) // Convert from old to new way
+			$setting_key = get_setting_key(__FUNCTION__);
+			settings_save_site_wide($setting_key);
+			$option = get_site_option($setting_key, get_option($setting_key));
+
+			$roles = get_all_roles(array('orig' => true));
+
+			$arr_data = array();
+
+			foreach($roles as $key => $value)
 			{
-				$option[] = $key;
+				if(isset($option[$key]) && $option[$key] == 1) // Convert from old to new way
+				{
+					$option[] = $key;
+				}
+
+				$arr_data[$key] = __($value);
 			}
 
-			$arr_data[$key] = __($value);
+			echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
 		}
 
-		echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
-	}
-
-	function setting_users_roles_names_callback()
-	{
-		$setting_key = get_setting_key(__FUNCTION__);
-		settings_save_site_wide($setting_key);
-		$option = get_site_option($setting_key, get_option($setting_key));
-
-		$roles = get_all_roles();
-
-		foreach($roles as $key => $value)
+		function setting_users_roles_names_callback()
 		{
-			$option_value = isset($option[$key]) ? $option[$key] : "";
+			$setting_key = get_setting_key(__FUNCTION__);
+			settings_save_site_wide($setting_key);
+			$option = get_site_option($setting_key, get_option($setting_key));
 
-			echo show_textfield(array('name' => $setting_key."[".$key."]", 'value' => $option_value, 'placeholder' => $value));
+			$roles = get_all_roles();
+
+			foreach($roles as $key => $value)
+			{
+				$option_value = isset($option[$key]) ? $option[$key] : "";
+
+				echo show_textfield(array('name' => $setting_key."[".$key."]", 'value' => $option_value, 'placeholder' => $value));
+			}
 		}
-	}
 
-	function setting_users_no_spaces_callback()
+	function settings_users_profile_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		settings_save_site_wide($setting_key);
-		$option = get_site_option($setting_key, get_option($setting_key, 1));
 
-		echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'value' => $option));
+		echo settings_header($setting_key, __("Users", 'lang_users')." - ".__("Profile", 'lang_users'));
 	}
 
-	function setting_users_show_own_media_callback()
-	{
-		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key);
-
-		echo show_select(array('data' => get_roles_for_select(array('add_choose_here' => true)), 'name' => $setting_key, 'value' => $option, 'description' => __("Every user below this role only sees their own files in the Media Library", 'lang_users')));
-	}
-
-	function setting_users_register_name_callback()
-	{
-		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key);
-
-		echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'value' => $option));
-	}
-
-	function setting_add_profile_fields_callback()
-	{
-		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key);
-
-		$arr_data = array(
-			'profile_birthday' => __("Birthday", 'lang_users'),
-			'phone' => __("Phone Number", 'lang_users'),
-			'profile_company' => __("Company", 'lang_users'),
-			'profile_address' => __("Address", 'lang_users'),
-			'profile_picture' => __("Profile Picture", 'lang_users'),
-		);
-
-		if(is_plugin_active('mf_address/index.php'))
+		function setting_add_profile_fields_callback()
 		{
-			$arr_data['profile_country'] = __("Country", 'lang_users');
+			$setting_key = get_setting_key(__FUNCTION__);
+			$option = get_option($setting_key);
+
+			$arr_data = array(
+				'profile_birthday' => __("Birthday", 'lang_users'),
+				'phone' => __("Phone Number", 'lang_users'),
+				'profile_company' => __("Company", 'lang_users'),
+				'profile_address' => __("Address", 'lang_users'),
+				'profile_picture' => __("Profile Picture", 'lang_users'),
+			);
+
+			if(is_plugin_active('mf_address/index.php'))
+			{
+				$arr_data['profile_country'] = __("Country", 'lang_users');
+			}
+
+			$arr_data['edit_page_per_page'] = __("Rows / Page", 'lang_users');
+
+			echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
 		}
 
-		$arr_data['edit_page_per_page'] = __("Rows / Page", 'lang_users');
-
-		echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
-	}
-
-	function setting_remove_profile_fields_callback()
-	{
-		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key, array('headings', 'rich_editing', 'syntax_highlight', 'admin_color', 'comment_shortcuts', 'show_admin_bar', 'language', 'user_login', 'nickname', 'url', 'aim', 'yim', 'jabber', 'description', 'profile_picture', 'application_password', 'sessions'));
-
-		$arr_data = array(
-			'headings' => __("Headings", 'lang_users'),
-			'rich_editing' => __("Visual Editor", 'lang_users'),
-			'syntax_highlight' => __("Syntax Highlighting", 'lang_users'),
-			'admin_color' => __("Admin Color Scheme", 'lang_users'),
-			'comment_shortcuts' => __("Keyboard Shortcuts", 'lang_users'),
-			'show_admin_bar' => __("Toolbar", 'lang_users'),
-			'language' => __("Language", 'lang_users'),
-			'user_login' => __("Username", 'lang_users'),
-			'nickname' => __("Nickname", 'lang_users'),
-			'display_name' => __("Display name", 'lang_users'),
-			'url' => __("Website", 'lang_users'),
-			'aim' => "AIM",
-			'yim' => "Yahoo IM",
-			'jabber' => "Jabber",
-			'description' => __("Biographical Info", 'lang_users'),
-		);
-
-		$option_add = get_option('setting_add_profile_fields');
-
-		if(is_array($option_add) && !in_array('profile_picture', $option_add) || !is_array($option_add))
+		function setting_remove_profile_fields_callback()
 		{
-			$arr_data['profile_picture'] = __("Profile Picture", 'lang_users');
+			$setting_key = get_setting_key(__FUNCTION__);
+			$option = get_option($setting_key, array('headings', 'rich_editing', 'syntax_highlight', 'admin_color', 'comment_shortcuts', 'show_admin_bar', 'language', 'user_login', 'nickname', 'url', 'aim', 'yim', 'jabber', 'description', 'profile_picture', 'application_password', 'sessions'));
+
+			$arr_data = array(
+				'headings' => __("Headings", 'lang_users'),
+				'rich_editing' => __("Visual Editor", 'lang_users'),
+				'syntax_highlight' => __("Syntax Highlighting", 'lang_users'),
+				'admin_color' => __("Admin Color Scheme", 'lang_users'),
+				'comment_shortcuts' => __("Keyboard Shortcuts", 'lang_users'),
+				'show_admin_bar' => __("Toolbar", 'lang_users'),
+				'language' => __("Language", 'lang_users'),
+				'user_login' => __("Username", 'lang_users'),
+				'nickname' => __("Nickname", 'lang_users'),
+				'display_name' => __("Display name", 'lang_users'),
+				'url' => __("Website", 'lang_users'),
+				'aim' => "AIM",
+				'yim' => "Yahoo IM",
+				'jabber' => "Jabber",
+				'description' => __("Biographical Info", 'lang_users'),
+			);
+
+			$option_add = get_option('setting_add_profile_fields');
+
+			if(is_array($option_add) && !in_array('profile_picture', $option_add) || !is_array($option_add))
+			{
+				$arr_data['profile_picture'] = __("Profile Picture", 'lang_users');
+			}
+
+			$arr_data['application_password'] = __("Application Password", 'lang_users');
+			$arr_data['sessions'] = __("Sessions", 'lang_users');
+
+			echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
 		}
 
-		$arr_data['application_password'] = __("Application Password", 'lang_users');
-		$arr_data['sessions'] = __("Sessions", 'lang_users');
+		function setting_admin_color_callback()
+		{
+			$setting_key = get_setting_key(__FUNCTION__);
+			$option = get_option($setting_key);
 
-		echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
-	}
+			$arr_data = array(
+				'' => "-- ".__("Choose Here", 'lang_users')." --",
+				'blue' => __("Blue", 'lang_users'),
+				'fresh' => __("Fresh", 'lang_users')." (".__("Default", 'lang_users').")",
+				'ectoplasm' => __("Ectoplasm", 'lang_users'),
+				'light' => __("Light", 'lang_users'),
+				'coffee' => __("Coffee", 'lang_users'),
+				'midnight' => __("Midnight", 'lang_users'),
+				'ocean' => __("Ocean", 'lang_users'),
+				'sunrise' => __("Sunrise", 'lang_users'),
+			);
 
-	function setting_admin_color_callback()
-	{
-		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key);
-
-		$arr_data = array(
-			'' => "-- ".__("Choose Here", 'lang_users')." --",
-			'blue' => __("Blue", 'lang_users'),
-			'fresh' => __("Fresh", 'lang_users')." (".__("Default", 'lang_users').")",
-			'ectoplasm' => __("Ectoplasm", 'lang_users'),
-			'light' => __("Light", 'lang_users'),
-			'coffee' => __("Coffee", 'lang_users'),
-			'midnight' => __("Midnight", 'lang_users'),
-			'ocean' => __("Ocean", 'lang_users'),
-			'sunrise' => __("Sunrise", 'lang_users'),
-		);
-
-		echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'value' => $option));
-	}
+			echo show_select(array('data' => $arr_data, 'name' => $setting_key, 'value' => $option));
+		}
 
 	function admin_init()
 	{
@@ -493,6 +522,37 @@ class mf_users
 			update_user_meta($user_id, $wp_capabilities, array());
 			update_user_meta($user_id, $wp_user_level, 0);
 		}
+	}
+
+	function manage_users_columns($cols)
+	{
+		unset($cols['posts']);
+
+		$cols['meta_last_active'] = __("Last Logged In", 'lang_users');
+
+		return $cols;
+	}
+
+	function manage_users_custom_column($value, $col, $id)
+	{
+		switch($col)
+		{
+			case 'meta_last_active':
+				$author_meta = get_the_author_meta($col, $id);
+
+				if(!($author_meta > DEFAULT_DATE))
+				{
+					$author_meta = get_the_author_meta('meta_last_active', $id);
+				}
+
+				if($author_meta > DEFAULT_DATE)
+				{
+					return format_date($author_meta);
+				}
+			break;
+		}
+
+		return $value;
 	}
 
 	function user_row_actions($actions, $user, $is_multisite = false)
