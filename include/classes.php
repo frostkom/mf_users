@@ -4,7 +4,6 @@ class mf_users
 {
 	function __construct(){}
 
-	// Is this ever used???
 	function wp_authenticate($username, $password)
 	{
 		$username = sanitize_user($username);
@@ -349,7 +348,7 @@ class mf_users
 				'profile_picture' => __("Profile Picture", 'lang_users'),
 			);
 
-			if(is_plugin_active('mf_address/index.php'))
+			if(is_plugin_active("mf_address/index.php"))
 			{
 				$arr_data['profile_country'] = __("Country", 'lang_users');
 			}
@@ -690,7 +689,7 @@ class mf_users
 			}
 
 			$meta_key = 'profile_country';
-			if(in_array($meta_key, $option) && is_plugin_active('mf_address/index.php'))
+			if(in_array($meta_key, $option) && is_plugin_active("mf_address/index.php"))
 			{
 				$meta_value = get_the_author_meta($meta_key, $user->ID);
 				$meta_text = __("Country", 'lang_users');
@@ -867,7 +866,7 @@ class mf_users
 		}
 
 		$meta_key = 'profile_country';
-		if(is_array($option) && in_array($meta_key, $option) && is_plugin_active('mf_address/index.php'))
+		if(is_array($option) && in_array($meta_key, $option) && is_plugin_active("mf_address/index.php"))
 		{
 			$meta_value = check_var($meta_key);
 
@@ -936,7 +935,7 @@ class mf_users
 			}
 
 			$meta_key = 'profile_country';
-			if(in_array($meta_key, $option) && is_plugin_active('mf_address/index.php'))
+			if(in_array($meta_key, $option) && is_plugin_active("mf_address/index.php"))
 			{
 				$obj_address = new mf_address();
 
