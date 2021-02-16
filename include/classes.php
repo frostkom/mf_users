@@ -589,6 +589,8 @@ class mf_users
 
 	function edit_user_profile($user)
 	{
+		global $obj_address;
+
 		$arr_remove = array();
 
 		$option = get_option('setting_remove_profile_fields');
@@ -694,7 +696,10 @@ class mf_users
 				$meta_value = get_the_author_meta($meta_key, $user->ID);
 				$meta_text = __("Country", 'lang_users');
 
-				$obj_address = new mf_address();
+				if(!isset($obj_address))
+				{
+					$obj_address = new mf_address();
+				}
 
 				$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
 					<th><label for='".$meta_key."'>".$meta_text."</label></th>
@@ -879,6 +884,8 @@ class mf_users
 
 	function filter_profile_fields($arr_fields)
 	{
+		global $obj_address;
+
 		$arr_remove = array();
 
 		$option = get_option('setting_remove_profile_fields', array());
@@ -937,7 +944,10 @@ class mf_users
 			$meta_key = 'profile_country';
 			if(in_array($meta_key, $option) && is_plugin_active("mf_address/index.php"))
 			{
-				$obj_address = new mf_address();
+				if(!isset($obj_address))
+				{
+					$obj_address = new mf_address();
+				}
 
 				$arr_fields[] = array('type' => 'select', 'options' => $obj_address->get_countries_for_select(), 'name' => $meta_key, 'text' => __("Country", 'lang_users'));
 			}
