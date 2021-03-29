@@ -166,10 +166,11 @@ class mf_users
 							{
 								$user_data = get_userdata($user_id);
 
-								$mail_to = $user_data->user_email;
-								$mail_subject = sprintf("Here comes the latest updates from %s", $site_name);
-
-								$data = array('to' => $mail_to, 'subject' => $mail_subject, 'content' => $mail_content);
+								$data = array(
+									'to' => $user_data->user_email,
+									'subject' => sprintf("Here comes the latest updates from %s", $site_name),
+									'content' => $mail_content,
+								);
 
 								do_log("Send: ".var_export($data, true));
 								$sent = true;
@@ -417,11 +418,6 @@ class mf_users
 	function admin_init()
 	{
 		global $wpdb, $pagenow;
-
-		if(!is_plugin_active("mf_base/index.php"))
-		{
-			deactivate_plugins(str_replace("include/classes.php", "index.php", plugin_basename(__FILE__)));
-		}
 
 		if(IS_SUPER_ADMIN && is_multisite() && $pagenow == 'user-new.php')
 		{
