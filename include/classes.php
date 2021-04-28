@@ -419,9 +419,19 @@ class mf_users
 	{
 		global $wpdb, $pagenow;
 
-		if(IS_SUPER_ADMIN && is_multisite() && $pagenow == 'user-new.php')
+		if($pagenow == 'user-new.php')
 		{
-			mf_redirect(network_admin_url("site-users.php?id=".$wpdb->blogid."#add-existing-user"));
+			/*$register_url = wp_registration_url();
+
+			if(strpos($register_url, $pagenow) === false)
+			{
+				mf_redirect($register_url);
+			}*/
+
+			if(is_multisite() && IS_SUPER_ADMIN)
+			{
+				mf_redirect(network_admin_url("site-users.php?id=".$wpdb->blogid."#add-existing-user"));
+			}
 		}
 
 		$this->wp_head();
