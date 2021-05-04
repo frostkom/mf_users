@@ -562,6 +562,9 @@ class mf_users
 
 	function user_row_actions($actions, $user, $is_multisite = false)
 	{
+		unset($actions['view']);
+		unset($actions['resetpassword']);
+
 		if($is_multisite == false && (!isset($user->roles[0]) || $user->roles[0] == ''))
 		{
 			$actions['inactive'] = "<span class='grey'>".__("Inactive", 'lang_users')."</span><i class='set_tr_color' rel='red'></i>";
