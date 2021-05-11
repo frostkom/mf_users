@@ -421,9 +421,9 @@ class mf_users
 
 		if($pagenow == 'user-new.php')
 		{
-			/*$register_url = wp_registration_url();
+			$register_url = wp_registration_url();
 
-			if(strpos($register_url, $pagenow) === false)
+			/*if(strpos($register_url, $pagenow) === false)
 			{
 				mf_redirect($register_url);
 			}*/
@@ -431,6 +431,13 @@ class mf_users
 			if(is_multisite() && IS_SUPER_ADMIN)
 			{
 				mf_redirect(network_admin_url("site-users.php?id=".$wpdb->blogid."#add-existing-user"));
+			}
+
+			else if(current_user_can('list_users') == false)
+			{
+				wp_logout();
+
+				mf_redirect($register_url);
 			}
 		}
 
