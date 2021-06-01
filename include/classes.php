@@ -133,7 +133,7 @@ class mf_users
 				}
 			}
 
-			/*$site_name = get_bloginfo('name');
+			/*$site_title = get_bloginfo('name');
 
 			$users = get_users(array('fields' => 'all'));
 
@@ -168,7 +168,7 @@ class mf_users
 
 								$data = array(
 									'to' => $user_data->user_email,
-									'subject' => sprintf("Here comes the latest updates from %s", $site_name),
+									'subject' => sprintf("Here comes the latest updates from %s", $site_title),
 									'content' => $mail_content,
 								);
 
@@ -205,6 +205,8 @@ class mf_users
 	{
 		$options_area_orig = $options_area = __FUNCTION__;
 
+		// Generic
+		############################
 		add_settings_section($options_area, "", array($this, $options_area."_callback"), BASE_OPTIONS_PAGE);
 
 		$arr_settings = array();
@@ -219,9 +221,12 @@ class mf_users
 		$arr_settings['setting_users_register_name'] = __("Collect name of user in registration form", 'lang_users');
 
 		show_settings_fields(array('area' => $options_area, 'object' => $this, 'settings' => $arr_settings));
+		############################
 
 		if(IS_SUPER_ADMIN)
 		{
+			// Roles
+			############################
 			$options_area = $options_area_orig."_roles";
 
 			add_settings_section($options_area, "", array($this, $options_area."_callback"), BASE_OPTIONS_PAGE);
@@ -231,8 +236,11 @@ class mf_users
 			$arr_settings['setting_users_roles_names'] = __("Change Role Names", 'lang_users');
 
 			show_settings_fields(array('area' => $options_area, 'object' => $this, 'settings' => $arr_settings));
+			############################
 		}
 
+		// Profile
+		############################
 		$options_area = $options_area_orig."_profile";
 
 		add_settings_section($options_area, "", array($this, $options_area."_callback"), BASE_OPTIONS_PAGE);
@@ -249,6 +257,7 @@ class mf_users
 		}
 
 		show_settings_fields(array('area' => $options_area, 'object' => $this, 'settings' => $arr_settings));
+		############################
 	}
 
 	function settings_users_callback()
