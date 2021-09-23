@@ -815,10 +815,20 @@ class mf_users
 			$meta_value = check_var($meta_key);
 			$meta_text = __("Full Name", 'lang_users');
 
-			echo "<p>
-				<label for='".$meta_key."'>".$meta_text."</label><br>
-				<input type='text' name='".$meta_key."' value='".$meta_value."' class='regular-text' required>
-			</p>";
+			$post_id = apply_filters('get_widget_search', 'registration-widget');
+
+			if($post_id > 0)
+			{
+				echo show_textfield(array('name' => $meta_key, 'text' => $meta_text, 'value' => $meta_value, 'required' => true));
+			}
+
+			else
+			{
+				echo "<p>
+					<label for='".$meta_key."'>".$meta_text."</label><br>
+					<input type='text' name='".$meta_key."' value='".$meta_value."' class='regular-text' required>
+				</p>";
+			}
 		}
 	}
 
