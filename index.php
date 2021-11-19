@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description: 
-Version: 4.5.9
+Version: 4.5.10
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://frostkom.se
@@ -51,6 +51,14 @@ if(function_exists('is_plugin_active') && is_plugin_active("mf_base/index.php"))
 		add_action('edit_user_profile', array($obj_users, 'edit_user_profile'));
 		add_action('profile_update', array($obj_users, 'profile_update'));
 
+		if(!function_exists('wp_password_change_notification') && get_option('setting_users_send_password_change_notification') != 'yes')
+		{
+			function wp_password_change_notification($user)
+			{
+				return;
+			}
+		}
+
 		add_filter('get_user_option_admin_color', array($obj_users, 'get_user_option_admin_color'));
 
 		add_action('admin_footer', array($obj_users, 'admin_footer'), 0);
@@ -94,7 +102,7 @@ if(function_exists('is_plugin_active') && is_plugin_active("mf_base/index.php"))
 		global $wpdb;
 
 		mf_uninstall_plugin(array(
-			'options' => array('setting_users_show_own_media', 'setting_users_no_spaces', 'setting_users_register_name', 'setting_users_roles_hidden', 'setting_users_roles_names', 'setting_add_profile_fields', 'setting_remove_profile_fields', 'setting_admin_color', $wpdb->prefix.'user_roles_orig'),
+			'options' => array('setting_users_show_own_media', 'setting_users_no_spaces', 'setting_users_register_name', 'setting_users_send_password_change_notification', 'setting_users_roles_hidden', 'setting_users_roles_names', 'setting_add_profile_fields', 'setting_remove_profile_fields', 'setting_admin_color', $wpdb->prefix.'user_roles_orig'),
 			'meta' => array('meta_last_active', 'meta_profile_reminder'),
 		));
 	}

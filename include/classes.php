@@ -220,6 +220,11 @@ class mf_users
 
 		$arr_settings['setting_users_register_name'] = __("Collect name of user in registration form", 'lang_users');
 
+		if(IS_SUPER_ADMIN)
+		{
+			$arr_settings['setting_users_send_password_change_notification'] = __("Send Password Changed Notification", 'lang_users');
+		}
+
 		show_settings_fields(array('area' => $options_area, 'object' => $this, 'settings' => $arr_settings));
 		############################
 
@@ -267,6 +272,14 @@ class mf_users
 		echo settings_header($setting_key, __("Users", 'lang_users'));
 	}
 
+		function setting_users_show_own_media_callback()
+		{
+			$setting_key = get_setting_key(__FUNCTION__);
+			$option = get_option($setting_key);
+
+			echo show_select(array('data' => get_roles_for_select(array('add_choose_here' => true)), 'name' => $setting_key, 'value' => $option, 'description' => __("Every user below this role only sees their own files in the Media Library", 'lang_users')));
+		}
+
 		function setting_users_no_spaces_callback()
 		{
 			$setting_key = get_setting_key(__FUNCTION__);
@@ -276,20 +289,21 @@ class mf_users
 			echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'value' => $option));
 		}
 
-		function setting_users_show_own_media_callback()
-		{
-			$setting_key = get_setting_key(__FUNCTION__);
-			$option = get_option($setting_key);
-
-			echo show_select(array('data' => get_roles_for_select(array('add_choose_here' => true)), 'name' => $setting_key, 'value' => $option, 'description' => __("Every user below this role only sees their own files in the Media Library", 'lang_users')));
-		}
-
 		function setting_users_register_name_callback()
 		{
 			$setting_key = get_setting_key(__FUNCTION__);
 			$option = get_option($setting_key);
 
 			echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'value' => $option));
+		}
+
+		function setting_users_send_password_change_notification_callback()
+		{
+			$setting_key = get_setting_key(__FUNCTION__);
+			settings_save_site_wide($setting_key);
+			$option = get_site_option($setting_key, get_option($setting_key, 'no'));
+
+			echo show_select(array('data' => get_yes_no_for_select(), 'name' => $setting_key, 'value' => $option));
 		}
 
 	function settings_users_roles_callback()
