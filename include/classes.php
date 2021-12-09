@@ -191,6 +191,35 @@ class mf_users
 		$obj_cron->end();
 	}
 
+	function send_new_user_notifications($user_id, $notify = 'user')
+	{
+		/*if(empty($notify) || $notify == 'admin')
+		{
+			return;
+		}
+
+		else if($notify == 'both')
+		{
+			// Only send the new user their email, not the admin
+			$notify = 'user';
+
+			wp_send_new_user_notifications($user_id, $notify);
+		}*/
+
+		if($notify == 'both')
+		{
+			// Only send the new user their email, not the admin
+			$notify = 'user';
+
+			wp_send_new_user_notifications($user_id, $notify);
+		}
+
+		else
+		{
+			return;
+		}
+	}
+
 	function init()
 	{
 		global $wpdb, $wp_roles;
@@ -199,6 +228,17 @@ class mf_users
 
 		$this->rename_roles();
 		$this->hide_roles();
+
+		if(get_option('setting_users_send_registration_notification') != 'yes')
+		{
+			//Remove original user created emails
+			remove_action('register_new_user', 'wp_send_new_user_notifications');
+			remove_action('edit_user_created_user', 'wp_send_new_user_notifications', 10, 2);
+
+			//Add new function to take over email creation
+			add_action('register_new_user', array($this, 'send_new_user_notifications'));
+			add_action('edit_user_created_user', array($this, 'send_new_user_notifications'), 10, 2);
+		}
 	}
 
 	function settings_users()
@@ -222,6 +262,7 @@ class mf_users
 
 		if(IS_SUPER_ADMIN)
 		{
+			$arr_settings['setting_users_send_registration_notification'] = __("Send User Registration Notification to Admin", 'lang_users');
 			$arr_settings['setting_users_send_password_change_notification'] = __("Send Password Changed Notification", 'lang_users');
 		}
 
@@ -295,6 +336,15 @@ class mf_users
 			$option = get_option($setting_key);
 
 			echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'value' => $option));
+		}
+
+		function setting_users_send_registration_notification_callback()
+		{
+			$setting_key = get_setting_key(__FUNCTION__);
+			settings_save_site_wide($setting_key);
+			$option = get_site_option($setting_key, get_option($setting_key, 'no'));
+
+			echo show_select(array('data' => get_yes_no_for_select(), 'name' => $setting_key, 'value' => $option));
 		}
 
 		function setting_users_send_password_change_notification_callback()
