@@ -141,7 +141,7 @@ class mf_users
 			{
 				$user_id = $user->ID;
 
-				$profile_reminder = get_user_meta('meta_profile_reminder', $user_id);
+				$profile_reminder = get_user_meta($user_id, 'meta_profile_reminder');
 
 				if($profile_reminder != '')
 				{
@@ -822,7 +822,7 @@ class mf_users
 		/*if(IS_SUPER_ADMIN)
 		{
 			$meta_key = 'meta_profile_reminder';
-			$meta_value = get_user_meta($meta_key, $user->ID);
+			$meta_value = get_user_meta($user->ID, $meta_key);
 			$meta_text = "Send Updates";
 
 			$arr_data = array(
