@@ -1089,30 +1089,38 @@ class mf_users
 		$meta_key = 'profile_birthday';
 		if(is_array($option) && in_array($meta_key, $option))
 		{
-			$meta_value = get_the_author_meta($meta_key, get_current_user_id());
+			$user_id = get_current_user_id();
 
-			if(date("m-d", strtotime($meta_value)) == date("m-d"))
+			if($user_id > 0)
 			{
-				$user_data = get_userdata(get_current_user_id());
+				$meta_value = get_the_author_meta($meta_key, $user_id);
 
-				$this->footer_output = "<div id='modal_birthday'>"
-					."<div class='balloons'>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-					</div>
-					<div class='content'>"
-						//."<i class='fa fa-birthday-cake'></i> "
-						.sprintf(__("Happy Birthday %s!", 'lang_users'), ($user_data->first_name != '' ? $user_data->first_name : $user_data->display_name))
-					."</div>
-				</div>";
+				if(date("m-d", strtotime($meta_value)) == date("m-d"))
+				{
+					$user_data = get_userdata($user_id);
 
-				$plugin_include_url = plugin_dir_url(__FILE__);
-				$plugin_version = get_plugin_version(__FILE__);
+					if(isset($user_data->display_name))
+					{
+						$this->footer_output = "<div id='modal_birthday'>"
+							."<div class='balloons'>
+								<div></div>
+								<div></div>
+								<div></div>
+								<div></div>
+								<div></div>
+							</div>
+							<div class='content'>"
+								//."<i class='fa fa-birthday-cake'></i> "
+								.sprintf(__("Happy Birthday %s!", 'lang_users'), ($user_data->first_name != '' ? $user_data->first_name : $user_data->display_name))
+							."</div>
+						</div>";
 
-				mf_enqueue_style('style_users_birthday', $plugin_include_url."style_birthday.css", $plugin_version);
+						$plugin_include_url = plugin_dir_url(__FILE__);
+						$plugin_version = get_plugin_version(__FILE__);
+
+						mf_enqueue_style('style_users_birthday', $plugin_include_url."style_birthday.css", $plugin_version);
+					}
+				}
 			}
 		}
 
