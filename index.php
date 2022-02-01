@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description: 
-Version: 4.6.2
+Version: 4.6.3
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://frostkom.se
@@ -14,7 +14,7 @@ Depends: MF Base
 GitHub Plugin URI: frostkom/mf_users
 */
 
-if(function_exists('is_plugin_active') && is_plugin_active("mf_base/index.php"))
+if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') && is_plugin_active("mf_base/index.php"))
 {
 	include_once("include/classes.php");
 
@@ -51,16 +51,6 @@ if(function_exists('is_plugin_active') && is_plugin_active("mf_base/index.php"))
 		add_action('edit_user_profile', array($obj_users, 'edit_user_profile'));
 		add_action('profile_update', array($obj_users, 'profile_update'));
 
-		if(get_option('setting_users_send_password_change_notification') != 'yes')
-		{
-			add_filter('send_password_change_email', '__return_false');
-
-			/*if(!function_exists('wp_password_change_notification'))
-			{
-				function wp_password_change_notification(){}
-			}*/
-		}
-
 		add_filter('get_user_option_admin_color', array($obj_users, 'get_user_option_admin_color'));
 
 		add_action('admin_footer', array($obj_users, 'admin_footer'), 0);
@@ -80,6 +70,21 @@ if(function_exists('is_plugin_active') && is_plugin_active("mf_base/index.php"))
 
 		add_action('wp_head', array($obj_users, 'wp_head'), 0);
 		add_action('wp_footer', array($obj_users, 'wp_footer'), 0);
+	}
+
+	if(get_option('setting_users_send_password_change_notification') != 'yes')
+	{
+		// Disables sending message to the user
+		//add_filter('send_password_change_email', '__return_false');
+
+		// Disables sending message to admin
+		if(!function_exists('wp_password_change_notification'))
+		{
+			function wp_password_change_notification(){}
+		}
+
+		// ...or...
+		//remove_action('after_password_reset', 'wp_password_change_notification');
 	}
 
 	add_filter('get_avatar', array($obj_users, 'get_avatar'), 1, 5);
