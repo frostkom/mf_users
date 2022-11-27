@@ -2,11 +2,11 @@
 /*
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
-Description: 
-Version: 4.6.3
+Description:
+Version: 4.6.4
 Licence: GPLv2 or later
 Author: Martin Fors
-Author URI: https://frostkom.se
+Author URI: https://martinfors.se
 Text Domain: lang_users
 Domain Path: /lang
 

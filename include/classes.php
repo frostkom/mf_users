@@ -396,7 +396,7 @@ class mf_users
 
 			foreach($roles as $key => $value)
 			{
-				$option_value = isset($option[$key]) ? $option[$key] : "";
+				$option_value = (isset($option[$key]) ? $option[$key] : '');
 
 				echo show_textfield(array('name' => $setting_key."[".$key."]", 'value' => $option_value, 'placeholder' => $value));
 			}
@@ -657,7 +657,7 @@ class mf_users
 
 		else if(get_current_user_id() != $user->ID && current_user_can('edit_user'))
 		{
-			$site_id = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
+			$site_id = (isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0);
 			$url = ('site-users-network' == get_current_screen()->id ? add_query_arg(array('id' => $site_id), 'site-users.php') : 'users.php');
 
 			$url = wp_nonce_url(add_query_arg(array(
