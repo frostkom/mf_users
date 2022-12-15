@@ -1256,7 +1256,7 @@ class widget_user extends WP_Widget
 				$profile_picture = get_the_author_meta('profile_picture', $user_id);
 				$profile_description = apply_filters('filter_profile_description', get_the_author_meta('description', $user_id), $user_id);
 
-				echo $before_widget;
+				echo apply_filters('filter_before_widget', $before_widget);
 
 					if($instance['user_heading'] != '')
 					{
