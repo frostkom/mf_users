@@ -56,11 +56,11 @@ class mf_users
 	{
 		global $wp_roles;
 
-		$option = get_site_option('setting_users_roles_names');
+		$setting_users_roles_names = get_site_option('setting_users_roles_names');
 
-		if(is_array($option))
+		if(is_array($setting_users_roles_names))
 		{
-			foreach($option as $key => $value)
+			foreach($setting_users_roles_names as $key => $value)
 			{
 				if($value != '')
 				{
@@ -74,11 +74,11 @@ class mf_users
 	{
 		global $wp_roles;
 
-		$option = get_site_option('setting_users_roles_hidden');
+		$setting_users_roles_hidden = get_site_option('setting_users_roles_hidden');
 
-		if(is_array($option))
+		if(is_array($setting_users_roles_hidden))
 		{
-			foreach($option as $key => $value)
+			foreach($setting_users_roles_hidden as $key => $value)
 			{
 				if($value == 1) // old way
 				{
@@ -295,9 +295,9 @@ class mf_users
 		$arr_settings['setting_add_profile_fields'] = __("Add fields to profile", 'lang_users');
 		$arr_settings['setting_remove_profile_fields'] = __("Remove fields from profile", 'lang_users');
 
-		$option = get_option('setting_remove_profile_fields');
+		$setting_remove_profile_fields = get_option('setting_remove_profile_fields');
 
-		if(is_array($option) && in_array('admin_color', $option))
+		if(is_array($setting_remove_profile_fields) && in_array('admin_color', $setting_remove_profile_fields))
 		{
 			$arr_settings['setting_admin_color'] = __("Change Admin Color", 'lang_users');
 		}
@@ -464,6 +464,11 @@ class mf_users
 
 			$arr_data['application_password'] = __("Application Password", 'lang_users');
 			$arr_data['sessions'] = __("Sessions", 'lang_users');
+
+			if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') && is_plugin_active("backwpup/backwpup.php"))
+			{
+				$arr_data['backwpup'] = __("Add BackWPup Role", 'lang_users');
+			}
 
 			echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
 		}
@@ -682,24 +687,24 @@ class mf_users
 
 		$arr_remove = array();
 
-		$option = get_option('setting_remove_profile_fields');
+		$setting_remove_profile_fields = get_option('setting_remove_profile_fields');
 
-		if(is_array($option) && count($option) > 0)
+		if(is_array($setting_remove_profile_fields) && count($setting_remove_profile_fields) > 0)
 		{
-			foreach($option as $remove)
+			foreach($setting_remove_profile_fields as $remove)
 			{
 				$arr_remove[$remove] = true;
 			}
 		}
 
-		$option = get_option('setting_add_profile_fields');
+		$setting_add_profile_fields = get_option('setting_add_profile_fields');
 
-		if(is_array($option) && count($option) > 0)
+		if(is_array($setting_add_profile_fields) && count($setting_add_profile_fields) > 0 && isset($user->ID))
 		{
 			$out = "";
 
 			$meta_key = 'profile_birthday';
-			if(in_array($meta_key, $option))
+			if(in_array($meta_key, $setting_add_profile_fields))
 			{
 				$meta_value = get_the_author_meta($meta_key, $user->ID);
 				$meta_text = __("Birthday", 'lang_users');
@@ -710,7 +715,7 @@ class mf_users
 				</tr>";
 			}
 
-			if(in_array('phone', $option))
+			if(in_array('phone', $setting_add_profile_fields))
 			{
 				$meta_key = 'profile_phone';
 				$meta_value = get_the_author_meta($meta_key, $user->ID);
@@ -723,7 +728,7 @@ class mf_users
 			}
 
 			$meta_key = 'profile_company';
-			if(in_array($meta_key, $option))
+			if(in_array($meta_key, $setting_add_profile_fields))
 			{
 				$meta_value = get_the_author_meta($meta_key, $user->ID);
 				$meta_text = __("Company", 'lang_users');
@@ -735,7 +740,7 @@ class mf_users
 			}
 
 			$meta_key = 'profile_address';
-			if(in_array($meta_key, $option))
+			if(in_array($meta_key, $setting_add_profile_fields))
 			{
 				$meta_key_temp = $meta_key.'_street';
 				$meta_value = get_the_author_meta($meta_key_temp, $user->ID);
@@ -766,7 +771,7 @@ class mf_users
 			}
 
 			$meta_key = 'profile_picture';
-			if(in_array($meta_key, $option))
+			if(in_array($meta_key, $setting_add_profile_fields))
 			{
 				$arr_remove[$meta_key] = true;
 
@@ -780,7 +785,7 @@ class mf_users
 			}
 
 			$meta_key = 'profile_country';
-			if(in_array($meta_key, $option) && is_plugin_active("mf_address/index.php"))
+			if(in_array($meta_key, $setting_add_profile_fields) && is_plugin_active("mf_address/index.php"))
 			{
 				$meta_value = get_the_author_meta($meta_key, $user->ID);
 				$meta_text = __("Country", 'lang_users');
@@ -797,7 +802,7 @@ class mf_users
 			}
 
 			$meta_key = 'edit_page_per_page';
-			if(in_array($meta_key, $option))
+			if(in_array($meta_key, $setting_add_profile_fields))
 			{
 				$meta_value = get_the_author_meta($meta_key, $user->ID);
 				$meta_text = __("Rows / Page", 'lang_users');
@@ -856,11 +861,11 @@ class mf_users
 
 	function get_user_option_admin_color($color)
 	{
-		$option = get_option('setting_admin_color');
+		$setting_admin_color = get_option('setting_admin_color');
 
-		if($option != '')
+		if($setting_admin_color != '')
 		{
-			$color = $option;
+			$color = $setting_admin_color;
 		}
 
 		return $color;
@@ -908,17 +913,17 @@ class mf_users
 			update_user_meta($user_id, 'last_name', $last_name);
 		}
 
-		$option = get_option('setting_add_profile_fields');
+		$setting_add_profile_fields = get_option('setting_add_profile_fields');
 
 		$meta_key = 'profile_birthday';
-		if(is_array($option) && in_array($meta_key, $option))
+		if(is_array($setting_add_profile_fields) && in_array($meta_key, $setting_add_profile_fields))
 		{
 			$meta_value = check_var($meta_key);
 
 			update_user_meta($user_id, $meta_key, $meta_value);
 		}
 
-		if(is_array($option) && in_array('phone', $option))
+		if(is_array($setting_add_profile_fields) && in_array('phone', $setting_add_profile_fields))
 		{
 			$meta_key = 'profile_phone';
 			$meta_value = check_var($meta_key);
@@ -927,7 +932,7 @@ class mf_users
 		}
 
 		$meta_key = 'profile_company';
-		if(is_array($option) && in_array($meta_key, $option))
+		if(is_array($setting_add_profile_fields) && in_array($meta_key, $setting_add_profile_fields))
 		{
 			$meta_value = check_var($meta_key);
 
@@ -935,7 +940,7 @@ class mf_users
 		}
 
 		$meta_key = 'profile_address';
-		if(is_array($option) && in_array($meta_key, $option))
+		if(is_array($setting_add_profile_fields) && in_array($meta_key, $setting_add_profile_fields))
 		{
 			$meta_key_temp = $meta_key.'_street';
 			$meta_value = check_var($meta_key_temp);
@@ -954,7 +959,7 @@ class mf_users
 		}
 
 		$meta_key = 'edit_page_per_page';
-		if(is_array($option) && in_array($meta_key, $option))
+		if(is_array($setting_add_profile_fields) && in_array($meta_key, $setting_add_profile_fields))
 		{
 			$meta_value = check_var($meta_key);
 
@@ -962,7 +967,7 @@ class mf_users
 		}
 
 		$meta_key = 'profile_picture';
-		if(is_array($option) && in_array($meta_key, $option))
+		if(is_array($setting_add_profile_fields) && in_array($meta_key, $setting_add_profile_fields))
 		{
 			$meta_value = check_var($meta_key);
 
@@ -970,7 +975,7 @@ class mf_users
 		}
 
 		$meta_key = 'profile_country';
-		if(is_array($option) && in_array($meta_key, $option) && is_plugin_active("mf_address/index.php"))
+		if(is_array($setting_add_profile_fields) && in_array($meta_key, $setting_add_profile_fields) && is_plugin_active("mf_address/index.php"))
 		{
 			$meta_value = check_var($meta_key);
 
@@ -987,33 +992,33 @@ class mf_users
 
 		$arr_remove = array();
 
-		$option = get_option('setting_remove_profile_fields', array());
+		$setting_remove_profile_fields = get_option('setting_remove_profile_fields', array());
 
-		if(is_array($option) && count($option) > 0)
+		if(is_array($setting_remove_profile_fields) && count($setting_remove_profile_fields) > 0)
 		{
-			foreach($option as $remove)
+			foreach($setting_remove_profile_fields as $remove)
 			{
 				$arr_remove[$remove] = true;
 			}
 		}
 
 		$meta_key = 'description';
-		if(is_array($option) && !in_array($meta_key, $option))
+		if(is_array($setting_remove_profile_fields) && !in_array($meta_key, $setting_remove_profile_fields))
 		{
 			$arr_fields[] = array('type' => 'textarea', 'name' => $meta_key, 'text' => __("Biographical Info", 'lang_users'));
 		}
 
-		$option = get_option('setting_add_profile_fields');
+		$setting_add_profile_fields = get_option('setting_add_profile_fields');
 
-		if(is_array($option) && count($option) > 0)
+		if(is_array($setting_add_profile_fields) && count($setting_add_profile_fields) > 0)
 		{
 			$meta_key = 'profile_birthday';
-			if(in_array($meta_key, $option))
+			if(in_array($meta_key, $setting_add_profile_fields))
 			{
 				$arr_fields[] = array('type' => 'date', 'name' => $meta_key, 'text' => __("Birthday", 'lang_users'));
 			}
 
-			if(in_array('phone', $option))
+			if(in_array('phone', $setting_add_profile_fields))
 			{
 				$meta_key = 'profile_phone';
 
@@ -1021,13 +1026,13 @@ class mf_users
 			}
 
 			$meta_key = 'profile_company';
-			if(in_array($meta_key, $option))
+			if(in_array($meta_key, $setting_add_profile_fields))
 			{
 				$arr_fields[] = array('type' => 'text', 'name' => $meta_key, 'text' => __("Company", 'lang_users'));
 			}
 
 			$meta_key = 'profile_address';
-			if(in_array($meta_key, $option))
+			if(in_array($meta_key, $setting_add_profile_fields))
 			{
 				$arr_fields[] = array('type' => 'text', 'name' => $meta_key.'_street', 'text' => __("Street Address", 'lang_users'));
 				$arr_fields[] = array('type' => 'text', 'name' => $meta_key.'_zipcode', 'text' => __("Zipcode", 'lang_users'));
@@ -1035,13 +1040,13 @@ class mf_users
 			}
 
 			$meta_key = 'profile_picture';
-			if(in_array($meta_key, $option))
+			if(in_array($meta_key, $setting_add_profile_fields))
 			{
 				$arr_fields[] = array('type' => 'media_image', 'name' => $meta_key, 'text' => __("Profile Picture", 'lang_users'));
 			}
 
 			$meta_key = 'profile_country';
-			if(in_array($meta_key, $option) && is_plugin_active("mf_address/index.php"))
+			if(in_array($meta_key, $setting_add_profile_fields) && is_plugin_active("mf_address/index.php"))
 			{
 				if(!isset($obj_address))
 				{
@@ -1052,7 +1057,7 @@ class mf_users
 			}
 
 			$meta_key = 'edit_page_per_page';
-			if(in_array($meta_key, $option))
+			if(in_array($meta_key, $setting_add_profile_fields))
 			{
 				$arr_fields[] = array('type' => 'number', 'name' => $meta_key, 'text' => __("Rows / Page", 'lang_users'));
 			}
@@ -1084,10 +1089,10 @@ class mf_users
 
 	function wp_head()
 	{
-		$option = get_option('setting_add_profile_fields');
+		$setting_add_profile_fields = get_option('setting_add_profile_fields');
 
 		$meta_key = 'profile_birthday';
-		if(is_array($option) && in_array($meta_key, $option))
+		if(is_array($setting_add_profile_fields) && in_array($meta_key, $setting_add_profile_fields))
 		{
 			$user_id = get_current_user_id();
 

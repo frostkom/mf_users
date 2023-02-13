@@ -48,6 +48,7 @@ jQuery(function($)
 	if(script_users.url == true)
 	{
 		$(".user-url-wrap").remove();
+		$("#url").parents(".form-field").remove();
 	}
 
 	if(script_users.aim == true)
@@ -88,6 +89,11 @@ jQuery(function($)
 	if(script_users.sessions == true)
 	{
 		$(".user-sessions-wrap").remove();
+	}
+
+	if(script_users.backwpup == true)
+	{
+		$("#backwpup_role").parents(".form-table").remove();
 	}
 
 	$(".form-table").each(function()
