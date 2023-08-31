@@ -630,10 +630,10 @@ class mf_users
 			case 'meta_last_active':
 				$author_meta = get_the_author_meta($col, $id);
 
-				if(!($author_meta > DEFAULT_DATE))
+				/*if(!($author_meta > DEFAULT_DATE))
 				{
 					$author_meta = get_the_author_meta('meta_last_active', $id);
-				}
+				}*/
 
 				if($author_meta > DEFAULT_DATE)
 				{
@@ -1207,17 +1207,24 @@ class mf_users
 
 class widget_user extends WP_Widget
 {
+	var $widget_ops = array();
+
+	var $arr_default = array(
+		'user_heading' => "",
+		'user_ids' => array(),
+	);
+
 	function __construct()
 	{
 		$this->widget_ops = array(
 			'classname' => 'user',
-			'description' => __("Display information about a user", 'lang_users')
+			'description' => __("Display information about a user", 'lang_users'),
 		);
 
-		$this->arr_default = array(
+		/*$this->arr_default = array(
 			'user_heading' => "",
 			'user_ids' => array(),
-		);
+		);*/
 
 		parent::__construct(str_replace("_", "-", $this->widget_ops['classname']).'-widget', __("User", 'lang_users'), $this->widget_ops);
 	}
