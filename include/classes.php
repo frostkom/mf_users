@@ -467,7 +467,7 @@ class mf_users
 
 			if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') && is_plugin_active("backwpup/backwpup.php"))
 			{
-				$arr_data['backwpup'] = __("Add BackWPup Role", 'lang_users');
+				$arr_data['backwpup'] = sprintf(__("Add %s Role", 'lang_users'), "BackWPup");
 			}
 
 			echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
