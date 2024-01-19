@@ -176,11 +176,6 @@ class mf_users
 								$sent = true;
 
 								//$sent = send_email($data);
-
-								if($sent)
-								{
-									update_user_meta($user_id, 'meta_last_active', date("Y-m-d H:i:s"));
-								}
 							}
 						}
 					}
@@ -628,17 +623,55 @@ class mf_users
 		switch($col)
 		{
 			case 'meta_last_active':
-				$author_meta = get_the_author_meta($col, $id);
+				$meta_last_logged_in = get_the_author_meta('meta_last_logged_in', $id);
+				$meta_last_active = get_the_author_meta($col, $id);
 
-				/*if(!($author_meta > DEFAULT_DATE))
-				{
-					$author_meta = get_the_author_meta('meta_last_active', $id);
-				}*/
+				$out = "";
 
-				if($author_meta > DEFAULT_DATE)
+				if($meta_last_logged_in > DEFAULT_DATE)
 				{
-					return format_date($author_meta);
+					$meta_last_logged_out = get_the_author_meta('meta_last_logged_out', $id);
+
+					$out = format_date($meta_last_logged_in);
+
+					if($meta_last_logged_out > $meta_last_logged_in)
+					{
+						if(format_date($meta_last_logged_out) > $out)
+						{
+							$out .= " - ".format_date($meta_last_logged_out);
+						}
+
+						else
+						{
+							$out .= date("H:i", strtotime($meta_last_logged_in))." - ".date("H:i", strtotime($meta_last_logged_out));
+						}
+					}
+
+					else
+					{
+						if(format_date($meta_last_active) > $out)
+						{
+							$out .= " - ".format_date($meta_last_active);
+						}
+
+						else if(date("Y-m-d", strtotime($out)) < date("Y-m-d", strtotime("-6 day")))
+						{
+							$out .= date("H:i", strtotime($meta_last_logged_in))." - ".date("H:i", strtotime($meta_last_active));
+						}
+					}
 				}
+
+				else if($meta_last_active > DEFAULT_DATE)
+				{
+					$out = format_date($meta_last_active);
+				}
+
+				if($id == get_current_user_id())
+				{
+					$out .= "<i class='set_tr_color' rel='green'></i>";
+				}
+
+				return $out;
 			break;
 		}
 
@@ -1144,6 +1177,11 @@ class mf_users
 		{
 			echo $this->footer_output;
 		}
+
+		if(is_user_logged_in())
+		{
+			$this->wp_active();
+		}
 	}
 
 	function get_avatar($avatar, $id_or_email, $size, $default, $alt)
@@ -1189,14 +1227,30 @@ class mf_users
 	{
 		$user = get_user_by('login', $username);
 
-		update_user_meta($user->ID, 'meta_last_active', date("Y-m-d H:i:s"));
+		$user_id = $user->ID;
+		$user_timestamp = date("Y-m-d H:i:s");
+
+		update_user_meta($user_id, 'meta_last_logged_in', $user_timestamp);
+		update_user_meta($user_id, 'meta_last_active', $user_timestamp);
 
 		$this->save_display_name($user);
 	}
 
+	function wp_active()
+	{
+		$user_id = get_current_user_id();
+		$user_timestamp = date("Y-m-d H:i:s");
+
+		update_user_meta($user_id, 'meta_last_active', $user_timestamp);
+	}
+
 	function wp_logout()
 	{
-		update_user_meta(get_current_user_id(), 'meta_last_active', date("Y-m-d H:i:s"));
+		$user_id = get_current_user_id();
+		$user_timestamp = date("Y-m-d H:i:s");
+
+		update_user_meta($user_id, 'meta_last_active', $user_timestamp);
+		update_user_meta($user_id, 'meta_last_logged_out', $user_timestamp);
 	}
 
 	function widgets_init()
