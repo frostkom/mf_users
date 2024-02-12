@@ -1261,8 +1261,7 @@ class mf_users
 
 class widget_user extends WP_Widget
 {
-	var $widget_ops = array();
-
+	var $widget_ops;
 	var $arr_default = array(
 		'user_heading' => "",
 		'user_ids' => array(),
@@ -1274,11 +1273,6 @@ class widget_user extends WP_Widget
 			'classname' => 'user',
 			'description' => __("Display information about a user", 'lang_users'),
 		);
-
-		/*$this->arr_default = array(
-			'user_heading' => "",
-			'user_ids' => array(),
-		);*/
 
 		parent::__construct(str_replace("_", "-", $this->widget_ops['classname']).'-widget', __("User", 'lang_users'), $this->widget_ops);
 	}
