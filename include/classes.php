@@ -666,6 +666,13 @@ class mf_users
 					$out = format_date($meta_last_active);
 				}
 
+				else
+				{
+					$user_data = get_userdata($id);
+
+					$out = "<span class='grey' title='".__("Created", 'lang_users')."'>".format_date($user_data->user_registered)."</span>";
+				}
+
 				if($id == get_current_user_id())
 				{
 					$out .= "<i class='set_tr_color' rel='green'></i>";
