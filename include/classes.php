@@ -2,6 +2,8 @@
 
 class mf_users
 {
+	var $footer_output = "";
+
 	function __construct(){}
 
 	function wp_authenticate($username, $password)
@@ -1180,7 +1182,7 @@ class mf_users
 
 	function wp_footer()
 	{
-		if(isset($this->footer_output) && $this->footer_output != '')
+		if($this->footer_output != '')
 		{
 			echo $this->footer_output;
 		}
