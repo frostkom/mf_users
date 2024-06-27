@@ -38,7 +38,7 @@ class mf_users
 
 	function save_display_name($user)
 	{
-		if($user->first_name != '' && $user->last_name != '')
+		if(isset($user->first_name) && $user->first_name != '' && isset($user->last_name) && $user->last_name != '')
 		{
 			$display_name = $user->first_name." ".$user->last_name;
 
@@ -114,11 +114,14 @@ class mf_users
 				{
 					$user_data = get_userdata($user->ID);
 
-					$username = $this->replace_spaces($user_data->user_login);
-
-					if($username != $user_data->user_login)
+					if(isset($user_data->user_login))
 					{
-						$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->users." SET user_login = %s WHERE ID = '%d'", $username, $user->ID));
+						$username = $this->replace_spaces($user_data->user_login);
+
+						if($username != $user_data->user_login)
+						{
+							$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->users." SET user_login = %s WHERE ID = '%d'", $username, $user->ID));
+						}
 					}
 				}
 			}
