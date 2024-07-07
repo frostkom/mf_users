@@ -220,8 +220,94 @@ class mf_users
 		}
 	}
 
+	function block_render_callback($attributes)
+	{
+		if(!isset($attributes['user_heading'])){		$attributes['user_heading'] = '';}
+		if(!isset($attributes['user_ids'])){			$attributes['user_ids'] = array();}
+
+		$out = "";
+
+		$user_amount = count($attributes['user_ids']);
+
+		if($user_amount > 0)
+		{
+			if($user_amount > 1)
+			{
+				$date_week = (int) date("W"); //, strtotime("2019-01-01")
+				$date_weeks = 52; //date("w", strtotime(date("Y-12-31")))
+				$user_keys = ($user_amount - 1);
+
+				//$user_id_key = mt_rand(1, $user_keys);
+				//$user_id_key = ($user_keys >= $date_weeks ? ($user_keys % $date_weeks) : ($user_keys % $date_week));
+				$user_id_key = $date_week;
+
+				while($user_id_key > $user_keys)
+				{
+					$user_id_key -= $user_keys;
+				}
+
+				$user_id = $attributes['user_ids'][$user_id_key];
+			}
+
+			else
+			{
+				$user_id = $attributes['user_ids'][0];
+			}
+
+			$profile_name = get_user_info(array('id' => $user_id));
+
+			if($profile_name != '')
+			{
+				$profile_picture = get_the_author_meta('profile_picture', $user_id);
+				$profile_description = apply_filters('filter_profile_description', get_the_author_meta('description', $user_id), $user_id);
+
+				$out .= "<div class='widget user'>";
+
+					if($attributes['user_heading'] != '')
+					{
+						$attributes['user_heading'] = apply_filters('widget_title', $attributes['user_heading'], $attributes, $this->id_base);
+
+						$out .= "<h3>".$attributes['user_heading']."</h3>";
+					}
+
+					$out .= "<div class='section'>
+						<h4>".$profile_name."</h4>";
+
+						if($profile_picture != '')
+						{
+							$out .= "<div class='image'><img src='".$profile_picture."'></div>";
+						}
+
+						$out .= "<div>"
+							.apply_filters('the_content', $profile_description)
+						."</div>"
+					."</div>
+				</div>";
+			}
+
+			else
+			{
+				do_log("The user ".$user_id." could not be found in widget_user()");
+			}
+		}
+
+		return $out;
+	}
+
+	function filter_user_info_callback($data, $user, $arr_data)
+	{
+		if(get_the_author_meta('description', $user->ID) != '')
+		{
+			$arr_data[$user->ID] = $user->display_name;
+		}
+
+		return $arr_data;
+	}
+
 	function init()
 	{
+		// 
+		#######################
 		global $wpdb, $wp_roles;
 
 		update_option($wpdb->prefix.'user_roles_orig', $wp_roles->roles, 'no');
@@ -239,6 +325,26 @@ class mf_users
 			add_action('register_new_user', array($this, 'send_new_user_notifications'));
 			add_action('edit_user_created_user', array($this, 'send_new_user_notifications'), 10, 2);
 		}
+		#######################
+
+		// Blocks
+		#######################
+		$plugin_include_url = plugin_dir_url(__FILE__);
+		$plugin_version = get_plugin_version(__FILE__);
+
+		wp_register_script('script_users_block_wp', $plugin_include_url."block/script_wp.js", array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-components', 'wp-editor'), $plugin_version);
+
+		wp_localize_script('script_users_block_wp', 'script_users_block_wp', array(
+			'user_ids' => get_users_for_select(array('callback' => array($this, 'filter_user_info_callback'))),
+		));
+
+		register_block_type('mf/users', array(
+			'editor_script' => 'script_users_block_wp',
+			'editor_style' => 'style_base_block_wp',
+			'render_callback' => array($this, 'block_render_callback'),
+			//'style' => 'style_base_block_wp',
+		));
+		#######################
 	}
 
 	function settings_users()
