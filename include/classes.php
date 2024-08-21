@@ -372,6 +372,8 @@ class mf_users
 			$arr_settings['setting_users_send_password_change_notification'] = __("Send Password Changed Notification", 'lang_users');
 		}
 
+		$arr_settings['setting_users_display_author_pages'] = __("Display Author Pages", 'lang_users');
+
 		show_settings_fields(array('area' => $options_area, 'object' => $this, 'settings' => $arr_settings));
 		############################
 
@@ -458,6 +460,14 @@ class mf_users
 			$setting_key = get_setting_key(__FUNCTION__);
 			settings_save_site_wide($setting_key);
 			$option = get_site_option($setting_key, get_option($setting_key, 'no'));
+
+			echo show_select(array('data' => get_yes_no_for_select(), 'name' => $setting_key, 'value' => $option));
+		}
+
+		function setting_users_display_author_pages_callback()
+		{
+			$setting_key = get_setting_key(__FUNCTION__);
+			$option = get_option_or_default($setting_key, 'no');
 
 			echo show_select(array('data' => get_yes_no_for_select(), 'name' => $setting_key, 'value' => $option));
 		}
@@ -1025,6 +1035,20 @@ class mf_users
 	function admin_footer()
 	{
 		$this->wp_footer();
+	}
+
+	function wp_sitemaps_add_provider($provider, $name)
+	{
+		return ('users' === $name && get_option_or_default('setting_users_display_author_pages', 'no') == 'no' ? false : $provider);
+	}
+
+	function template_redirect()
+	{
+		if(is_author() && get_option_or_default('setting_users_display_author_pages', 'no') == 'no')
+		{
+			wp_redirect(get_option('home'), 301);
+			exit;
+		}
 	}
 
 	function register_form()
