@@ -261,7 +261,7 @@ class mf_users
 				$profile_picture = get_the_author_meta('profile_picture', $user_id);
 				$profile_description = apply_filters('filter_profile_description', get_the_author_meta('description', $user_id), $user_id);
 
-				$out .= "<div class='widget user'>";
+				$out .= "<div class='widget user".(isset($attributes['className']) && $attributes['className'] != '' ? " ".$attributes['className'] : "")."'>";
 
 					if($attributes['user_heading'] != '')
 					{
