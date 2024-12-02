@@ -10,8 +10,8 @@
 	{
 		title: __("User", 'lang_users'),
 		description: __("Display information about a user", 'lang_users'),
-		icon: 'users', /* https://developer.wordpress.org/resource/dashicons/ */
-		category: 'widgets', /* common, formatting, layout, widgets, embed */
+		icon: 'users',
+		category: 'widgets',
 		'attributes':
 		{
 			'align':
@@ -51,6 +51,10 @@
 			{
 				'fontSize': true,
 				'lineHeight': true
+			},
+			"__experimentalBorder":
+			{
+				"radius": true
 			}
 		},
 		edit: function(props)
