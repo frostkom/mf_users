@@ -306,6 +306,8 @@ class mf_users
 
 	function init()
 	{
+		load_plugin_textdomain('lang_users', false, str_replace("/include", "", dirname(plugin_basename(__FILE__)))."/lang/");
+
 		// 
 		#######################
 		global $wpdb, $wp_roles;

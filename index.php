@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description:
-Version: 4.7.4
+Version: 4.7.5
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se
@@ -23,12 +23,13 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 	add_action('cron_base', 'activate_users', mt_rand(1, 10));
 	add_action('cron_base', array($obj_users, 'cron_base'), mt_rand(1, 10));
 
+	add_action('init', array($obj_users, 'init'));
+
 	if(is_admin())
 	{
 		register_activation_hook(__FILE__, 'activate_users');
 		register_uninstall_hook(__FILE__, 'uninstall_users');
 
-		add_action('init', array($obj_users, 'init'));
 		add_action('admin_init', array($obj_users, 'settings_users'));
 		add_action('admin_init', array($obj_users, 'admin_init'), 0);
 
@@ -100,8 +101,6 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 	{
 		add_action('widgets_init', array($obj_users, 'widgets_init'));
 	}
-
-	load_plugin_textdomain('lang_users', false, dirname(plugin_basename(__FILE__))."/lang/");
 
 	function activate_users()
 	{
