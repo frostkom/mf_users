@@ -83,18 +83,6 @@
 
 			/* Select */
 			/* ################### */
-			var arr_options = [];
-
-			jQuery.each(script_users_block_wp.user_ids, function(index, value)
-			{
-				if(index == "")
-				{
-					index = 0;
-				}
-
-				arr_options.push({label: value, value: index});
-			});
-
 			arr_out.push(el(
 				'div',
 				{className: "wp_mf_block " + props.className},
@@ -103,7 +91,7 @@
 					{
 						label: __("Users", 'lang_users'),
 						value: props.attributes.user_ids,
-						options: arr_options,
+						options: convert_php_array_to_block_js(script_users_block_wp.user_ids),
 						multiple: true,
 						onChange: function(value)
 						{
