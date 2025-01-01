@@ -334,9 +334,13 @@ class mf_users
 		$plugin_include_url = plugin_dir_url(__FILE__);
 		$plugin_version = get_plugin_version(__FILE__);
 
-		wp_register_script('script_users_block_wp', $plugin_include_url."block/script_wp.js", array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-components', 'wp-editor'), $plugin_version);
+		wp_register_script('script_users_block_wp', $plugin_include_url."block/script_wp.js", array('wp-blocks', 'wp-element', 'wp-components', 'wp-editor', 'wp-block-editor'), $plugin_version);
 
 		wp_localize_script('script_users_block_wp', 'script_users_block_wp', array(
+			'block_title' => __("User", 'lang_users'),
+			'block_description' => __("Display information about a user", 'lang_users'),
+			'user_heading_label' => __("Heading", 'lang_users'),
+			'user_ids_label' => __("Users", 'lang_users'),
 			'user_ids' => get_users_for_select(array('callback' => array($this, 'filter_user_info_callback'))),
 		));
 

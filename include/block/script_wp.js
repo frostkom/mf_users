@@ -1,15 +1,14 @@
 (function()
 {
-	var __ = wp.i18n.__,
-		el = wp.element.createElement,
+	var el = wp.element.createElement,
 		registerBlockType = wp.blocks.registerBlockType,
 		SelectControl = wp.components.SelectControl,
 		TextControl = wp.components.TextControl;
 
 	registerBlockType('mf/users',
 	{
-		title: __("User", 'lang_users'),
-		description: __("Display information about a user", 'lang_users'),
+		title: script_users_block_wp.block_title,
+		description: script_users_block_wp.block_description,
 		icon: 'users',
 		category: 'widgets',
 		'attributes':
@@ -59,50 +58,46 @@
 		},
 		edit: function(props)
 		{
-			var arr_out = [];
-
-			/* Text */
-			/* ################### */
-			arr_out.push(el(
+			return el(
 				'div',
-				{className: "wp_mf_block " + props.className},
-				el(
-					TextControl,
-					{
-						label: __("Heading", 'lang_users'),
-						type: 'text',
-						value: props.attributes.user_heading,
-						onChange: function(value)
-						{
-							props.setAttributes({user_heading: value});
-						}
-					}
-				)
-			));
-			/* ################### */
-
-			/* Select */
-			/* ################### */
-			arr_out.push(el(
-				'div',
-				{className: "wp_mf_block " + props.className},
-				el(
-					SelectControl,
-					{
-						label: __("Users", 'lang_users'),
-						value: props.attributes.user_ids,
-						options: convert_php_array_to_block_js(script_users_block_wp.user_ids),
-						multiple: true,
-						onChange: function(value)
-						{
-							props.setAttributes({user_ids: value});
-						}
-					}
-				)
-			));
-			/* ################### */
-
-			return arr_out;
+				{className: 'wp_mf_block_container'},
+				[
+					el(
+						InspectorControls,
+						'div',
+						el(
+							TextControl,
+							{
+								label: script_users_block_wp.user_heading_label,
+								type: 'text',
+								value: props.attributes.user_heading,
+								onChange: function(value)
+								{
+									props.setAttributes({user_heading: value});
+								}
+							}
+						),
+						el(
+							SelectControl,
+							{
+								label: script_users_block_wp.user_ids_label,
+								value: props.attributes.user_ids,
+								options: convert_php_array_to_block_js(script_users_block_wp.user_ids),
+								multiple: true,
+								onChange: function(value)
+								{
+									props.setAttributes({user_ids: value});
+								}
+							}
+						)
+					),
+					el(
+						'strong',
+						{className: props.className},
+						script_users_block_wp.block_title
+					)
+				]
+			);
 		},
 		save: function()
 		{
