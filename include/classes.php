@@ -1302,9 +1302,8 @@ class mf_users
 						</div>";
 
 						$plugin_include_url = plugin_dir_url(__FILE__);
-						$plugin_version = get_plugin_version(__FILE__);
 
-						mf_enqueue_style('style_users_birthday', $plugin_include_url."style_birthday.css", $plugin_version);
+						mf_enqueue_style('style_users_birthday', $plugin_include_url."style_birthday.css");
 					}
 				}
 			}
@@ -1313,9 +1312,8 @@ class mf_users
 		if(!is_plugin_active("mf_widget_logic_select/index.php") || apply_filters('get_widget_search', 'user-widget') > 0)
 		{
 			$plugin_include_url = plugin_dir_url(__FILE__);
-			$plugin_version = get_plugin_version(__FILE__);
 
-			mf_enqueue_style('style_user_widget', $plugin_include_url."style_widget.css", $plugin_version);
+			mf_enqueue_style('style_user_widget', $plugin_include_url."style_widget.css");
 		}
 	}
 
