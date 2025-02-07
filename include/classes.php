@@ -1065,7 +1065,12 @@ class mf_users
 			$meta_value = check_var($meta_key);
 			$meta_text = __("Full Name", 'lang_users');
 
-			$post_id = apply_filters('get_widget_search', 'registration-widget');
+			$post_id = apply_filters('get_block_search', 'mf/users');
+
+			if(!($post_id > 0))
+			{
+				$post_id = apply_filters('get_widget_search', 'registration-widget');
+			}
 
 			if($post_id > 0)
 			{
@@ -1309,7 +1314,7 @@ class mf_users
 			}
 		}
 
-		if(!is_plugin_active("mf_widget_logic_select/index.php") || apply_filters('get_widget_search', 'user-widget') > 0)
+		if(apply_filters('get_block_search', 'mf/users') > 0 || !is_plugin_active("mf_widget_logic_select/index.php") || apply_filters('get_widget_search', 'user-widget') > 0)
 		{
 			$plugin_include_url = plugin_dir_url(__FILE__);
 
