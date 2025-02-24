@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description:
-Version: 4.7.12
+Version: 4.7.13
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se
@@ -52,8 +52,6 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 		add_action('edit_user_profile', array($obj_users, 'edit_user_profile'));
 		add_action('user_new_form', array($obj_users, 'edit_user_profile'));
 		add_action('profile_update', array($obj_users, 'profile_update'));
-
-		add_filter('get_user_option_admin_color', array($obj_users, 'get_user_option_admin_color'));
 
 		add_action('admin_footer', array($obj_users, 'admin_footer'), 0);
 	}
@@ -105,9 +103,11 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 	function activate_users()
 	{
 		replace_option(array('old' => 'setting_theme_core_display_author_pages', 'new' => 'setting_users_display_author_pages'));
+		replace_option(array('old' => 'setting_add_profile_fields', 'new' => 'setting_users_add_profile_fields'));
+		replace_option(array('old' => 'setting_remove_profile_fields', 'new' => 'setting_users_remove_profile_fields'));
 
 		mf_uninstall_plugin(array(
-			'options' => array('setting_users_last_logged_in'),
+			'options' => array('setting_users_last_logged_in', 'setting_admin_color', 'setting_users_admin_color'),
 			'meta' => array('meta_last_logged_in'),
 		));
 	}
@@ -117,7 +117,7 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 		global $wpdb;
 
 		mf_uninstall_plugin(array(
-			'options' => array('setting_users_show_own_media', 'setting_users_no_spaces', 'setting_users_register_name', 'setting_users_send_password_change_notification', 'setting_users_display_author_pages', 'setting_users_send_registration_notification', 'setting_users_roles_hidden', 'setting_users_roles_names', 'setting_add_profile_fields', 'setting_remove_profile_fields', 'setting_admin_color', $wpdb->prefix.'user_roles_orig'),
+			'options' => array('setting_users_show_own_media', 'setting_users_no_spaces', 'setting_users_register_name', 'setting_users_send_password_change_notification', 'setting_users_display_author_pages', 'setting_users_send_registration_notification', 'setting_users_roles_hidden', 'setting_users_roles_names', 'setting_users_add_profile_fields', 'setting_users_remove_profile_fields', $wpdb->prefix.'user_roles_orig'),
 			'meta' => array('meta_last_logged_in', 'meta_last_active', 'meta_last_logged_out', 'meta_profile_reminder'),
 		));
 	}
