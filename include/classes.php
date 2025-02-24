@@ -312,7 +312,7 @@ class mf_users
 		#######################
 		global $wpdb, $wp_roles;
 
-		update_option($wpdb->prefix.'user_roles_orig', $wp_roles->roles, 'no');
+		update_option($wpdb->prefix.'user_roles_orig', $wp_roles->roles, false);
 
 		$this->rename_roles();
 		$this->hide_roles();
