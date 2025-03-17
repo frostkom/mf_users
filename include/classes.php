@@ -137,55 +137,6 @@ class mf_users
 					$this->save_display_name($user);
 				}
 			}
-
-			/*$site_title = get_bloginfo('name');
-
-			$users = get_users(array('fields' => 'all'));
-
-			foreach($users as $user)
-			{
-				$user_id = $user->ID;
-
-				$profile_reminder = get_user_meta($user_id, 'meta_profile_reminder');
-
-				if($profile_reminder != '')
-				{
-					$user_last_active = get_user_meta($user_id, 'meta_last_active', true);
-
-					if($user_last_active > DEFAULT_DATE)
-					{
-						$reminder_cutoff = date("Y-m-d H:i:s", strtotime($user_last_active." -1 ".$profile_reminder));
-
-						if($reminder_cutoff > date("Y-m-d H:i:s"))
-						{
-							$array = apply_filters('get_user_reminders', array('user_id' => $user_id, 'cutoff' => $reminder_cutoff, 'reminder' => array()));
-
-							$mail_content = "";
-
-							foreach($array['reminder'] as $reminder)
-							{
-								$mail_content .= "";
-							}
-
-							if($mail_content != '')
-							{
-								$user_data = get_userdata($user_id);
-
-								$data = array(
-									'to' => $user_data->user_email,
-									'subject' => sprintf("Here comes the latest updates from %s", $site_title),
-									'content' => $mail_content,
-								);
-
-								do_log("Send: ".var_export($data, true));
-								$sent = true;
-
-								//$sent = send_email($data);
-							}
-						}
-					}
-				}
-			}*/
 		}
 
 		$obj_cron->end();
@@ -193,19 +144,6 @@ class mf_users
 
 	function send_new_user_notifications($user_id, $notify = 'user')
 	{
-		/*if(empty($notify) || $notify == 'admin')
-		{
-			return;
-		}
-
-		else if($notify == 'both')
-		{
-			// Only send the new user their email, not the admin
-			$notify = 'user';
-
-			wp_send_new_user_notifications($user_id, $notify);
-		}*/
-
 		if($notify == 'both')
 		{
 			// Only send the new user their email, not the admin
