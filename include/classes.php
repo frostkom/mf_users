@@ -964,7 +964,7 @@ class mf_users
 			$meta_value = check_var($meta_key);
 			$meta_text = __("Full Name", 'lang_users');
 
-			$post_id = (int)apply_filters('get_block_search', 'mf/users');
+			$post_id = apply_filters('get_block_search', 0, 'mf/users');
 
 			if(!($post_id > 0))
 			{
@@ -1213,7 +1213,7 @@ class mf_users
 			}
 		}
 
-		if((int)apply_filters('get_block_search', 'mf/users') > 0 || (int)apply_filters('get_widget_search', 'user-widget') > 0)
+		if(apply_filters('get_block_search', 0, 'mf/users') > 0 || (int)apply_filters('get_widget_search', 'user-widget') > 0)
 		{
 			$plugin_include_url = plugin_dir_url(__FILE__);
 
