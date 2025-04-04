@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description:
-Version: 4.7.17
+Version: 4.7.18
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se
@@ -20,14 +20,12 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 
 	$obj_users = new mf_users();
 
-	add_action('cron_base', 'activate_users', mt_rand(1, 10));
 	add_action('cron_base', array($obj_users, 'cron_base'), mt_rand(1, 10));
 
 	add_action('init', array($obj_users, 'init'));
 
 	if(is_admin())
 	{
-		register_activation_hook(__FILE__, 'activate_users');
 		register_uninstall_hook(__FILE__, 'uninstall_users');
 
 		add_action('admin_init', array($obj_users, 'settings_users'));
@@ -98,18 +96,6 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 	if(wp_is_block_theme() == false)
 	{
 		add_action('widgets_init', array($obj_users, 'widgets_init'));
-	}
-
-	function activate_users()
-	{
-		replace_option(array('old' => 'setting_theme_core_display_author_pages', 'new' => 'setting_users_display_author_pages'));
-		replace_option(array('old' => 'setting_add_profile_fields', 'new' => 'setting_users_add_profile_fields'));
-		replace_option(array('old' => 'setting_remove_profile_fields', 'new' => 'setting_users_remove_profile_fields'));
-
-		mf_uninstall_plugin(array(
-			'options' => array('setting_users_last_logged_in', 'setting_admin_color', 'setting_users_admin_color'),
-			'meta' => array('meta_last_logged_in'),
-		));
 	}
 
 	function uninstall_users()

@@ -137,6 +137,15 @@ class mf_users
 					$this->save_display_name($user);
 				}
 			}
+
+			replace_option(array('old' => 'setting_theme_core_display_author_pages', 'new' => 'setting_users_display_author_pages'));
+			replace_option(array('old' => 'setting_add_profile_fields', 'new' => 'setting_users_add_profile_fields'));
+			replace_option(array('old' => 'setting_remove_profile_fields', 'new' => 'setting_users_remove_profile_fields'));
+
+			mf_uninstall_plugin(array(
+				'options' => array('setting_users_last_logged_in', 'setting_admin_color', 'setting_users_admin_color'),
+				'meta' => array('meta_last_logged_in'),
+			));
 		}
 
 		$obj_cron->end();
