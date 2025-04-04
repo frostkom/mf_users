@@ -1329,6 +1329,8 @@ class widget_user extends WP_Widget
 
 	function widget($args, $instance)
 	{
+		do_log(__CLASS__."->".__FUNCTION__."(): Add a block instead", 'publish', false);
+
 		extract($args);
 		$instance = wp_parse_args((array)$instance, $this->arr_default);
 
