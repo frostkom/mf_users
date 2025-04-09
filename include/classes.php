@@ -564,54 +564,6 @@ class mf_users
 		$this->wp_head();
 	}
 
-	/*function pre_user_query($wp_user_query)
-	{
-		if(strpos($wp_user_query->query_where, '@') === false && isset($_GET['s']) && $_GET['s'] != '')
-		{
-			global $wpdb;
-
-			$arr_users = array();
-
-			$search = strtolower(check_var('s'));
-
-			if(preg_match('/\s/', $search))
-			{
-				$pieces = explode(" ", $search);
-
-				$result = $wpdb->get_results("SELECT DISTINCT user_id FROM ".$wpdb->usermeta." WHERE (meta_key = 'first_name' AND LOWER(meta_value) LIKE '%".$pieces[0]."%')");
-
-				foreach($result as $user)
-				{
-					if(strtolower(get_user_meta($user->user_id, 'last_name', true)) == strtolower($pieces[1]))
-					{
-						array_push($arr_users, $user->user_id);
-					}
-				}
-			}
-
-			else
-			{
-				$result = $wpdb->get_results("SELECT DISTINCT user_id FROM ".$wpdb->usermeta." WHERE (meta_key = 'first_name' OR meta_key = 'last_name') AND LOWER(meta_value) LIKE '%".$search."%'");
-
-				foreach($result as $user)
-				{
-					array_push($arr_users, $user->user_id);
-				}
-			}
-
-			if(count($arr_users) > 0)
-			{
-				$id_string = implode(",", $arr_users);
-
-				$wp_user_query->query_where = str_replace("WHERE 1=1 AND (", "WHERE (ID IN (".$id_string.") OR ", $wp_user_query->query_where);
-
-				do_log("Test: ".var_export($wp_user_query, true));
-			}
-		}
-
-		return $wp_user_query;
-	}*/
-
 	function pre_get_posts($wp_query)
 	{
 		global $current_user;
