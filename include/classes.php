@@ -169,7 +169,6 @@ class mf_users
 
 	function block_render_callback($attributes)
 	{
-		if(!isset($attributes['user_heading'])){		$attributes['user_heading'] = '';}
 		if(!isset($attributes['user_ids'])){			$attributes['user_ids'] = array();}
 
 		$out = "";
@@ -208,16 +207,8 @@ class mf_users
 				$profile_picture = get_the_author_meta('profile_picture', $user_id);
 				$profile_description = apply_filters('filter_profile_description', get_the_author_meta('description', $user_id), $user_id);
 
-				$out .= "<div".parse_block_attributes(array('class' => "widget user", 'attributes' => $attributes)).">";
-
-					if($attributes['user_heading'] != '')
-					{
-						$attributes['user_heading'] = apply_filters('widget_title', $attributes['user_heading'], $attributes, $this->id_base);
-
-						$out .= "<h3>".$attributes['user_heading']."</h3>";
-					}
-
-					$out .= "<div class='section'>
+				$out .= "<div".parse_block_attributes(array('class' => "widget user", 'attributes' => $attributes)).">
+					<div class='section'>
 						<h4>".$profile_name."</h4>";
 
 						if($profile_picture != '')
@@ -241,6 +232,263 @@ class mf_users
 		return $out;
 	}
 
+	function block_render_profile_callback($attributes)
+	{
+		global $done_text, $error_text;
+
+		$out = "";
+
+		$user_id = get_current_user_id();
+
+		if($user_id > 0)
+		{
+			$arr_fields = array();
+
+			$arr_fields[] = array('type' => 'flex_start');
+				$arr_fields[] = array('type' => 'text', 'name' => 'first_name', 'text' => __("First Name", 'lang_users'), 'required' => true);
+				$arr_fields[] = array('type' => 'text', 'name' => 'last_name', 'text' => __("Last Name", 'lang_users'), 'required' => true);
+			$arr_fields[] = array('type' => 'flex_end');
+			$arr_fields[] = array('type' => 'flex_start');
+				$arr_fields[] = array('type' => 'email', 'name' => 'email', 'text' => __("E-mail", 'lang_users'), 'required' => true);
+				$arr_fields[] = array('type' => 'password', 'name' => 'password', 'text' => __("Password"));
+			$arr_fields[] = array('type' => 'flex_end');
+
+			$arr_fields = apply_filters('filter_profile_fields', $arr_fields);
+			
+			if(isset($_POST['btnProfileUpdate']))
+			{
+				$updated = false;
+
+				foreach($arr_fields as $key => $value)
+				{
+					if(isset($value['name']))
+					{
+						$user_meta = check_var($value['name']);
+
+						if($user_meta != '' || !isset($value['required']) || $value['required'] == false)
+						{
+							switch($arr_fields[$key]['type'])
+							{
+								case 'email':
+									if($user_meta != '')
+									{
+										$success = send_confirmation_on_profile_email();
+
+										if(isset($errors) && is_wp_error($errors))
+										{
+											foreach($errors->errors as $error)
+											{
+												$error_text = $error[0];
+											}
+										}
+
+										else
+										{
+											$updated = true;
+										}
+									}
+								break;
+
+								case 'password':
+									if($user_meta != '')
+									{
+										wp_set_password($user_meta, $user_id);
+
+										$updated = true;
+									}
+								break;
+
+								default:
+									$meta_id = update_user_meta($user_id, $value['name'], $user_meta);
+
+									$updated = true;
+								break;
+							}
+						}
+					}
+				}
+
+				if($updated == true)
+				{
+					$done_text = __("I have saved the information for you", 'lang_users');
+				}
+
+				else if($error_text == '')
+				{
+					$error_text = __("I could not update the information for you because nothing was changed", 'lang_users');
+				}
+			}
+
+			foreach($arr_fields as $key => $value)
+			{
+				if(isset($value['name']))
+				{
+					if(!isset($arr_fields[$key]['class'])){			$arr_fields[$key]['class'] = "";}
+					//if(!isset($arr_fields[$key]['attributes'])){	$arr_fields[$key]['attributes'] = "";}
+					if(!isset($arr_fields[$key]['attributes'])){	$arr_fields[$key]['attributes'] = array();}
+					if(!isset($arr_fields[$key]['required'])){		$arr_fields[$key]['required'] = false;}
+
+					$arr_fields[$key]['value'] = get_the_author_meta($value['name'], $user_id);
+
+					switch($arr_fields[$key]['type'])
+					{
+						case 'email':
+							$new_email = get_user_meta($user_id, '_new_email', true);
+							$user_data = get_userdata($user_id);
+
+							if($new_email && $new_email['newemail'] != $user_data->user_email)
+							{
+								$arr_fields[$key]['description'] = " ".sprintf(__("There is a pending change of your email to %s.", 'lang_users'), $new_email['newemail'])
+								." <a href='".esc_url(wp_nonce_url(self_admin_url("profile.php?dismiss=".$user_id."_new_email"), 'dismiss-'.$user_id.'_new_email'))."'>".__("Cancel", 'lang_users')."</a>";
+							}
+
+							else
+							{
+								$arr_fields[$key]['description'] = sprintf(__("If you change this we will send you an email to your new address to confirm it. %sThe new address will not become active until confirmed%s.", 'lang_users'), "<strong>", "</strong>");
+							}
+						break;
+
+						case 'select':
+							// Otherwise options might end up in the "wrong" order on the site
+							#######################
+							$arr_data_temp = array();
+
+							foreach($arr_fields[$key]['options'] as $option_key => $option_value)
+							{
+								$arr_data_temp[] = array(
+									'key' => $option_key,
+									'value' => $option_value,
+								);
+							}
+
+							$arr_fields[$key]['options'] = $arr_data_temp;
+							#######################
+
+							if(!isset($arr_fields[$key]['multiple']))
+							{
+								$arr_fields[$key]['multiple'] = false;
+							}
+
+							if($arr_fields[$key]['multiple'] == true)
+							{
+								$arr_fields[$key]['class'] .= " form_select_multiple";
+								//$arr_fields[$key]['attributes'] .= " size='".get_select_size(array('count' => count($arr_fields[$key]['options'])))."'";
+								$arr_fields[$key]['attributes']['size'] = get_select_size(array('count' => count($arr_fields[$key]['options'])));
+							}
+						break;
+					}
+				}
+			}
+
+			$out .= "<form method='post' action='' class='mf_form'>"
+				.get_notification();
+
+				foreach($arr_fields as $key => $arr_value)
+				{
+					switch($arr_value['type'])
+					{
+						case 'date':
+							$out .= show_textfield(array('type' => 'date', 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value']));
+						break;
+
+						case 'email':
+							$out .= show_textfield(array('type' => 'email', 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value'], 'description' => $arr_value['description']));
+						break;
+
+						case 'flex_start':
+							$out .= "<div class='flex_flow'>";
+						break;
+
+						case 'flex_end':
+							$out .= "</div>";
+						break;
+
+						case 'media_image':
+							/*$out .= "<div>
+								<label for='".$arr_value['name']."'>".$arr_value['text']."</label>";*/
+							
+							$out .= get_media_library(array('type' => 'image', 'name' => $arr_value['name'], 'value' => $arr_value['value']));
+
+							//$out .= "</div>";
+						break;
+
+						case 'number':
+							$out .= show_textfield(array('type' => 'number', 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value']));
+						break;
+
+						case 'password':
+							$out .= show_password_field(array('name' => $arr_value['name'], 'text' => $arr_value['text'], 'placeholder' => __("Enter a New Password Here", 'lang_users')));
+						break;
+
+						case 'select':
+							$out .= "<div class='form_select type_".$arr_value['type'].$arr_value['class'].">
+								<label for='".$arr_value['name'].">".$arr_value['text']."</label>
+								<select id='".$arr_value['name']."' name='".$arr_value['name'].($arr_value['multiple'] == true ? "[]" : "")."' class='mf_form_field'".($arr_value['multiple'] == true ? " multiple" : "");
+
+									foreach($arr_value['attributes'] as $attribute_key => $attribute_value)
+									{
+										$out .= " ".$attribute_key."='".$attribute_value."'";
+									}
+
+								$out .= ">";
+
+									foreach($arr_value['options'] as $option_key => $option_value)
+									{
+										if(substr($option_key, 0, 9) == 'opt_start')
+										{
+											$out .= "<optgroup label='".$option_value."' rel='".$option_key."'>";
+										}
+
+										else if(substr($option_key, 0, 7) == 'opt_end')
+										{
+											$out .= "</optgroup>";
+										}
+
+										else
+										{
+											$out .= "<option value='".$option_key."'";
+											
+												if($option_key == $arr_value['value'] || $arr_value['multiple'] == true) // && $arr_value['value.indexOf($option_key) !== -1
+												{
+													$out .= " selected";
+												}
+												
+											$out .= ">".$option_value."</option>";
+										}
+									}
+
+								$out .= "</select>
+							</div>";
+						break;
+
+						case 'text':
+							$out .= show_textfield(array('name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value']));
+						break;
+
+						case 'textarea':
+							$out .= show_textarea(array('name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value']));
+						break;
+
+						default:
+							$out .= "<p><strong>meta_".$arr_value['type']."</strong>: meta_".$arr_value['name']."</p>";
+						break;
+					}
+				}
+
+				$out .= "<div".get_form_button_classes().">"
+					.show_button(array('name' => 'btnProfileUpdate', 'text' => __("Update", 'lang_users')))
+				."</div>
+			</form>";
+		}
+
+		else
+		{
+			$out .= "<a href='".wp_login_url()."?redirect_to=".$_SERVER['REQUEST_URI']."'>".__("Log in to display this", 'lang_users')."</a>";
+		}
+
+		return $out;
+	}
+
 	function filter_user_info_callback($data, $user, $arr_data)
 	{
 		if(get_the_author_meta('description', $user->ID) != '')
@@ -255,7 +503,7 @@ class mf_users
 	{
 		load_plugin_textdomain('lang_users', false, str_replace("/include", "", dirname(plugin_basename(__FILE__)))."/lang/");
 
-		// 
+		//
 		#######################
 		global $wpdb, $wp_roles;
 
@@ -286,15 +534,23 @@ class mf_users
 		wp_localize_script('script_users_block_wp', 'script_users_block_wp', array(
 			'block_title' => __("User", 'lang_users'),
 			'block_description' => __("Display information about a user", 'lang_users'),
-			'user_heading_label' => __("Heading", 'lang_users'),
 			'user_ids_label' => __("Users", 'lang_users'),
 			'user_ids' => get_users_for_select(array('callback' => array($this, 'filter_user_info_callback'))),
+			'block_title2' => __("Profile", 'lang_users'),
+			'block_description2' => __("Display user profile", 'lang_users'),
 		));
 
 		register_block_type('mf/users', array(
 			'editor_script' => 'script_users_block_wp',
 			'editor_style' => 'style_base_block_wp',
 			'render_callback' => array($this, 'block_render_callback'),
+			//'style' => 'style_base_block_wp',
+		));
+
+		register_block_type('mf/userprofile', array(
+			'editor_script' => 'script_users_block_wp',
+			'editor_style' => 'style_base_block_wp',
+			'render_callback' => array($this, 'block_render_profile_callback'),
 			//'style' => 'style_base_block_wp',
 		));
 		#######################

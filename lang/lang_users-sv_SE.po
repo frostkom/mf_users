@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-15 14:30+0100\n"
+"POT-Creation-Date: 2025-04-16 11:53+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: \n"
@@ -19,265 +19,311 @@ msgstr ""
 msgid "Incorrect username or password"
 msgstr "Fel användarnamn eller lösenord"
 
-#: ../include/classes.php:360
-msgid "Only show users own files"
-msgstr "Visa endast användarens egna filer"
+#: ../include/classes.php:248
+msgid "First Name"
+msgstr "Förnamn"
 
-#: ../include/classes.php:364
-msgid "Prevent Username Spaces"
-msgstr "Motverka mellanslag i användarnamn"
+#: ../include/classes.php:249
+msgid "Last Name"
+msgstr "Efternamn"
 
-#: ../include/classes.php:367
-msgid "Collect name of user in registration form"
-msgstr "Spara namn på användare som registrar sig"
+#: ../include/classes.php:252
+msgid "E-mail"
+msgstr "E-post"
 
-#: ../include/classes.php:371
-msgid "Send User Registration Notification to Admin"
-msgstr "Skicka meddelande till admin när en ny användare registreras"
+#: ../include/classes.php:253
+msgid "Password"
+msgstr "Lösenord"
 
-#: ../include/classes.php:372
-msgid "Send Password Changed Notification"
-msgstr "Skicka meddelande när lösenord ändras"
+#: ../include/classes.php:313
+msgid "I have saved the information for you"
+msgstr "Jag har sparat informationen åt dig"
 
-#: ../include/classes.php:375
-msgid "Display Author Pages"
-msgstr "Visa författarsidor"
+#: ../include/classes.php:318
+msgid "I could not update the information for you because nothing was changed"
+msgstr "Jag kunde inte uppdatera informationen eftersom inget har ändrats"
 
-#: ../include/classes.php:389
-msgid "Hide Roles"
-msgstr "Göm roller"
+#: ../include/classes.php:343
+#, php-format
+msgid "There is a pending change of your email to %s."
+msgstr "Det finns en väntande ändring av din e-postadress till %s."
 
-#: ../include/classes.php:390
-msgid "Change Role Names"
-msgstr "Ändra rollnamn"
+#: ../include/classes.php:344
+msgid "Cancel"
+msgstr "Avbryt"
 
-#: ../include/classes.php:403
-msgid "Add fields to profile"
-msgstr "Lägg till fält i profilen"
+#: ../include/classes.php:349
+#, php-format
+msgid "If you change this we will send you an email to your new address to confirm it. %sThe new address will not become active until confirmed%s."
+msgstr "Om du ändrar detta så kommer vi att skicka ett e-postmeddelande till din nya adress för bekräftelse. %sDen nya adressen kommer inte att aktiveras för den är bekräftad%s."
 
-#: ../include/classes.php:404
-msgid "Remove fields from profile"
-msgstr "Ta bort fält från profilen"
+#: ../include/classes.php:423
+msgid "Enter a New Password Here"
+msgstr "Ange ett nytt lösenord här"
 
-#: ../include/classes.php:410
-msgid "Change Admin Color"
-msgstr "Ändra adminfärger"
+#: ../include/classes.php:482
+msgid "Update"
+msgstr "Uppdatera"
 
-#: ../include/classes.php:421
-#: ../include/classes.php:479
-#: ../include/classes.php:525
-#: ../include/classes.php:1521
+#: ../include/classes.php:489
+msgid "Log in to display this"
+msgstr "Logga in för att se detta"
+
+#: ../include/classes.php:538
+#: ../include/classes.php:1547
+msgid "User"
+msgstr "Användare"
+
+#: ../include/classes.php:539
+#: ../include/classes.php:1544
+msgid "Display information about a user"
+msgstr "Visa information om en användare"
+
+#: ../include/classes.php:540
+#: ../include/classes.php:626
+#: ../include/classes.php:684
+#: ../include/classes.php:730
+#: ../include/classes.php:1651
 msgid "Users"
 msgstr "Användare"
 
-#: ../include/classes.php:429
-msgid "Every user below this role only sees their own files in the Media Library"
-msgstr "Varje användare lägre än denna roll ser endast sina egna filer i Mediabiblioteket"
-
-#: ../include/classes.php:479
-msgid "Roles"
-msgstr "Roller"
-
-#: ../include/classes.php:525
+#: ../include/classes.php:542
+#: ../include/classes.php:730
 msgid "Profile"
 msgstr "Profil"
 
-#: ../include/classes.php:534
-#: ../include/classes.php:871
-#: ../include/classes.php:1193
+#: ../include/classes.php:543
+msgid "Display user profile"
+msgstr "Visa användarprofil"
+
+#: ../include/classes.php:572
+msgid "Only show users own files"
+msgstr "Visa endast användarens egna filer"
+
+#: ../include/classes.php:576
+msgid "Prevent Username Spaces"
+msgstr "Motverka mellanslag i användarnamn"
+
+#: ../include/classes.php:579
+msgid "Collect name of user in registration form"
+msgstr "Spara namn på användare som registrar sig"
+
+#: ../include/classes.php:583
+msgid "Send User Registration Notification to Admin"
+msgstr "Skicka meddelande till admin när en ny användare registreras"
+
+#: ../include/classes.php:584
+msgid "Send Password Changed Notification"
+msgstr "Skicka meddelande när lösenord ändras"
+
+#: ../include/classes.php:587
+msgid "Display Author Pages"
+msgstr "Visa författarsidor"
+
+#: ../include/classes.php:601
+msgid "Hide Roles"
+msgstr "Göm roller"
+
+#: ../include/classes.php:602
+msgid "Change Role Names"
+msgstr "Ändra rollnamn"
+
+#: ../include/classes.php:615
+msgid "Add fields to profile"
+msgstr "Lägg till fält i profilen"
+
+#: ../include/classes.php:616
+msgid "Remove fields from profile"
+msgstr "Ta bort fält från profilen"
+
+#: ../include/classes.php:634
+msgid "Every user below this role only sees their own files in the Media Library"
+msgstr "Varje användare lägre än denna roll ser endast sina egna filer i Mediabiblioteket"
+
+#: ../include/classes.php:684
+msgid "Roles"
+msgstr "Roller"
+
+#: ../include/classes.php:739
+#: ../include/classes.php:1008
+#: ../include/classes.php:1323
 msgid "Birthday"
 msgstr "Födelsedag"
 
-#: ../include/classes.php:535
-#: ../include/classes.php:883
-#: ../include/classes.php:1200
+#: ../include/classes.php:740
+#: ../include/classes.php:1020
+#: ../include/classes.php:1330
 msgid "Phone Number"
 msgstr "Telefonnummer"
 
-#: ../include/classes.php:536
-#: ../include/classes.php:895
-#: ../include/classes.php:1206
+#: ../include/classes.php:741
+#: ../include/classes.php:1032
+#: ../include/classes.php:1336
 msgid "Company"
 msgstr "Företag"
 
-#: ../include/classes.php:537
+#: ../include/classes.php:742
 msgid "Address"
 msgstr "Adress"
 
-#: ../include/classes.php:538
-#: ../include/classes.php:578
-#: ../include/classes.php:940
-#: ../include/classes.php:1220
+#: ../include/classes.php:743
+#: ../include/classes.php:783
+#: ../include/classes.php:1077
+#: ../include/classes.php:1350
 msgid "Profile Picture"
 msgstr "Profilbild"
 
-#: ../include/classes.php:543
-#: ../include/classes.php:952
-#: ../include/classes.php:1231
+#: ../include/classes.php:748
+#: ../include/classes.php:1089
+#: ../include/classes.php:1361
 msgid "Country"
 msgstr "Land"
 
-#: ../include/classes.php:546
-#: ../include/classes.php:969
-#: ../include/classes.php:1237
+#: ../include/classes.php:751
+#: ../include/classes.php:1106
+#: ../include/classes.php:1367
 msgid "Rows / Page"
 msgstr "Rader / sida"
 
-#: ../include/classes.php:557
+#: ../include/classes.php:762
 msgid "Headings"
 msgstr "Rubriker"
 
-#: ../include/classes.php:558
+#: ../include/classes.php:763
 msgid "Visual Editor"
 msgstr "Visuell redigerare"
 
-#: ../include/classes.php:559
+#: ../include/classes.php:764
 msgid "Syntax Highlighting"
 msgstr "Syntaxmarkering"
 
-#: ../include/classes.php:560
+#: ../include/classes.php:765
 msgid "Admin Color Scheme"
 msgstr "Färgschema för adminpanel"
 
-#: ../include/classes.php:561
+#: ../include/classes.php:766
 msgid "Keyboard Shortcuts"
 msgstr "Tangentbordsgenvägar"
 
-#: ../include/classes.php:562
+#: ../include/classes.php:767
 msgid "Toolbar"
 msgstr "Verktygsfält"
 
-#: ../include/classes.php:563
+#: ../include/classes.php:768
 msgid "Language"
 msgstr "Språk"
 
-#: ../include/classes.php:564
+#: ../include/classes.php:769
 msgid "Username"
 msgstr "Användarnamn"
 
-#: ../include/classes.php:565
+#: ../include/classes.php:770
 msgid "Nickname"
 msgstr "Smeknamn"
 
-#: ../include/classes.php:566
+#: ../include/classes.php:771
 msgid "Display name"
 msgstr "Visningsnamn"
 
-#: ../include/classes.php:567
+#: ../include/classes.php:772
 msgid "Website"
 msgstr "Webbplats"
 
-#: ../include/classes.php:571
-#: ../include/classes.php:1183
+#: ../include/classes.php:776
+#: ../include/classes.php:1313
 msgid "Biographical Info"
 msgstr "Biografi"
 
-#: ../include/classes.php:581
+#: ../include/classes.php:786
 msgid "Application Password"
 msgstr "Applikationslösenord"
 
-#: ../include/classes.php:582
+#: ../include/classes.php:787
 msgid "Sessions"
 msgstr "Sessioner"
 
-#: ../include/classes.php:586
+#: ../include/classes.php:791
 #, php-format
 msgid "Add %s Role"
 msgstr "Lägg till rollen %s"
 
-#: ../include/classes.php:598
-msgid "Choose Here"
-msgstr "Välj här"
-
-#: ../include/classes.php:599
-msgid "Blue"
-msgstr "Blå"
-
-#: ../include/classes.php:600
-msgid "Fresh"
-msgstr "Färsk"
-
-#: ../include/classes.php:600
-msgid "Default"
-msgstr "Standard"
-
-#: ../include/classes.php:601
-msgid "Ectoplasm"
-msgstr "Ektoplasma"
-
-#: ../include/classes.php:602
-msgid "Light"
-msgstr "Ljus"
-
-#: ../include/classes.php:603
-msgid "Coffee"
-msgstr "Kaffe"
-
-#: ../include/classes.php:604
-msgid "Midnight"
-msgstr "Midnatt"
-
-#: ../include/classes.php:605
-msgid "Ocean"
-msgstr "Hav"
-
-#: ../include/classes.php:606
-msgid "Sunrise"
-msgstr "Soluppgång"
-
-#: ../include/classes.php:737
+#: ../include/classes.php:874
 msgid "Last Logged In"
 msgstr "Senast inloggad"
 
-#: ../include/classes.php:794
+#: ../include/classes.php:931
 msgid "Created"
 msgstr "Skapad"
 
-#: ../include/classes.php:816
+#: ../include/classes.php:953
 msgid "Inactive"
 msgstr "Inaktiv"
 
-#: ../include/classes.php:834
+#: ../include/classes.php:971
 msgid "Inactivate"
 msgstr "Inaktivera"
 
-#: ../include/classes.php:908
-#: ../include/classes.php:1212
+#: ../include/classes.php:1045
+#: ../include/classes.php:1342
 msgid "Street Address"
 msgstr "Gatuadress"
 
-#: ../include/classes.php:917
-#: ../include/classes.php:1213
+#: ../include/classes.php:1054
+#: ../include/classes.php:1343
 msgid "Zipcode"
 msgstr "Postnummer"
 
-#: ../include/classes.php:926
-#: ../include/classes.php:1214
+#: ../include/classes.php:1063
+#: ../include/classes.php:1344
 msgid "City"
 msgstr "Ort"
 
-#: ../include/classes.php:1060
+#: ../include/classes.php:1185
 msgid "Full Name"
 msgstr "Namn"
 
-#: ../include/classes.php:1259
+#: ../include/classes.php:1389
 msgid "Username must not contain spaces"
 msgstr "Användarnamn får inte innehålla mellanslag"
 
-#: ../include/classes.php:1294
+#: ../include/classes.php:1424
 #, php-format
 msgid "Happy Birthday %s!"
 msgstr "Grattis på födelsedagen %s!"
 
-#: ../include/classes.php:1416
-msgid "Display information about a user"
-msgstr "Visa information om en användare"
-
-#: ../include/classes.php:1419
-msgid "User"
-msgstr "Användare"
-
-#: ../include/classes.php:1520
+#: ../include/classes.php:1650
 msgid "Heading"
 msgstr "Rubrik"
 
+#~ msgid "Change Admin Color"
+#~ msgstr "Ändra adminfärger"
+
+#~ msgid "Choose Here"
+#~ msgstr "Välj här"
+
+#~ msgid "Blue"
+#~ msgstr "Blå"
+
+#~ msgid "Fresh"
+#~ msgstr "Färsk"
+
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid "Ectoplasm"
+#~ msgstr "Ektoplasma"
+
+#~ msgid "Light"
+#~ msgstr "Ljus"
+
+#~ msgid "Coffee"
+#~ msgstr "Kaffe"
+
+#~ msgid "Midnight"
+#~ msgstr "Midnatt"
+
+#~ msgid "Ocean"
+#~ msgstr "Hav"
+
+#~ msgid "Sunrise"
+#~ msgstr "Soluppgång"

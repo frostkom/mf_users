@@ -10,7 +10,7 @@
 	{
 		title: script_users_block_wp.block_title,
 		description: script_users_block_wp.block_description,
-		icon: 'users',
+		icon: 'groups',
 		category: 'widgets',
 		'attributes':
 		{
@@ -19,11 +19,6 @@
 				'type': 'string',
 				'default': ''
 			},
-			'user_heading':
-			{
-                'type': 'string',
-                'default': ''
-            },
 			'user_ids':
 			{
                 'type': 'array',
@@ -67,18 +62,6 @@
 						InspectorControls,
 						'div',
 						el(
-							TextControl,
-							{
-								label: script_users_block_wp.user_heading_label,
-								type: 'text',
-								value: props.attributes.user_heading,
-								onChange: function(value)
-								{
-									props.setAttributes({user_heading: value});
-								}
-							}
-						),
-						el(
 							SelectControl,
 							{
 								label: script_users_block_wp.user_ids_label,
@@ -96,6 +79,67 @@
 						'strong',
 						{className: props.className},
 						script_users_block_wp.block_title
+					)
+				]
+			);
+		},
+		save: function()
+		{
+			return null;
+		}
+	});
+
+	registerBlockType('mf/userprofile',
+	{
+		title: script_users_block_wp.block_title2,
+		description: script_users_block_wp.block_description2,
+		icon: 'groups',
+		category: 'widgets',
+		'attributes':
+		{
+			'align':
+			{
+				'type': 'string',
+				'default': ''
+			}
+		},
+		'supports':
+		{
+			'html': false,
+			'multiple': false,
+			'align': true,
+			'spacing':
+			{
+				'margin': true,
+				'padding': true
+			},
+			'color':
+			{
+				'background': true,
+				'gradients': false,
+				'text': true
+			},
+			'defaultStylePicker': true,
+			'typography':
+			{
+				'fontSize': true,
+				'lineHeight': true
+			},
+			"__experimentalBorder":
+			{
+				"radius": true
+			}
+		},
+		edit: function(props)
+		{
+			return el(
+				'div',
+				{className: 'wp_mf_block_container'},
+				[
+					el(
+						'strong',
+						{className: props.className},
+						script_users_block_wp.block_title2
 					)
 				]
 			);
