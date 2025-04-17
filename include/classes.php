@@ -405,9 +405,9 @@ class mf_users
 
 						case 'media_image':
 							/*$out .= "<div>
-								<label for='".$arr_value['name']."'>".$arr_value['text']."</label>";*/
+								<label for='".$arr_value['name']."'>".."</label>";*/
 							
-							$out .= get_media_library(array('type' => 'image', 'name' => $arr_value['name'], 'value' => $arr_value['value']));
+							$out .= get_media_library(array('type' => 'image', 'name' => $arr_value['name'], 'label' => $arr_value['text'], 'value' => $arr_value['value']));
 
 							//$out .= "</div>";
 						break;
@@ -1449,6 +1449,18 @@ class mf_users
 		{
 			$this->wp_active();
 		}
+	}
+
+	function edit_profile_url($url, $user_id, $scheme)
+	{
+		$post_id = apply_filters('get_block_search', 0, 'mf/userprofile');
+
+		if($post_id > 0)
+		{
+			$url = get_permalink($post_id);
+		}
+
+		return $url;
 	}
 
 	function get_avatar($avatar, $id_or_email, $size, $default, $alt)
