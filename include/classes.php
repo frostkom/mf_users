@@ -1534,7 +1534,10 @@ class mf_users
 
 	function widgets_init()
 	{
-		register_widget('widget_user');
+		if(wp_is_block_theme() == false)
+		{
+			register_widget('widget_user');
+		}
 	}
 }
 
