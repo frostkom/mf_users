@@ -139,7 +139,7 @@
 					el(
 						'strong',
 						{className: props.className},
-						script_users_block_wp.block_title2
+						script_users_block_wp.block_title
 					)
 				]
 			);
