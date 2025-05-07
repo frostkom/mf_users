@@ -126,7 +126,7 @@ class mf_users
 				}
 			}
 
-			if(get_option('setting_users_register_name'))
+			/*if(get_option('setting_users_register_name'))
 			{
 				$users = get_users(array('fields' => 'all'));
 
@@ -136,14 +136,14 @@ class mf_users
 
 					$this->save_display_name($user);
 				}
-			}
+			}*/
 
 			replace_option(array('old' => 'setting_theme_core_display_author_pages', 'new' => 'setting_users_display_author_pages'));
 			replace_option(array('old' => 'setting_add_profile_fields', 'new' => 'setting_users_add_profile_fields'));
 			replace_option(array('old' => 'setting_remove_profile_fields', 'new' => 'setting_users_remove_profile_fields'));
 
 			mf_uninstall_plugin(array(
-				'options' => array('setting_users_last_logged_in', 'setting_admin_color', 'setting_users_admin_color'),
+				'options' => array('setting_users_last_logged_in', 'setting_admin_color', 'setting_users_admin_color', 'setting_users_register_name'),
 				'meta' => array('meta_last_logged_in'),
 			));
 		}
@@ -254,7 +254,7 @@ class mf_users
 			$arr_fields[] = array('type' => 'flex_end');
 
 			$arr_fields = apply_filters('filter_profile_fields', $arr_fields);
-			
+
 			if(isset($_POST['btnProfileUpdate']))
 			{
 				$updated = false;
@@ -404,12 +404,7 @@ class mf_users
 						break;
 
 						case 'media_image':
-							/*$out .= "<div>
-								<label for='".$arr_value['name']."'>".."</label>";*/
-							
 							$out .= get_media_library(array('type' => 'image', 'name' => $arr_value['name'], 'label' => $arr_value['text'], 'value' => $arr_value['value']));
-
-							//$out .= "</div>";
 						break;
 
 						case 'number':
@@ -447,12 +442,12 @@ class mf_users
 										else
 										{
 											$out .= "<option value='".$option_key."'";
-											
+
 												if($option_key == $arr_value['value'] || $arr_value['multiple'] == true) // && $arr_value['value.indexOf($option_key) !== -1
 												{
 													$out .= " selected";
 												}
-												
+
 											$out .= ">".$option_value."</option>";
 										}
 									}
@@ -573,7 +568,7 @@ class mf_users
 			$arr_settings['setting_users_no_spaces'] = __("Prevent Username Spaces", 'lang_users');
 		}
 
-		$arr_settings['setting_users_register_name'] = __("Collect name of user in registration form", 'lang_users');
+		//$arr_settings['setting_users_register_name'] = __("Collect name of user in registration form", 'lang_users');
 
 		if(IS_SUPER_ADMIN)
 		{
@@ -640,13 +635,13 @@ class mf_users
 			echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'value' => $option));
 		}
 
-		function setting_users_register_name_callback()
+		/*function setting_users_register_name_callback()
 		{
 			$setting_key = get_setting_key(__FUNCTION__);
 			$option = get_option($setting_key);
 
 			echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'value' => $option));
-		}
+		}*/
 
 		function setting_users_send_registration_notification_callback()
 		{
@@ -1173,7 +1168,7 @@ class mf_users
 		}
 	}
 
-	function register_form()
+	/*function register_form()
 	{
 		if(get_option('setting_users_register_name'))
 		{
@@ -1201,11 +1196,11 @@ class mf_users
 				</p>";
 			}
 		}
-	}
+	}*/
 
 	function user_register($user_id, $password = "", $meta = array())
 	{
-		if(get_option('setting_users_register_name') && isset($_REQUEST['full_name']))
+		/*if(get_option('setting_users_register_name') && isset($_REQUEST['full_name']))
 		{
 			$full_name = check_var('full_name');
 
@@ -1213,7 +1208,7 @@ class mf_users
 
 			update_user_meta($user_id, 'first_name', $first_name);
 			update_user_meta($user_id, 'last_name', $last_name);
-		}
+		}*/
 
 		$setting_users_add_profile_fields = get_option('setting_users_add_profile_fields');
 

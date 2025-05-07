@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description:
-Version: 4.7.23
+Version: 4.7.24
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se
@@ -58,7 +58,7 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 		add_filter('wp_sitemaps_add_provider', array($obj_users, 'wp_sitemaps_add_provider'), 10, 2);
 		add_filter('template_redirect', array($obj_users, 'template_redirect'), 1, 0);
 
-		add_action('register_form', array($obj_users, 'register_form'), 0);
+		//add_action('register_form', array($obj_users, 'register_form'), 0);
 		add_action('user_register', array($obj_users, 'user_register'));
 
 		add_filter('filter_profile_fields', array($obj_users, 'filter_profile_fields'));
@@ -101,7 +101,7 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 		global $wpdb;
 
 		mf_uninstall_plugin(array(
-			'options' => array('setting_users_show_own_media', 'setting_users_no_spaces', 'setting_users_register_name', 'setting_users_send_password_change_notification', 'setting_users_display_author_pages', 'setting_users_send_registration_notification', 'setting_users_roles_hidden', 'setting_users_roles_names', 'setting_users_add_profile_fields', 'setting_users_remove_profile_fields', $wpdb->prefix.'user_roles_orig'),
+			'options' => array('setting_users_show_own_media', 'setting_users_no_spaces', 'setting_users_send_password_change_notification', 'setting_users_display_author_pages', 'setting_users_send_registration_notification', 'setting_users_roles_hidden', 'setting_users_roles_names', 'setting_users_add_profile_fields', 'setting_users_remove_profile_fields', $wpdb->prefix.'user_roles_orig'),
 			'meta' => array('meta_last_logged_in', 'meta_last_active', 'meta_last_logged_out', 'meta_profile_reminder'),
 		));
 	}
