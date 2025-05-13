@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description:
-Version: 4.7.24
+Version: 4.7.25
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se
@@ -92,6 +92,7 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 	add_filter('get_avatar', array($obj_users, 'get_avatar'), 1, 5);
 
 	add_action('wp_login', array($obj_users, 'wp_login'));
+	add_filter('heartbeat_received', array($obj_users, 'heartbeat_received'), 10, 2);
 	add_action('wp_logout', array($obj_users, 'wp_logout'));
 
 	add_action('widgets_init', array($obj_users, 'widgets_init'));

@@ -1440,10 +1440,10 @@ class mf_users
 			echo $this->footer_output;
 		}
 
-		if(is_user_logged_in())
+		/*if(is_user_logged_in())
 		{
 			$this->wp_active();
-		}
+		}*/
 	}
 
 	function edit_profile_url($url, $user_id, $scheme)
@@ -1510,13 +1510,23 @@ class mf_users
 		$this->save_display_name($user);
 	}
 
-	function wp_active()
+	function heartbeat_received($response, $data)
 	{
 		$user_id = get_current_user_id();
 		$user_timestamp = date("Y-m-d H:i:s");
 
 		update_user_meta($user_id, 'meta_last_active', $user_timestamp);
+
+		return $response;
 	}
+
+	/*function wp_active()
+	{
+		$user_id = get_current_user_id();
+		$user_timestamp = date("Y-m-d H:i:s");
+
+		update_user_meta($user_id, 'meta_last_active', $user_timestamp);
+	}*/
 
 	function wp_logout()
 	{
