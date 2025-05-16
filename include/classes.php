@@ -790,26 +790,23 @@ class mf_users
 	{
 		global $wpdb, $pagenow;
 
-		if($pagenow == 'user-new.php')
+		switch($pagenow)
 		{
-			$register_url = wp_registration_url();
+			case 'user-new.php':
+				$register_url = wp_registration_url();
 
-			/*if(strpos($register_url, $pagenow) === false)
-			{
-				mf_redirect($register_url);
-			}*/
+				if(is_multisite() && IS_SUPER_ADMIN)
+				{
+					mf_redirect(network_admin_url("site-users.php?id=".$wpdb->blogid."#add-existing-user"));
+				}
 
-			if(is_multisite() && IS_SUPER_ADMIN)
-			{
-				mf_redirect(network_admin_url("site-users.php?id=".$wpdb->blogid."#add-existing-user"));
-			}
+				else if(current_user_can('list_users') == false)
+				{
+					wp_logout();
 
-			else if(current_user_can('list_users') == false)
-			{
-				wp_logout();
-
-				mf_redirect($register_url);
-			}
+					mf_redirect($register_url);
+				}
+			break;
 		}
 
 		$this->wp_head();
