@@ -1175,11 +1175,6 @@ class mf_users
 
 			$post_id = apply_filters('get_block_search', 0, 'mf/users');
 
-			if(!($post_id > 0))
-			{
-				$post_id = (int)apply_filters('get_widget_search', 'registration-widget');
-			}
-
 			if($post_id > 0)
 			{
 				echo show_textfield(array('name' => $meta_key, 'text' => $meta_text, 'value' => $meta_value, 'required' => true));
@@ -1422,7 +1417,7 @@ class mf_users
 			}
 		}
 
-		if(apply_filters('get_block_search', 0, 'mf/users') > 0 || (int)apply_filters('get_widget_search', 'user-widget') > 0)
+		if(apply_filters('get_block_search', 0, 'mf/users') > 0)
 		{
 			$plugin_include_url = plugin_dir_url(__FILE__);
 
@@ -1646,7 +1641,7 @@ class widget_user extends WP_Widget
 		return $instance;
 	}
 
-	function filter_user_info_callback($data, $user, $arr_data)
+	/*function filter_user_info_callback($data, $user, $arr_data)
 	{
 		if(get_the_author_meta('description', $user->ID) != '')
 		{
@@ -1654,7 +1649,7 @@ class widget_user extends WP_Widget
 		}
 
 		return $arr_data;
-	}
+	}*/
 
 	function form($instance)
 	{
@@ -1662,7 +1657,7 @@ class widget_user extends WP_Widget
 
 		echo "<div class='mf_form'>"
 			.show_textfield(array('name' => $this->get_field_name('user_heading'), 'text' => __("Heading", 'lang_users'), 'value' => $instance['user_heading'], 'xtra' => " id='".$this->widget_ops['classname']."-title'"))
-			.show_select(array('data' => get_users_for_select(array('callback' => array($this, 'filter_user_info_callback'))), 'name' => $this->get_field_name('user_ids')."[]", 'text' => __("Users", 'lang_users'), 'value' => $instance['user_ids']))
+			//.show_select(array('data' => get_users_for_select(array('callback' => array($this, 'filter_user_info_callback'))), 'name' => $this->get_field_name('user_ids')."[]", 'text' => __("Users", 'lang_users'), 'value' => $instance['user_ids']))
 		."</div>";
 	}
 }
