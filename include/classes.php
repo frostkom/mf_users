@@ -809,7 +809,8 @@ class mf_users
 			break;
 		}
 
-		$this->wp_head();
+		// Why was this here in the first place?
+		//$this->wp_head();
 	}
 
 	function pre_get_posts($wp_query)
