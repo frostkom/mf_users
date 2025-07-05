@@ -169,7 +169,7 @@ class mf_users
 
 	function block_render_callback($attributes)
 	{
-		if(!isset($attributes['user_ids'])){			$attributes['user_ids'] = array();}
+		if(!isset($attributes['user_ids'])){			$attributes['user_ids'] = [];}
 
 		$out = "";
 
@@ -242,7 +242,7 @@ class mf_users
 
 		if($user_id > 0)
 		{
-			$arr_fields = array();
+			$arr_fields = [];
 
 			$arr_fields[] = array('type' => 'flex_start');
 				$arr_fields[] = array('type' => 'text', 'name' => 'first_name', 'text' => __("First Name", 'lang_users'), 'required' => true);
@@ -325,7 +325,7 @@ class mf_users
 				{
 					if(!isset($arr_fields[$key]['class'])){			$arr_fields[$key]['class'] = "";}
 					//if(!isset($arr_fields[$key]['attributes'])){	$arr_fields[$key]['attributes'] = "";}
-					if(!isset($arr_fields[$key]['attributes'])){	$arr_fields[$key]['attributes'] = array();}
+					if(!isset($arr_fields[$key]['attributes'])){	$arr_fields[$key]['attributes'] = [];}
 					if(!isset($arr_fields[$key]['required'])){		$arr_fields[$key]['required'] = false;}
 
 					$arr_fields[$key]['value'] = get_the_author_meta($value['name'], $user_id);
@@ -351,7 +351,7 @@ class mf_users
 						case 'select':
 							// Otherwise options might end up in the "wrong" order on the site
 							#######################
-							$arr_data_temp = array();
+							$arr_data_temp = [];
 
 							foreach($arr_fields[$key]['options'] as $option_key => $option_value)
 							{
@@ -559,7 +559,7 @@ class mf_users
 		############################
 		add_settings_section($options_area, "", array($this, $options_area."_callback"), BASE_OPTIONS_PAGE);
 
-		$arr_settings = array();
+		$arr_settings = [];
 
 		$arr_settings['setting_users_show_own_media'] = __("Only show users own files", 'lang_users');
 
@@ -589,7 +589,7 @@ class mf_users
 
 			add_settings_section($options_area, "", array($this, $options_area."_callback"), BASE_OPTIONS_PAGE);
 
-			$arr_settings = array();
+			$arr_settings = [];
 			$arr_settings['setting_users_roles_hidden'] = __("Hide Roles", 'lang_users');
 			$arr_settings['setting_users_roles_names'] = __("Change Role Names", 'lang_users');
 
@@ -603,7 +603,7 @@ class mf_users
 
 		add_settings_section($options_area, "", array($this, $options_area."_callback"), BASE_OPTIONS_PAGE);
 
-		$arr_settings = array();
+		$arr_settings = [];
 		$arr_settings['setting_users_add_profile_fields'] = __("Add fields to profile", 'lang_users');
 		$arr_settings['setting_users_remove_profile_fields'] = __("Remove fields from profile", 'lang_users');
 
@@ -684,7 +684,7 @@ class mf_users
 
 			$roles = get_all_roles(array('orig' => true));
 
-			$arr_data = array();
+			$arr_data = [];
 
 			foreach($roles as $key => $value)
 			{
@@ -852,7 +852,7 @@ class mf_users
 				$wp_user_level = "wp_user_level";
 			}
 
-			update_user_meta($user_id, $wp_capabilities, array());
+			update_user_meta($user_id, $wp_capabilities, []);
 			update_user_meta($user_id, $wp_user_level, 0);
 		}
 	}
@@ -933,18 +933,18 @@ class mf_users
 		return $value;
 	}
 
-	function user_row_actions($actions, $user, $is_multisite = false)
+	function user_row_actions($arr_actions, $user, $is_multisite = false)
 	{
-		unset($actions['view']);
-		unset($actions['resetpassword']);
+		unset($arr_actions['view']);
+		unset($arr_actions['resetpassword']);
 
 		if($is_multisite == false && (!isset($user->roles[0]) || $user->roles[0] == ''))
 		{
-			$actions['inactive'] = "<span class='grey'>".__("Inactive", 'lang_users')."</span><i class='set_tr_color' rel='red'></i>";
+			$arr_actions['inactive'] = "<span class='grey'>".__("Inactive", 'lang_users')."</span><i class='set_tr_color' rel='red'></i>";
 
 			/*if(IS_SUPER_ADMIN)
 			{
-				$actions['inactive'] .= " (".var_export($user->roles, true).")";
+				$arr_actions['inactive'] .= " (".var_export($user->roles, true).")";
 			}*/
 		}
 
@@ -958,22 +958,22 @@ class mf_users
 				'user_id' => $user->ID,
 			), $url), 'inactivate_user');
 
-			$actions['inactivate'] = "<a href='".esc_url($url)."' rel='confirm'>".__("Inactivate", 'lang_users')."</a>";
+			$arr_actions['inactivate'] = "<a href='".esc_url($url)."' rel='confirm'>".__("Inactivate", 'lang_users')."</a>";
 		}
 
-		return $actions;
+		return $arr_actions;
 	}
 
-	function ms_user_row_actions($actions, $user)
+	function ms_user_row_actions($arr_actions, $user)
 	{
-		return $this->user_row_actions($actions, $user, true);
+		return $this->user_row_actions($arr_actions, $user, true);
 	}
 
 	function edit_user_profile($user)
 	{
 		global $obj_address;
 
-		$arr_remove = array();
+		$arr_remove = [];
 
 		$setting_users_remove_profile_fields = get_option('setting_users_remove_profile_fields');
 
@@ -1191,7 +1191,7 @@ class mf_users
 		}
 	}*/
 
-	function user_register($user_id, $password = "", $meta = array())
+	function user_register($user_id, $password = "", $meta = [])
 	{
 		/*if(get_option('setting_users_register_name') && isset($_REQUEST['full_name']))
 		{
@@ -1280,9 +1280,9 @@ class mf_users
 	{
 		global $obj_address;
 
-		$arr_remove = array();
+		$arr_remove = [];
 
-		$setting_users_remove_profile_fields = get_option('setting_users_remove_profile_fields', array());
+		$setting_users_remove_profile_fields = get_option('setting_users_remove_profile_fields', []);
 
 		if(is_array($setting_users_remove_profile_fields) && count($setting_users_remove_profile_fields) > 0)
 		{
@@ -1544,7 +1544,7 @@ class widget_user extends WP_Widget
 	var $widget_ops;
 	var $arr_default = array(
 		'user_heading' => "",
-		'user_ids' => array(),
+		'user_ids' => [],
 	);
 
 	function __construct()
@@ -1637,7 +1637,7 @@ class widget_user extends WP_Widget
 		$new_instance = wp_parse_args((array)$new_instance, $this->arr_default);
 
 		$instance['user_heading'] = sanitize_text_field($new_instance['user_heading']);
-		$instance['user_ids'] = is_array($new_instance['user_ids']) ? $new_instance['user_ids'] : array();
+		$instance['user_ids'] = is_array($new_instance['user_ids']) ? $new_instance['user_ids'] : [];
 
 		return $instance;
 	}
