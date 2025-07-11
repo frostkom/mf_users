@@ -494,6 +494,23 @@ class mf_users
 		return $arr_data;
 	}
 
+	function enqueue_block_editor_assets()
+	{
+		$plugin_include_url = plugin_dir_url(__FILE__);
+		$plugin_version = get_plugin_version(__FILE__);
+
+		wp_register_script('script_users_block_wp', $plugin_include_url."block/script_wp.js", array('wp-blocks', 'wp-element', 'wp-components', 'wp-editor', 'wp-block-editor'), $plugin_version, true);
+
+		wp_localize_script('script_users_block_wp', 'script_users_block_wp', array(
+			'block_title' => __("User", 'lang_users'),
+			'block_description' => __("Display information about a user", 'lang_users'),
+			'user_ids_label' => __("Users", 'lang_users'),
+			'user_ids' => get_users_for_select(array('callback' => array($this, 'filter_user_info_callback'))),
+			'block_title2' => __("Profile", 'lang_users'),
+			'block_description2' => __("Display user profile", 'lang_users'),
+		));
+	}
+
 	function init()
 	{
 		load_plugin_textdomain('lang_users', false, str_replace("/include", "", dirname(plugin_basename(__FILE__)))."/lang/");
@@ -519,22 +536,6 @@ class mf_users
 		}
 		#######################
 
-		// Blocks
-		#######################
-		$plugin_include_url = plugin_dir_url(__FILE__);
-		$plugin_version = get_plugin_version(__FILE__);
-
-		wp_register_script('script_users_block_wp', $plugin_include_url."block/script_wp.js", array('wp-blocks', 'wp-element', 'wp-components', 'wp-editor', 'wp-block-editor'), $plugin_version, true);
-
-		wp_localize_script('script_users_block_wp', 'script_users_block_wp', array(
-			'block_title' => __("User", 'lang_users'),
-			'block_description' => __("Display information about a user", 'lang_users'),
-			'user_ids_label' => __("Users", 'lang_users'),
-			'user_ids' => get_users_for_select(array('callback' => array($this, 'filter_user_info_callback'))),
-			'block_title2' => __("Profile", 'lang_users'),
-			'block_description2' => __("Display user profile", 'lang_users'),
-		));
-
 		register_block_type('mf/users', array(
 			'editor_script' => 'script_users_block_wp',
 			'editor_style' => 'style_base_block_wp',
@@ -548,7 +549,6 @@ class mf_users
 			'render_callback' => array($this, 'block_render_profile_callback'),
 			//'style' => 'style_base_block_wp',
 		));
-		#######################
 	}
 
 	function settings_users()
