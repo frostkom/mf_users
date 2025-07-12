@@ -2,7 +2,7 @@
 
 class mf_users
 {
-	var $footer_output = "";
+	var $footer_output;
 
 	function __construct(){}
 
@@ -204,6 +204,10 @@ class mf_users
 
 			if($profile_name != '')
 			{
+				$plugin_include_url = plugin_dir_url(__FILE__);
+
+				mf_enqueue_style('style_user_widget', $plugin_include_url."style_widget.css");
+
 				$profile_picture = get_the_author_meta('profile_picture', $user_id);
 				$profile_description = apply_filters('filter_profile_description', get_the_author_meta('description', $user_id), $user_id);
 
@@ -808,9 +812,6 @@ class mf_users
 				}
 			break;
 		}
-
-		// Why was this here in the first place?
-		//$this->wp_head();
 	}
 
 	function pre_get_posts($wp_query)
@@ -819,7 +820,7 @@ class mf_users
 
 		$wp_query = $wp_query;
 
-		if(isset($wp_query->query['post_type']) && $wp_query->query['post_type'] === 'attachment') //(is_admin() && )
+		if(isset($wp_query->query['post_type']) && $wp_query->query['post_type'] === 'attachment')
 		{
 			$option = get_option('setting_users_show_own_media');
 
@@ -1417,13 +1418,6 @@ class mf_users
 				}
 			}
 		}
-
-		if(apply_filters('get_block_search', 0, 'mf/users') > 0)
-		{
-			$plugin_include_url = plugin_dir_url(__FILE__);
-
-			mf_enqueue_style('style_user_widget', $plugin_include_url."style_widget.css");
-		}
 	}
 
 	function wp_footer()
@@ -1432,11 +1426,6 @@ class mf_users
 		{
 			echo $this->footer_output;
 		}
-
-		/*if(is_user_logged_in())
-		{
-			$this->wp_active();
-		}*/
 	}
 
 	function edit_profile_url($url, $user_id, $scheme)
