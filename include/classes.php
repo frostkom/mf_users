@@ -544,14 +544,12 @@ class mf_users
 			'editor_script' => 'script_users_block_wp',
 			'editor_style' => 'style_base_block_wp',
 			'render_callback' => array($this, 'block_render_callback'),
-			//'style' => 'style_base_block_wp',
 		));
 
 		register_block_type('mf/userprofile', array(
 			'editor_script' => 'script_users_block_wp',
 			'editor_style' => 'style_base_block_wp',
 			'render_callback' => array($this, 'block_render_profile_callback'),
-			//'style' => 'style_base_block_wp',
 		));
 	}
 
