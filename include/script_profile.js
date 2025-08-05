@@ -1,99 +1,94 @@
 jQuery(function($)
 {
-	if(script_users.rich_editing == true)
+	if(script_users_profile.rich_editing == true)
 	{
 		$(".user-rich-editing-wrap").remove();
 	}
 
-	if(script_users.syntax_highlight == true)
+	if(script_users_profile.syntax_highlight == true)
 	{
 		$(".user-syntax-highlighting-wrap").remove();
 	}
 
-	if(script_users.admin_color == true)
+	if(script_users_profile.admin_color == true)
 	{
 		$(".user-admin-color-wrap").remove();
 	}
 
-	if(script_users.comment_shortcuts == true)
+	if(script_users_profile.comment_shortcuts == true)
 	{
 		$(".user-comment-shortcuts-wrap").remove();
 	}
 
-	if(script_users.show_admin_bar == true)
+	if(script_users_profile.show_admin_bar == true)
 	{
 		$(".show-admin-bar").remove();
 	}
 
-	if(script_users.language == true)
+	if(script_users_profile.language == true)
 	{
 		$(".user-language-wrap").remove();
 	}
 
-	if(script_users.user_login == true)
+	if(script_users_profile.user_login == true)
 	{
 		$(".user-user-login-wrap").hide();
 	}
 
-	if(script_users.display_name == true)
+	if(script_users_profile.display_name == true)
 	{
 		$(".user-display-name-wrap").hide();
 	}
 
-	if(script_users.nickname == true)
+	if(script_users_profile.nickname == true)
 	{
 		$(".user-nickname-wrap").hide();
 	}
 
-	if(script_users.url == true)
+	if(script_users_profile.url == true)
 	{
 		$(".user-url-wrap").remove();
 		$("#url").parents(".form-field").remove();
 	}
 
-	if(script_users.aim == true)
+	if(script_users_profile.aim == true)
 	{
 		$(".user-aim-wrap").remove();
 	}
 
-	if(script_users.yim == true)
+	if(script_users_profile.yim == true)
 	{
 		$(".user-yim-wrap").remove();
 	}
 
-	if(script_users.jabber == true)
+	if(script_users_profile.jabber == true)
 	{
 		$(".user-jabber-wrap").remove();
 	}
 
-	if(script_users.description == true)
+	if(script_users_profile.description == true)
 	{
 		$(".user-description-wrap").remove();
 	}
 
-	if(script_users.profile_picture == true)
+	if(script_users_profile.profile_picture == true)
 	{
 		$(".user-profile-picture").remove();
 	}
 
-	if(script_users.password == true)
+	if(script_users_profile.password == true)
 	{
 		$(".user-pass1-wrap, .user-pass2-wrap, .pw-weak").remove();
 	}
 
-	if(script_users.application_password == true)
+	if(script_users_profile.application_password == true)
 	{
 		$("#application-passwords-section").remove();
 	}
 
-	if(script_users.sessions == true)
+	if(script_users_profile.sessions == true)
 	{
 		$(".user-sessions-wrap").remove();
-	}
-
-	if(script_users.backwpup == true)
-	{
-		$("#backwpup_role").parents(".form-table").remove();
 	}
 
 	$(".form-table").each(function()
@@ -105,7 +100,7 @@ jQuery(function($)
 		}
 	});
 
-	if(script_users.headings == true)
+	if(script_users_profile.headings == true)
 	{
 		$("#your-profile").find("h2, h3").remove();
 	}

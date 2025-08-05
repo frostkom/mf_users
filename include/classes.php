@@ -750,7 +750,7 @@ class mf_users
 		function setting_users_remove_profile_fields_callback()
 		{
 			$setting_key = get_setting_key(__FUNCTION__);
-			$option = get_option($setting_key, array('headings', 'rich_editing', 'syntax_highlight', 'admin_color', 'comment_shortcuts', 'show_admin_bar', 'language', 'user_login', 'nickname', 'url', 'aim', 'yim', 'jabber', 'description', 'profile_picture', 'application_password', 'sessions'));
+			$option = get_option($setting_key, array('headings', 'rich_editing', 'syntax_highlight', 'admin_color', 'comment_shortcuts', 'language', 'user_login', 'nickname', 'url', 'aim', 'yim', 'jabber', 'description', 'profile_picture', 'application_password', 'sessions')); //, 'show_admin_bar'
 
 			$arr_data = array(
 				'headings' => __("Headings", 'lang_users'),
@@ -779,11 +779,6 @@ class mf_users
 
 			$arr_data['application_password'] = __("Application Password", 'lang_users');
 			$arr_data['sessions'] = __("Sessions", 'lang_users');
-
-			if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') && is_plugin_active("backwpup/backwpup.php"))
-			{
-				$arr_data['backwpup'] = sprintf(__("Add %s Role", 'lang_users'), "BackWPup");
-			}
 
 			echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
 		}
@@ -970,7 +965,9 @@ class mf_users
 
 	function edit_user_profile($user)
 	{
-		global $obj_address;
+		$plugin_include_url = plugin_dir_url(__FILE__);
+
+		mf_enqueue_style('style_users_profile', $plugin_include_url."style_profile.css");
 
 		$arr_remove = [];
 
@@ -1077,6 +1074,8 @@ class mf_users
 				$meta_value = get_the_author_meta($meta_key, $user->ID);
 				$meta_text = __("Country", 'lang_users');
 
+				global $obj_address;
+
 				if(!isset($obj_address))
 				{
 					$obj_address = new mf_address();
@@ -1134,7 +1133,7 @@ class mf_users
 
 		if(count($arr_remove) > 0)
 		{
-			mf_enqueue_script('script_users', plugin_dir_url(__FILE__)."script_remove.js", $arr_remove, get_plugin_version(__FILE__)); //Should be moved to admin_init
+			mf_enqueue_script('script_users_profile', $plugin_include_url."script_profile.js", $arr_remove);
 		}
 	}
 
@@ -1277,8 +1276,6 @@ class mf_users
 
 	function filter_profile_fields($arr_fields)
 	{
-		global $obj_address;
-
 		$arr_remove = [];
 
 		$setting_users_remove_profile_fields = get_option('setting_users_remove_profile_fields', []);
@@ -1337,6 +1334,8 @@ class mf_users
 			$meta_key = 'profile_country';
 			if(in_array($meta_key, $setting_users_add_profile_fields) && is_plugin_active("mf_address/index.php"))
 			{
+				global $obj_address;
+
 				if(!isset($obj_address))
 				{
 					$obj_address = new mf_address();
