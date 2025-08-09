@@ -328,7 +328,6 @@ class mf_users
 				if(isset($value['name']))
 				{
 					if(!isset($arr_fields[$key]['class'])){			$arr_fields[$key]['class'] = "";}
-					//if(!isset($arr_fields[$key]['attributes'])){	$arr_fields[$key]['attributes'] = "";}
 					if(!isset($arr_fields[$key]['attributes'])){	$arr_fields[$key]['attributes'] = [];}
 					if(!isset($arr_fields[$key]['required'])){		$arr_fields[$key]['required'] = false;}
 
@@ -348,7 +347,7 @@ class mf_users
 
 							else
 							{
-								$arr_fields[$key]['description'] = sprintf(__("If you change this we will send you an email to your new address to confirm it. %sThe new address will not become active until confirmed%s.", 'lang_users'), "<strong>", "</strong>");
+								$arr_fields[$key]['description'] = __("We will send an email to the new address and it will not become active until confirmed.", 'lang_users');
 							}
 						break;
 
@@ -376,7 +375,6 @@ class mf_users
 							if($arr_fields[$key]['multiple'] == true)
 							{
 								$arr_fields[$key]['class'] .= " form_select_multiple";
-								//$arr_fields[$key]['attributes'] .= " size='".get_select_size(array('count' => count($arr_fields[$key]['options'])))."'";
 								$arr_fields[$key]['attributes']['size'] = get_select_size(array('count' => count($arr_fields[$key]['options'])));
 							}
 						break;
