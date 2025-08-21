@@ -382,7 +382,7 @@ class mf_users
 				}
 			}
 
-			$out .= "<form method='post' action='' class='mf_form'>"
+			$out .= "<form method='post' action=''".parse_block_attributes(array('class' => "widget user_profile mf_form", 'attributes' => $attributes)).">"
 				.get_notification();
 
 				foreach($arr_fields as $key => $arr_value)
@@ -473,7 +473,7 @@ class mf_users
 				}
 
 				$out .= "<div".get_form_button_classes().">"
-					.show_button(array('name' => 'btnProfileUpdate', 'text' => __("Update", 'lang_users')))
+					.show_button(array('name' => 'btnProfileUpdate', 'text' => __("Save", 'lang_users')))
 				."</div>
 			</form>";
 		}
