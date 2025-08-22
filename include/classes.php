@@ -212,8 +212,8 @@ class mf_users
 				$profile_description = apply_filters('filter_profile_description', get_the_author_meta('description', $user_id), $user_id);
 
 				$out .= "<div".parse_block_attributes(array('class' => "widget user", 'attributes' => $attributes)).">
-					<div class='section'>
-						<h4>".$profile_name."</h4>";
+					<div>" // class='section'
+						."<h4>".$profile_name."</h4>";
 
 						if($profile_picture != '')
 						{
@@ -1593,8 +1593,8 @@ class widget_user extends WP_Widget
 						.$after_title;
 					}
 
-					echo "<div class='section'>
-						<h4>".$profile_name."</h4>";
+					echo "<div>" // class='section'
+						."<h4>".$profile_name."</h4>";
 
 						if($profile_picture != '')
 						{
