@@ -849,22 +849,22 @@ class mf_users
 		}
 	}
 
-	function manage_users_columns($cols)
+	function manage_users_columns($columns)
 	{
-		unset($cols['posts']);
+		unset($columns['posts']);
 
-		$cols['meta_last_active'] = __("Last Logged In", 'lang_users');
+		$columns['meta_last_active'] = __("Last Logged In", 'lang_users');
 
-		return $cols;
+		return $columns;
 	}
 
-	function manage_users_custom_column($value, $col, $id)
+	function manage_users_custom_column($value, $column, $id)
 	{
-		switch($col)
+		switch($column)
 		{
 			case 'meta_last_active':
 				$meta_last_logged_in = get_the_author_meta('meta_last_logged_in', $id);
-				$meta_last_active = get_the_author_meta($col, $id);
+				$meta_last_active = get_the_author_meta($column, $id);
 
 				$out = "";
 
