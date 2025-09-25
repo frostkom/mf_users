@@ -144,7 +144,7 @@ class mf_users
 
 			mf_uninstall_plugin(array(
 				'options' => array('setting_users_last_logged_in', 'setting_admin_color', 'setting_users_admin_color', 'setting_users_register_name'),
-				'meta' => array('meta_last_logged_in'),
+				'meta' => array('meta_last_logged_in', 'meta_profile_reminder'),
 			));
 		}
 
@@ -409,10 +409,6 @@ class mf_users
 							$out .= get_media_library(array('type' => 'image', 'name' => $arr_value['name'], 'label' => $arr_value['text'], 'value' => $arr_value['value']));
 						break;
 
-						case 'number':
-							$out .= show_textfield(array('type' => 'number', 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value']));
-						break;
-
 						case 'password':
 							$out .= show_password_field(array('name' => $arr_value['name'], 'text' => $arr_value['text'], 'placeholder' => __("Enter a New Password Here", 'lang_users')));
 						break;
@@ -458,8 +454,10 @@ class mf_users
 							</div>";
 						break;
 
+						case 'number':
+						case 'tel':
 						case 'text':
-							$out .= show_textfield(array('name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value']));
+							$out .= show_textfield(array('type' => $arr_value['type'], 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value']));
 						break;
 
 						case 'textarea':
@@ -729,7 +727,7 @@ class mf_users
 
 			$arr_data = array(
 				'profile_birthday' => __("Birthday", 'lang_users'),
-				'phone' => __("Phone Number", 'lang_users'),
+				'profile_phone' => __("Phone Number", 'lang_users'),
 				'profile_company' => __("Company", 'lang_users'),
 				'profile_address' => __("Address", 'lang_users'),
 				'profile_picture' => __("Profile Picture", 'lang_users'),
@@ -741,6 +739,11 @@ class mf_users
 			}
 
 			$arr_data['edit_page_per_page'] = __("Rows / Page", 'lang_users');
+
+			if(is_array($option) && in_array('phone', $option))
+			{
+				$option[] = 'profile_phone';
+			}
 
 			echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
 		}
@@ -997,15 +1000,15 @@ class mf_users
 				</tr>";
 			}
 
-			if(in_array('phone', $setting_users_add_profile_fields))
+			$meta_key = 'profile_phone';
+			if(in_array($meta_key, $setting_users_add_profile_fields) || in_array('phone', $setting_users_add_profile_fields))
 			{
-				$meta_key = 'profile_phone';
 				$meta_value = get_the_author_meta($meta_key, $user->ID);
 				$meta_text = __("Phone Number", 'lang_users');
 
 				$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
 					<th><label for='".$meta_key."'>".$meta_text."</label></th>
-					<td>".show_textfield(array('name' => $meta_key, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
+					<td>".show_textfield(array('type' => 'tel', 'name' => $meta_key, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
 				</tr>";
 			}
 
@@ -1108,27 +1111,6 @@ class mf_users
 			}
 		}
 
-		/*if(IS_SUPER_ADMIN)
-		{
-			$meta_key = 'meta_profile_reminder';
-			$meta_value = get_user_meta($user->ID, $meta_key);
-			$meta_text = "Send Updates";
-
-			$arr_data = array(
-				'' => "-- "."Choose Here"." --",
-				'day' => "Daily",
-				'week' => "Weekly",
-				'month' => "Monthly",
-			);
-
-			echo "<table class='form-table'>
-				<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
-					<th><label for='".$meta_key."'>".$meta_text."</label></th>
-					<td>".show_select(array('data' => $arr_data, 'name' => $meta_key, 'value' => $meta_value, 'description' => "This will send you an update of what has happened since you last was online or got an update last time"))."</td>
-				</tr>
-			</table>";
-		}*/
-
 		if(count($arr_remove) > 0)
 		{
 			mf_enqueue_script('script_users_profile', $plugin_include_url."script_profile.js", $arr_remove);
@@ -1209,9 +1191,9 @@ class mf_users
 			update_user_meta($user_id, $meta_key, $meta_value);
 		}
 
-		if(is_array($setting_users_add_profile_fields) && in_array('phone', $setting_users_add_profile_fields))
+		$meta_key = 'profile_phone';
+		if(is_array($setting_users_add_profile_fields) && (in_array($meta_key, $setting_users_add_profile_fields) || in_array('phone', $setting_users_add_profile_fields)))
 		{
-			$meta_key = 'profile_phone';
 			$meta_value = check_var($meta_key);
 
 			update_user_meta($user_id, $meta_key, $meta_value);
@@ -1267,9 +1249,6 @@ class mf_users
 
 			update_user_meta($user_id, $meta_key, $meta_value);
 		}
-
-		/*$meta_value = check_var('meta_profile_reminder');
-		update_user_meta($user_id, 'meta_profile_reminder', $meta_value);*/
 	}
 
 	function filter_profile_fields($arr_fields)
@@ -1302,11 +1281,10 @@ class mf_users
 				$arr_fields[] = array('type' => 'date', 'name' => $meta_key, 'text' => __("Birthday", 'lang_users'));
 			}
 
-			if(in_array('phone', $setting_users_add_profile_fields))
+			$meta_key = 'profile_phone';
+			if(in_array($meta_key, $setting_users_add_profile_fields) || in_array('phone', $setting_users_add_profile_fields))
 			{
-				$meta_key = 'profile_phone';
-
-				$arr_fields[] = array('type' => 'text', 'name' => $meta_key, 'text' => __("Phone Number", 'lang_users'));
+				$arr_fields[] = array('type' => 'tel', 'name' => $meta_key, 'text' => __("Phone Number", 'lang_users'));
 			}
 
 			$meta_key = 'profile_company';
