@@ -144,7 +144,7 @@ class mf_users
 
 			mf_uninstall_plugin(array(
 				'options' => array('setting_users_last_logged_in', 'setting_admin_color', 'setting_users_admin_color', 'setting_users_register_name'),
-				'meta' => array('meta_last_logged_in', 'meta_profile_reminder'),
+				'user_meta' => array('meta_last_logged_in', 'meta_profile_reminder'),
 			));
 		}
 
