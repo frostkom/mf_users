@@ -2,9 +2,39 @@
 
 class mf_users
 {
+	var $profile_fields;
 	var $footer_output;
 
-	function __construct(){}
+	function __construct()
+	{
+		$this->profile_fields = array(
+			'headings' => array('name' => __("Headings", 'lang_users')),
+			'rich_editing' => array('name' => __("Visual Editor", 'lang_users')),
+			'syntax_highlight' => array('name' => __("Syntax Highlighting", 'lang_users')),
+			'admin_color' => array('name' => __("Admin Color Scheme", 'lang_users')),
+			'comment_shortcuts' => array('name' => __("Keyboard Shortcuts", 'lang_users')),
+			'show_admin_bar' => array('type' => 'checkbox', 'key' => 'show_admin_bar_front', 'name' => __("Toolbar", 'lang_users')),
+			'language' => array('name' => __("Language", 'lang_users')),
+			'user_login' => array('name' => __("Username", 'lang_users')),
+			'nickname' => array('name' => __("Nickname", 'lang_users')),
+			'display_name' => array('name' => __("Display name", 'lang_users')),
+			'url' => array('name' => __("Website", 'lang_users')),
+			'aim' => array('name' => "AIM"),
+			'yim' => array('name' => "Yahoo IM"),
+			'jabber' => array('name' => "Jabber"),
+			'description' => array('name' => __("Biographical Info", 'lang_users')),
+		);
+
+		$option_add = get_option('setting_users_add_profile_fields');
+
+		if(is_array($option_add) && !in_array('profile_picture', $option_add) || !is_array($option_add))
+		{
+			$this->profile_fields['profile_picture'] = array('name' => __("Profile Picture", 'lang_users'));
+		}
+
+		$this->profile_fields['application_password'] = array('name' => __("Application Password", 'lang_users'));
+		$this->profile_fields['sessions'] = array('name' => __("Sessions", 'lang_users'));
+	}
 
 	function wp_authenticate($username, $password)
 	{
@@ -257,6 +287,11 @@ class mf_users
 				$arr_fields[] = array('type' => 'password', 'name' => 'password', 'text' => __("Password"));
 			$arr_fields[] = array('type' => 'flex_end');
 
+			foreach($this->profile_fields as $key => $value)
+			{
+				$arr_fields[] = array('type' => (isset($value['type']) ? $value['type'] : 'text'), 'name' => (isset($value['key']) ? $value['key'] : $key), 'text' => $value['name']);
+			}
+
 			$arr_fields = apply_filters('filter_profile_fields', $arr_fields);
 
 			if(isset($_POST['btnProfileUpdate']))
@@ -267,7 +302,16 @@ class mf_users
 				{
 					if(isset($value['name']))
 					{
-						$user_meta = check_var($value['name']);
+						switch($arr_fields[$key]['type'])
+						{
+							case 'checkbox':
+								$user_meta = (isset($_REQUEST[$value['name']]) ? 'true' : 'false');
+							break;
+
+							default:
+								$user_meta = check_var($value['name']);
+							break;
+						}
 
 						if($user_meta != '' || !isset($value['required']) || $value['required'] == false)
 						{
@@ -304,6 +348,11 @@ class mf_users
 
 								default:
 									$meta_id = update_user_meta($user_id, $value['name'], $user_meta);
+
+									if(IS_SUPER_ADMIN)
+									{
+										$out .= "<p>Saved: ".$user_id.", ".$value['name'].", ".$user_meta."</p>";
+									}
 
 									$updated = true;
 								break;
@@ -389,6 +438,10 @@ class mf_users
 				{
 					switch($arr_value['type'])
 					{
+						case 'checkbox':
+							$out .= show_checkbox(array('name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => 'true', 'compare' => $arr_value['value']));
+						break;
+
 						case 'date':
 							$out .= show_textfield(array('type' => 'date', 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value']));
 						break;
@@ -747,41 +800,25 @@ class mf_users
 
 			echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
 		}
+		
+		function get_profile_fields_for_select()
+		{
+			$arr_data = [];
+
+			foreach($this->profile_fields as $key => $value)
+			{
+				$arr_data[$key] = $value['name'];
+			}
+
+			return $arr_data;
+		}
 
 		function setting_users_remove_profile_fields_callback()
 		{
 			$setting_key = get_setting_key(__FUNCTION__);
 			$option = get_option($setting_key, array('headings', 'rich_editing', 'syntax_highlight', 'admin_color', 'comment_shortcuts', 'language', 'user_login', 'nickname', 'url', 'aim', 'yim', 'jabber', 'description', 'profile_picture', 'application_password', 'sessions')); //, 'show_admin_bar'
 
-			$arr_data = array(
-				'headings' => __("Headings", 'lang_users'),
-				'rich_editing' => __("Visual Editor", 'lang_users'),
-				'syntax_highlight' => __("Syntax Highlighting", 'lang_users'),
-				'admin_color' => __("Admin Color Scheme", 'lang_users'),
-				'comment_shortcuts' => __("Keyboard Shortcuts", 'lang_users'),
-				'show_admin_bar' => __("Toolbar", 'lang_users'),
-				'language' => __("Language", 'lang_users'),
-				'user_login' => __("Username", 'lang_users'),
-				'nickname' => __("Nickname", 'lang_users'),
-				'display_name' => __("Display name", 'lang_users'),
-				'url' => __("Website", 'lang_users'),
-				'aim' => "AIM",
-				'yim' => "Yahoo IM",
-				'jabber' => "Jabber",
-				'description' => __("Biographical Info", 'lang_users'),
-			);
-
-			$option_add = get_option('setting_users_add_profile_fields');
-
-			if(is_array($option_add) && !in_array('profile_picture', $option_add) || !is_array($option_add))
-			{
-				$arr_data['profile_picture'] = __("Profile Picture", 'lang_users');
-			}
-
-			$arr_data['application_password'] = __("Application Password", 'lang_users');
-			$arr_data['sessions'] = __("Sessions", 'lang_users');
-
-			echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
+			echo show_select(array('data' => $this->get_profile_fields_for_select(), 'name' => $setting_key."[]", 'value' => $option));
 		}
 
 	function admin_init()
@@ -1144,43 +1181,8 @@ class mf_users
 		}
 	}
 
-	/*function register_form()
-	{
-		if(get_option('setting_users_register_name'))
-		{
-			$meta_key = 'full_name';
-			$meta_value = check_var($meta_key);
-			$meta_text = __("Full Name", 'lang_users');
-
-			$post_id = apply_filters('get_block_search', 0, 'mf/users');
-
-			if($post_id > 0)
-			{
-				echo show_textfield(array('name' => $meta_key, 'text' => $meta_text, 'value' => $meta_value, 'required' => true));
-			}
-
-			else
-			{
-				echo "<p>
-					<label for='".$meta_key."'>".$meta_text."</label><br>
-					<input type='text' name='".$meta_key."' value='".$meta_value."' class='regular-text' required>
-				</p>";
-			}
-		}
-	}*/
-
 	function user_register($user_id, $password = "", $meta = [])
 	{
-		/*if(get_option('setting_users_register_name') && isset($_REQUEST['full_name']))
-		{
-			$full_name = check_var('full_name');
-
-			@list($first_name, $last_name) = explode(" ", $full_name, 2);
-
-			update_user_meta($user_id, 'first_name', $first_name);
-			update_user_meta($user_id, 'last_name', $last_name);
-		}*/
-
 		$setting_users_add_profile_fields = get_option('setting_users_add_profile_fields');
 
 		$meta_key = 'profile_birthday';
