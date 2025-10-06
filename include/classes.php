@@ -156,24 +156,11 @@ class mf_users
 				}
 			}
 
-			/*if(get_option('setting_users_register_name'))
-			{
-				$users = get_users(array('fields' => 'all'));
-
-				foreach($users as $user)
-				{
-					$user = get_userdata($user->ID);
-
-					$this->save_display_name($user);
-				}
-			}*/
-
-			replace_option(array('old' => 'setting_theme_core_display_author_pages', 'new' => 'setting_users_display_author_pages'));
 			replace_option(array('old' => 'setting_add_profile_fields', 'new' => 'setting_users_add_profile_fields'));
 			replace_option(array('old' => 'setting_remove_profile_fields', 'new' => 'setting_users_remove_profile_fields'));
 
 			mf_uninstall_plugin(array(
-				'options' => array('setting_users_last_logged_in', 'setting_admin_color', 'setting_users_admin_color', 'setting_users_register_name'),
+				'options' => array('setting_users_last_logged_in', 'setting_admin_color', 'setting_users_admin_color', 'setting_users_register_name', 'setting_users_display_author_pages'),
 				'user_meta' => array('meta_last_logged_in', 'meta_profile_reminder'),
 			));
 		}
@@ -619,15 +606,11 @@ class mf_users
 			$arr_settings['setting_users_no_spaces'] = __("Prevent Username Spaces", 'lang_users');
 		}
 
-		//$arr_settings['setting_users_register_name'] = __("Collect name of user in registration form", 'lang_users');
-
 		if(IS_SUPER_ADMIN)
 		{
 			$arr_settings['setting_users_send_registration_notification'] = __("Send User Registration Notification to Admin", 'lang_users');
 			$arr_settings['setting_users_send_password_change_notification'] = __("Send Password Changed Notification", 'lang_users');
 		}
-
-		$arr_settings['setting_users_display_author_pages'] = __("Display Author Pages", 'lang_users');
 
 		show_settings_fields(array('area' => $options_area, 'object' => $this, 'settings' => $arr_settings));
 		############################
@@ -686,14 +669,6 @@ class mf_users
 			echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'value' => $option));
 		}
 
-		/*function setting_users_register_name_callback()
-		{
-			$setting_key = get_setting_key(__FUNCTION__);
-			$option = get_option($setting_key);
-
-			echo show_select(array('data' => get_yes_no_for_select(array('return_integer' => true)), 'name' => $setting_key, 'value' => $option));
-		}*/
-
 		function setting_users_send_registration_notification_callback()
 		{
 			$setting_key = get_setting_key(__FUNCTION__);
@@ -708,14 +683,6 @@ class mf_users
 			$setting_key = get_setting_key(__FUNCTION__);
 			settings_save_site_wide($setting_key);
 			$option = get_site_option($setting_key, get_option($setting_key, 'no'));
-
-			echo show_select(array('data' => get_yes_no_for_select(), 'name' => $setting_key, 'value' => $option));
-		}
-
-		function setting_users_display_author_pages_callback()
-		{
-			$setting_key = get_setting_key(__FUNCTION__);
-			$option = get_option_or_default($setting_key, 'no');
 
 			echo show_select(array('data' => get_yes_no_for_select(), 'name' => $setting_key, 'value' => $option));
 		}
@@ -1165,20 +1132,6 @@ class mf_users
 	function admin_footer()
 	{
 		$this->wp_footer();
-	}
-
-	function wp_sitemaps_add_provider($provider, $name)
-	{
-		return ('users' === $name && get_option_or_default('setting_users_display_author_pages', 'no') == 'no' ? false : $provider);
-	}
-
-	function template_redirect()
-	{
-		if(is_author() && get_option_or_default('setting_users_display_author_pages', 'no') == 'no')
-		{
-			wp_redirect(get_option('home'), 301);
-			exit;
-		}
 	}
 
 	function user_register($user_id, $password = "", $meta = [])
