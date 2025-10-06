@@ -767,7 +767,7 @@ class mf_users
 
 			echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
 		}
-		
+
 		function get_profile_fields_for_select()
 		{
 			$arr_data = [];
@@ -820,9 +820,9 @@ class mf_users
 
 		if(isset($wp_query->query['post_type']) && $wp_query->query['post_type'] === 'attachment')
 		{
-			$option = get_option('setting_users_show_own_media');
+			$setting_users_show_own_media = get_option('setting_users_show_own_media');
 
-			if($option != '' && !current_user_can($option))
+			if($setting_users_show_own_media != '' && !current_user_can($setting_users_show_own_media))
 			{
 				$wp_query->set('author', $current_user->ID);
 			}
