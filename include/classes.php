@@ -957,7 +957,7 @@ class mf_users
 				'user_id' => $user->ID,
 			), $url), 'inactivate_user');
 
-			$arr_actions['inactivate'] = "<a href='".esc_url($url)."' rel='confirm'>".__("Inactivate", 'lang_users')."</a>";
+			$arr_actions['inactivate'] = "<a href='".esc_url($url)."'".make_link_confirm().">".__("Inactivate", 'lang_users')."</a>";
 		}
 
 		return $arr_actions;
