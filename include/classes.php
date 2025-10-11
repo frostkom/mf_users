@@ -430,11 +430,11 @@ class mf_users
 						break;
 
 						case 'date':
-							$out .= show_textfield(array('type' => 'date', 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value']));
+							$out .= show_textfield(array('type' => 'date', 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value'], 'required' => $arr_value['required']));
 						break;
 
 						case 'email':
-							$out .= show_textfield(array('type' => 'email', 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value'], 'description' => $arr_value['description']));
+							$out .= show_textfield(array('type' => 'email', 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value'], 'description' => $arr_value['description'], 'required' => $arr_value['required']));
 						break;
 
 						case 'flex_start':
@@ -450,7 +450,7 @@ class mf_users
 						break;
 
 						case 'password':
-							$out .= show_password_field(array('name' => $arr_value['name'], 'text' => $arr_value['text'], 'placeholder' => __("Enter a New Password Here", 'lang_users')));
+							$out .= show_password_field(array('name' => $arr_value['name'], 'text' => $arr_value['text'], 'placeholder' => __("Enter a New Password Here", 'lang_users'), 'required' => $arr_value['required']));
 						break;
 
 						case 'select':
@@ -497,11 +497,11 @@ class mf_users
 						case 'number':
 						case 'tel':
 						case 'text':
-							$out .= show_textfield(array('type' => $arr_value['type'], 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value']));
+							$out .= show_textfield(array('type' => $arr_value['type'], 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value'], 'required' => $arr_value['required']));
 						break;
 
 						case 'textarea':
-							$out .= show_textarea(array('name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value']));
+							$out .= show_textarea(array('name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value'], 'required' => $arr_value['required']));
 						break;
 
 						default:
