@@ -5,36 +5,7 @@ class mf_users
 	var $profile_fields;
 	var $footer_output;
 
-	function __construct()
-	{
-		$this->profile_fields = array(
-			'headings' => array('name' => __("Headings", 'lang_users')),
-			'rich_editing' => array('name' => __("Visual Editor", 'lang_users')),
-			'syntax_highlight' => array('name' => __("Syntax Highlighting", 'lang_users')),
-			'admin_color' => array('name' => __("Admin Color Scheme", 'lang_users')),
-			'comment_shortcuts' => array('name' => __("Keyboard Shortcuts", 'lang_users')),
-			'show_admin_bar' => array('type' => 'checkbox', 'key' => 'show_admin_bar_front', 'name' => __("Toolbar", 'lang_users')),
-			'language' => array('name' => __("Language", 'lang_users')),
-			'user_login' => array('name' => __("Username", 'lang_users')),
-			'nickname' => array('name' => __("Nickname", 'lang_users')),
-			'display_name' => array('name' => __("Display name", 'lang_users')),
-			'url' => array('name' => __("Website", 'lang_users')),
-			'aim' => array('name' => "AIM"),
-			'yim' => array('name' => "Yahoo IM"),
-			'jabber' => array('name' => "Jabber"),
-			'description' => array('name' => __("Biographical Info", 'lang_users')),
-		);
-
-		$option_add = get_option('setting_users_add_profile_fields');
-
-		if(is_array($option_add) && !in_array('profile_picture', $option_add) || !is_array($option_add))
-		{
-			$this->profile_fields['profile_picture'] = array('name' => __("Profile Picture", 'lang_users'));
-		}
-
-		$this->profile_fields['application_password'] = array('name' => __("Application Password", 'lang_users'));
-		$this->profile_fields['sessions'] = array('name' => __("Sessions", 'lang_users'));
-	}
+	function __construct(){}
 
 	function wp_authenticate($username, $password)
 	{
@@ -302,6 +273,12 @@ class mf_users
 
 						if($user_meta != '' || !isset($value['required']) || $value['required'] == false)
 						{
+							if($user_meta != '' && isset($value['encrypted']) && $value['encrypted'] == true)
+							{
+								$obj_encryption = new mf_encryption('user');
+								$user_meta = $obj_encryption->encrypt($user_meta, md5(AUTH_KEY."_".$user_id));
+							}
+
 							switch($arr_fields[$key]['type'])
 							{
 								case 'email':
@@ -336,10 +313,10 @@ class mf_users
 								default:
 									$meta_id = update_user_meta($user_id, $value['name'], $user_meta);
 
-									if(IS_SUPER_ADMIN)
+									/*if(IS_SUPER_ADMIN)
 									{
 										$out .= "<p>Saved: ".$user_id.", ".$value['name'].", ".$user_meta."</p>";
-									}
+									}*/
 
 									$updated = true;
 								break;
@@ -554,6 +531,34 @@ class mf_users
 	function init()
 	{
 		load_plugin_textdomain('lang_users', false, str_replace("/include", "", dirname(plugin_basename(__FILE__)))."/lang/");
+
+		$this->profile_fields = array(
+			'headings' => array('name' => __("Headings", 'lang_users')),
+			'rich_editing' => array('name' => __("Visual Editor", 'lang_users')),
+			'syntax_highlight' => array('name' => __("Syntax Highlighting", 'lang_users')),
+			'admin_color' => array('name' => __("Admin Color Scheme", 'lang_users')),
+			'comment_shortcuts' => array('name' => __("Keyboard Shortcuts", 'lang_users')),
+			'show_admin_bar' => array('type' => 'checkbox', 'key' => 'show_admin_bar_front', 'name' => __("Toolbar", 'lang_users')),
+			'language' => array('name' => __("Language", 'lang_users')),
+			'user_login' => array('name' => __("Username", 'lang_users')),
+			'nickname' => array('name' => __("Nickname", 'lang_users')),
+			'display_name' => array('name' => __("Display name", 'lang_users')),
+			'url' => array('name' => __("Website", 'lang_users')),
+			'aim' => array('name' => "AIM"),
+			'yim' => array('name' => "Yahoo IM"),
+			'jabber' => array('name' => "Jabber"),
+			'description' => array('name' => __("Biographical Info", 'lang_users')),
+		);
+
+		$option_add = get_option('setting_users_add_profile_fields');
+
+		if(is_array($option_add) && !in_array('profile_picture', $option_add) || !is_array($option_add))
+		{
+			$this->profile_fields['profile_picture'] = array('name' => __("Profile Picture", 'lang_users'));
+		}
+
+		$this->profile_fields['application_password'] = array('name' => __("Application Password", 'lang_users'));
+		$this->profile_fields['sessions'] = array('name' => __("Sessions", 'lang_users'));
 
 		//
 		#######################
