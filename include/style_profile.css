@@ -1,7 +1,4 @@
-@media all
+.pw-weak
 {
-	.pw-weak
-	{
-		display: none !important;
-	}
+	display: none !important;
 }

@@ -1,93 +1,90 @@
-@media all
+#modal_birthday
 {
-	#modal_birthday
+	background: rgba(255, 255, 255, .9);
+	border-radius: 0 0 .3em .3em;
+	box-shadow: .1em .1em .5em rgba(0, 0, 0, .3);
+	font-size: 2em;
+	left: 50%;
+	overflow: hidden;
+	padding: .5em 1em;
+	position: fixed;
+	top: 0;
+	transform: translateX(-50%);
+	z-index: 100000;
+}
+
+	#modal_birthday .balloons
 	{
-		background: rgba(255, 255, 255, .9);
-		border-radius: 0 0 .3em .3em;
-		box-shadow: .1em .1em .5em rgba(0, 0, 0, .3);
-		font-size: 2em;
+		font-size: .2em;
 		left: 50%;
-		overflow: hidden;
-		padding: .5em 1em;
-		position: fixed;
-		top: 0;
+		opacity: .4;
+		position: absolute;
+		text-align: center;
 		transform: translateX(-50%);
-		z-index: 100000;
+		width: 100%;
 	}
 
-		#modal_birthday .balloons
+		#modal_birthday .balloons > div
 		{
-			font-size: .2em;
-			left: 50%;
-			opacity: .4;
-			position: absolute;
-			text-align: center;
-			transform: translateX(-50%);
-			width: 100%;
+			display: inline-block;
+			background: hsl(215, 50%, 65%);
+			border-radius: 80%;
+			box-shadow: inset -.7em -.7em 0 rgba(0, 0, 0, .07);
+			height: 9em;
+			margin: 1em;
+			position: relative;
+			transition: transform .5s ease;
+			animation: balloons 4s ease-in-out infinite;
+			transform-origin: bottom center;
+			width: 7em;
 		}
 
-			#modal_birthday .balloons > div
+			@keyframes balloons
 			{
-				display: inline-block;
-				background: hsl(215, 50%, 65%);
-				border-radius: 80%;
-				box-shadow: inset -.7em -.7em 0 rgba(0, 0, 0, .07);
-				height: 9em;
-				margin: 1em;
-				position: relative;
-				transition: transform .5s ease;
-				animation: balloons 4s ease-in-out infinite;
-				transform-origin: bottom center;
-				width: 7em;
+				0%,100%{ transform:translateY(0) rotate(-4deg); }
+				50%{ transform:translateY(-25px) rotate(4deg); }
 			}
 
-				@keyframes balloons
-				{
-					0%,100%{ transform:translateY(0) rotate(-4deg); }
-					50%{ transform:translateY(-25px) rotate(4deg); }
-				}
+			#modal_birthday .balloons > div:before
+			{
+				background: inherit;
+				border-radius: .5em;
+				bottom: -.6em;
+				box-shadow: inset -.2em -.1em 0 rgba(0, 0, 0, .07);
+				content: ' ';
+				display: block;
+				height: .7em;
+				left: 50%;
+				position: absolute;
+				transform: translateX(-50%);
+				width: 1.1em;
+			}
 
-				#modal_birthday .balloons > div:before
-				{
-					background: inherit;
-					border-radius: .5em;
-					bottom: -.6em;
-					box-shadow: inset -.2em -.1em 0 rgba(0, 0, 0, .07);
-					content: ' ';
-					display: block;
-					height: .7em;
-					left: 50%;
-					position: absolute;
-					transform: translateX(-50%);
-					width: 1.1em;
-				}
+			#modal_birthday .balloons > div:after
+			{
+				background:rgba(0, 0, 0, .2);
+				content: '';
+				display: inline-block;
+				height: 10em;
+				margin: 0 auto;
+				position: absolute;
+				top: 9.5em;
+				width: 1px;
+			}
 
-				#modal_birthday .balloons > div:after
-				{
-					background:rgba(0, 0, 0, .2);
-					content: '';
-					display: inline-block;
-					height: 10em;
-					margin: 0 auto;
-					position: absolute;
-					top: 9.5em;
-					width: 1px;
-				}
+			#modal_birthday .balloons > div:nth-child(2){ background:hsl(245,40%,65%); animation-duration:3.5s; }
+			#modal_birthday .balloons > div:nth-child(2):before { color:hsl(245,40%,65%);}
 
-				#modal_birthday .balloons > div:nth-child(2){ background:hsl(245,40%,65%); animation-duration:3.5s; }
-				#modal_birthday .balloons > div:nth-child(2):before { color:hsl(245,40%,65%);}
+			#modal_birthday .balloons > div:nth-child(3){ background:hsl(139,50%,60%); animation-duration:3s; }
+			#modal_birthday .balloons > div:nth-child(3):before { color:hsl(139,30%,50%);}
 
-				#modal_birthday .balloons > div:nth-child(3){ background:hsl(139,50%,60%); animation-duration:3s; }
-				#modal_birthday .balloons > div:nth-child(3):before { color:hsl(139,30%,50%);}
+			#modal_birthday .balloons > div:nth-child(4){ background:hsl(59,50%,58%); animation-duration:4.5s; }
+			#modal_birthday .balloons > div:nth-child(4):before { color:hsl(59,30%,52%);}
 
-				#modal_birthday .balloons > div:nth-child(4){ background:hsl(59,50%,58%); animation-duration:4.5s; }
-				#modal_birthday .balloons > div:nth-child(4):before { color:hsl(59,30%,52%);}
+			#modal_birthday .balloons > div:nth-child(5){ background:hsl(23,55%,57%); animation-duration:5s; }
+			#modal_birthday .balloons > div:nth-child(5):before { color:hsl(23,44%,46%);}
 
-				#modal_birthday .balloons > div:nth-child(5){ background:hsl(23,55%,57%); animation-duration:5s; }
-				#modal_birthday .balloons > div:nth-child(5):before { color:hsl(23,44%,46%);}
-
-		#modal_birthday .content
-		{
-			position: relative;
-		}
-}
+	#modal_birthday .content
+	{
+		position: relative;
+	}
