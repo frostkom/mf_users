@@ -395,102 +395,104 @@ class mf_users
 				}
 			}
 
-			$out .= "<form method='post' action=''".parse_block_attributes(array('class' => "widget user_profile mf_form", 'attributes' => $attributes)).">"
-				.get_notification();
+			$out .= "<div".parse_block_attributes(array('class' => "widget user_profile", 'attributes' => $attributes)).">
+				<form".apply_filters('get_form_attr', "").">"
+					.get_notification(array('add_container' => true));
 
-				foreach($arr_fields as $key => $arr_value)
-				{
-					switch($arr_value['type'])
+					foreach($arr_fields as $key => $arr_value)
 					{
-						case 'checkbox':
-							$out .= show_checkbox(array('name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => 'true', 'compare' => $arr_value['value']));
-						break;
+						switch($arr_value['type'])
+						{
+							case 'checkbox':
+								$out .= show_checkbox(array('name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => 'true', 'compare' => $arr_value['value']));
+							break;
 
-						case 'date':
-							$out .= show_textfield(array('type' => 'date', 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value'], 'required' => $arr_value['required']));
-						break;
+							case 'date':
+								$out .= show_textfield(array('type' => 'date', 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value'], 'required' => $arr_value['required']));
+							break;
 
-						case 'email':
-							$out .= show_textfield(array('type' => 'email', 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value'], 'description' => $arr_value['description'], 'required' => $arr_value['required']));
-						break;
+							case 'email':
+								$out .= show_textfield(array('type' => 'email', 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value'], 'description' => $arr_value['description'], 'required' => $arr_value['required']));
+							break;
 
-						case 'flex_start':
-							$out .= "<div class='flex_flow'>";
-						break;
+							case 'flex_start':
+								$out .= "<div class='flex_flow'>";
+							break;
 
-						case 'flex_end':
-							$out .= "</div>";
-						break;
+							case 'flex_end':
+								$out .= "</div>";
+							break;
 
-						case 'media_image':
-							$out .= get_media_library(array('type' => 'image', 'name' => $arr_value['name'], 'label' => $arr_value['text'], 'value' => $arr_value['value']));
-						break;
+							case 'media_image':
+								$out .= get_media_library(array('type' => 'image', 'name' => $arr_value['name'], 'label' => $arr_value['text'], 'value' => $arr_value['value']));
+							break;
 
-						case 'password':
-							$out .= show_password_field(array('name' => $arr_value['name'], 'text' => $arr_value['text'], 'placeholder' => __("Enter a New Password Here", 'lang_users'), 'required' => $arr_value['required']));
-						break;
+							case 'password':
+								$out .= show_password_field(array('name' => $arr_value['name'], 'text' => $arr_value['text'], 'placeholder' => __("Enter a New Password Here", 'lang_users'), 'required' => $arr_value['required']));
+							break;
 
-						case 'select':
-							$out .= "<div class='form_select type_".$arr_value['type'].$arr_value['class'].">
-								<label for='".$arr_value['name'].">".$arr_value['text']."</label>
-								<select id='".$arr_value['name']."' name='".$arr_value['name'].($arr_value['multiple'] == true ? "[]" : "")."' class='mf_form_field'".($arr_value['multiple'] == true ? " multiple" : "");
+							case 'select':
+								$out .= "<div class='form_select type_".$arr_value['type'].$arr_value['class'].">
+									<label for='".$arr_value['name'].">".$arr_value['text']."</label>
+									<select id='".$arr_value['name']."' name='".$arr_value['name'].($arr_value['multiple'] == true ? "[]" : "")."' class='mf_form_field'".($arr_value['multiple'] == true ? " multiple" : "");
 
-									foreach($arr_value['attributes'] as $attribute_key => $attribute_value)
-									{
-										$out .= " ".$attribute_key."='".$attribute_value."'";
-									}
-
-								$out .= ">";
-
-									foreach($arr_value['options'] as $option_key => $option_value)
-									{
-										if(substr($option_key, 0, 9) == 'opt_start')
+										foreach($arr_value['attributes'] as $attribute_key => $attribute_value)
 										{
-											$out .= "<optgroup label='".$option_value."' rel='".$option_key."'>";
+											$out .= " ".$attribute_key."='".$attribute_value."'";
 										}
 
-										else if(substr($option_key, 0, 7) == 'opt_end')
+									$out .= ">";
+
+										foreach($arr_value['options'] as $option_key => $option_value)
 										{
-											$out .= "</optgroup>";
+											if(substr($option_key, 0, 9) == 'opt_start')
+											{
+												$out .= "<optgroup label='".$option_value."' rel='".$option_key."'>";
+											}
+
+											else if(substr($option_key, 0, 7) == 'opt_end')
+											{
+												$out .= "</optgroup>";
+											}
+
+											else
+											{
+												$out .= "<option value='".$option_key."'";
+
+													if($option_key == $arr_value['value'] || $arr_value['multiple'] == true) // && $arr_value['value.indexOf($option_key) !== -1
+													{
+														$out .= " selected";
+													}
+
+												$out .= ">".$option_value."</option>";
+											}
 										}
 
-										else
-										{
-											$out .= "<option value='".$option_key."'";
+									$out .= "</select>
+								</div>";
+							break;
 
-												if($option_key == $arr_value['value'] || $arr_value['multiple'] == true) // && $arr_value['value.indexOf($option_key) !== -1
-												{
-													$out .= " selected";
-												}
+							case 'number':
+							case 'tel':
+							case 'text':
+								$out .= show_textfield(array('type' => $arr_value['type'], 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value'], 'required' => $arr_value['required']));
+							break;
 
-											$out .= ">".$option_value."</option>";
-										}
-									}
+							case 'textarea':
+								$out .= show_textarea(array('name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value'], 'required' => $arr_value['required']));
+							break;
 
-								$out .= "</select>
-							</div>";
-						break;
-
-						case 'number':
-						case 'tel':
-						case 'text':
-							$out .= show_textfield(array('type' => $arr_value['type'], 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value'], 'required' => $arr_value['required']));
-						break;
-
-						case 'textarea':
-							$out .= show_textarea(array('name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value'], 'required' => $arr_value['required']));
-						break;
-
-						default:
-							$out .= "<p><strong>meta_".$arr_value['type']."</strong>: meta_".$arr_value['name']."</p>";
-						break;
+							default:
+								$out .= "<p><strong>meta_".$arr_value['type']."</strong>: meta_".$arr_value['name']."</p>";
+							break;
+						}
 					}
-				}
 
-				$out .= "<div".get_form_button_classes().">"
-					.show_button(array('name' => 'btnProfileUpdate', 'text' => __("Save", 'lang_users')))
-				."</div>
-			</form>";
+					$out .= "<div".get_form_button_classes().">"
+						.show_button(array('name' => 'btnProfileUpdate', 'text' => __("Save", 'lang_users')))
+					."</div>
+				</form>
+			</div>";
 		}
 
 		else
