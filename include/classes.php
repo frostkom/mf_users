@@ -313,11 +313,6 @@ class mf_users
 								default:
 									$meta_id = update_user_meta($user_id, $value['name'], $user_meta);
 
-									/*if(IS_SUPER_ADMIN)
-									{
-										$out .= "<p>Saved: ".$user_id.", ".$value['name'].", ".$user_meta."</p>";
-									}*/
-
 									$updated = true;
 								break;
 							}
@@ -611,10 +606,6 @@ class mf_users
 		if(IS_SUPER_ADMIN)
 		{
 			$arr_settings['setting_users_no_spaces'] = __("Prevent Username Spaces", 'lang_users');
-		}
-
-		if(IS_SUPER_ADMIN)
-		{
 			$arr_settings['setting_users_send_registration_notification'] = __("Send User Registration Notification to Admin", 'lang_users');
 			$arr_settings['setting_users_send_password_change_notification'] = __("Send Password Changed Notification", 'lang_users');
 		}
@@ -947,11 +938,6 @@ class mf_users
 		if($is_multisite == false && (!isset($user->roles[0]) || $user->roles[0] == ''))
 		{
 			$arr_actions['inactive'] = "<span class='grey'>".__("Inactive", 'lang_users')."</span><i class='set_tr_color' rel='red'></i>";
-
-			/*if(IS_SUPER_ADMIN)
-			{
-				$arr_actions['inactive'] .= " (".var_export($user->roles, true).")";
-			}*/
 		}
 
 		else if(get_current_user_id() != $user->ID && current_user_can('edit_user'))
@@ -1293,7 +1279,7 @@ class mf_users
 		{
 			foreach($arr_fields as $field_key => $field_value)
 			{
-				if(isset($field_value['name']) && $remove_key == $field_value['name'])
+				if(isset($field_value['name']) && $remove_key == $field_value['name'] || $remove_key == substr($field_value['name'], 0, strlen($remove_key)))
 				{
 					unset($arr_fields[$field_key]);
 				}
