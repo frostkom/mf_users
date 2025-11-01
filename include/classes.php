@@ -411,7 +411,7 @@ class mf_users
 							break;
 
 							case 'flex_start':
-								$out .= "<div class='flex_flow'>";
+								$out .= "<div".apply_filters('get_flex_flow', "").">";
 							break;
 
 							case 'flex_end':
