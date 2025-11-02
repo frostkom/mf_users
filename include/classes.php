@@ -1327,7 +1327,6 @@ class mf_users
 								<div></div>
 							</div>
 							<div class='content'>"
-								//."<i class='fa fa-birthday-cake'></i> "
 								.sprintf(__("Happy Birthday %s!", 'lang_users'), ($user_data->first_name != '' ? $user_data->first_name : $user_data->display_name))
 							."</div>
 						</div>";
