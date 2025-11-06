@@ -1279,7 +1279,7 @@ class mf_users
 		{
 			foreach($arr_fields as $field_key => $field_value)
 			{
-				if(isset($field_value['name']) && $remove_key == $field_value['name'] || $remove_key == substr($field_value['name'], 0, strlen($remove_key)))
+				if(isset($field_value['name']) && ($remove_key == $field_value['name'] || $remove_key == substr($field_value['name'], 0, strlen($remove_key))))
 				{
 					unset($arr_fields[$field_key]);
 				}
