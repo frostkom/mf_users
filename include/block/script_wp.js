@@ -21,9 +21,9 @@
 			},
 			'user_ids':
 			{
-                'type': 'array',
-                'default': ''
-            }
+				'type': 'array',
+				'default': ''
+			}
 		},
 		'supports':
 		{
