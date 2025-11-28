@@ -1318,6 +1318,10 @@ class mf_users
 
 					if(isset($user_data->display_name))
 					{
+						$plugin_include_url = plugin_dir_url(__FILE__);
+
+						mf_enqueue_style('style_users_birthday', $plugin_include_url."style_birthday.css");
+
 						$this->footer_output = "<div id='modal_birthday'>"
 							."<div class='balloons'>
 								<div></div>
@@ -1330,10 +1334,6 @@ class mf_users
 								.sprintf(__("Happy Birthday %s!", 'lang_users'), ($user_data->first_name != '' ? $user_data->first_name : $user_data->display_name))
 							."</div>
 						</div>";
-
-						$plugin_include_url = plugin_dir_url(__FILE__);
-
-						mf_enqueue_style('style_users_birthday', $plugin_include_url."style_birthday.css");
 					}
 				}
 			}
