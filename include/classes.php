@@ -547,7 +547,7 @@ class mf_users
 			'description' => array('name' => __("Biographical Info", 'lang_users')),
 		);
 
-		$option_add = get_option('setting_users_add_profile_fields');
+		$option_add = get_site_option('setting_users_add_profile_fields');
 
 		if(is_array($option_add) && !in_array('profile_picture', $option_add) || !is_array($option_add))
 		{
@@ -631,15 +631,18 @@ class mf_users
 
 		// Profile
 		############################
-		$options_area = $options_area_orig."_profile";
+		if(IS_SUPER_ADMIN)
+		{
+			$options_area = $options_area_orig."_profile";
 
-		add_settings_section($options_area, "", array($this, $options_area."_callback"), BASE_OPTIONS_PAGE);
+			add_settings_section($options_area, "", array($this, $options_area."_callback"), BASE_OPTIONS_PAGE);
 
-		$arr_settings = [];
-		$arr_settings['setting_users_add_profile_fields'] = __("Add fields to profile", 'lang_users');
-		$arr_settings['setting_users_remove_profile_fields'] = __("Remove fields from profile", 'lang_users');
+			$arr_settings = [];
+			$arr_settings['setting_users_add_profile_fields'] = __("Add fields to profile", 'lang_users');
+			$arr_settings['setting_users_remove_profile_fields'] = __("Remove fields from profile", 'lang_users');
 
-		show_settings_fields(array('area' => $options_area, 'object' => $this, 'settings' => $arr_settings));
+			show_settings_fields(array('area' => $options_area, 'object' => $this, 'settings' => $arr_settings));
+		}
 		############################
 	}
 
@@ -741,7 +744,8 @@ class mf_users
 		function setting_users_add_profile_fields_callback()
 		{
 			$setting_key = get_setting_key(__FUNCTION__);
-			$option = get_option($setting_key);
+			settings_save_site_wide($setting_key);
+			$option = get_site_option($setting_key, get_option($setting_key));
 
 			$arr_data = array(
 				'profile_birthday' => __("Birthday", 'lang_users'),
@@ -781,7 +785,8 @@ class mf_users
 		function setting_users_remove_profile_fields_callback()
 		{
 			$setting_key = get_setting_key(__FUNCTION__);
-			$option = get_option($setting_key, array('headings', 'rich_editing', 'syntax_highlight', 'admin_color', 'comment_shortcuts', 'language', 'user_login', 'nickname', 'url', 'aim', 'yim', 'jabber', 'description', 'profile_picture', 'application_password', 'sessions')); //, 'show_admin_bar'
+			settings_save_site_wide($setting_key);
+			$option = get_site_option($setting_key, get_option($setting_key, array('headings', 'rich_editing', 'syntax_highlight', 'admin_color', 'comment_shortcuts', 'language', 'user_login', 'nickname', 'url', 'aim', 'yim', 'jabber', 'description', 'profile_picture', 'application_password', 'sessions')));
 
 			echo show_select(array('data' => $this->get_profile_fields_for_select(), 'name' => $setting_key."[]", 'value' => $option));
 		}
@@ -969,7 +974,7 @@ class mf_users
 
 		$arr_remove = [];
 
-		$setting_users_remove_profile_fields = get_option('setting_users_remove_profile_fields');
+		$setting_users_remove_profile_fields = get_site_option('setting_users_remove_profile_fields');
 
 		if(is_array($setting_users_remove_profile_fields) && count($setting_users_remove_profile_fields) > 0)
 		{
@@ -979,7 +984,7 @@ class mf_users
 			}
 		}
 
-		$setting_users_add_profile_fields = get_option('setting_users_add_profile_fields');
+		$setting_users_add_profile_fields = get_site_option('setting_users_add_profile_fields');
 
 		if(is_array($setting_users_add_profile_fields) && count($setting_users_add_profile_fields) > 0 && isset($user->ID))
 		{
@@ -1129,7 +1134,7 @@ class mf_users
 
 	function user_register($user_id, $password = "", $meta = [])
 	{
-		$setting_users_add_profile_fields = get_option('setting_users_add_profile_fields');
+		$setting_users_add_profile_fields = get_site_option('setting_users_add_profile_fields');
 
 		$meta_key = 'profile_birthday';
 		if(is_array($setting_users_add_profile_fields) && in_array($meta_key, $setting_users_add_profile_fields))
@@ -1203,7 +1208,7 @@ class mf_users
 	{
 		$arr_remove = [];
 
-		$setting_users_remove_profile_fields = get_option('setting_users_remove_profile_fields', []);
+		$setting_users_remove_profile_fields = get_site_option('setting_users_remove_profile_fields');
 
 		if(is_array($setting_users_remove_profile_fields) && count($setting_users_remove_profile_fields) > 0)
 		{
@@ -1219,7 +1224,7 @@ class mf_users
 			$arr_fields[] = array('type' => 'textarea', 'name' => $meta_key, 'text' => __("Biographical Info", 'lang_users'));
 		}
 
-		$setting_users_add_profile_fields = get_option('setting_users_add_profile_fields');
+		$setting_users_add_profile_fields = get_site_option('setting_users_add_profile_fields');
 
 		if(is_array($setting_users_add_profile_fields) && count($setting_users_add_profile_fields) > 0)
 		{
@@ -1301,7 +1306,7 @@ class mf_users
 
 	function wp_head()
 	{
-		$setting_users_add_profile_fields = get_option('setting_users_add_profile_fields');
+		$setting_users_add_profile_fields = get_site_option('setting_users_add_profile_fields');
 
 		$meta_key = 'profile_birthday';
 		if(is_array($setting_users_add_profile_fields) && in_array($meta_key, $setting_users_add_profile_fields))
