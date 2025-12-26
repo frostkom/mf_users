@@ -492,7 +492,9 @@ class mf_users
 
 		else
 		{
-			$out .= "<a href='".wp_login_url()."?redirect_to=".$_SERVER['REQUEST_URI']."'>".__("Log in to display this", 'lang_users')."</a>";
+			$out .= "<div class='wp-block-button'>
+				<a href='".wp_login_url()."?redirect_to=".$_SERVER['REQUEST_URI']."' class='wp-block-button__link'>".__("Log in to display this", 'lang_users')."</a>
+			</div>";
 		}
 
 		return $out;
