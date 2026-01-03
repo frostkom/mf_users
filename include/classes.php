@@ -483,6 +483,15 @@ class mf_users
 						}
 					}
 
+					ob_start();
+
+					$profile_user = get_user_to_edit($user_id);
+
+					do_action('show_user_profile', $profile_user);
+
+					$out .= ob_get_contents();
+					ob_end_clean();
+
 					$out .= "<div".get_form_button_classes().">"
 						.show_button(array('name' => 'btnProfileUpdate', 'text' => __("Save", 'lang_users')))
 					."</div>
