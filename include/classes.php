@@ -7,9 +7,9 @@ class mf_users
 
 	function __construct(){}
 
-	function wp_authenticate($username, $password)
+	function wp_authenticate($user_login, $password)
 	{
-		$username = sanitize_user($username);
+		$user_login = sanitize_user($user_login);
 		$password = trim($password);
 
 		//This is the extra line for replacing spaces in the username
@@ -17,10 +17,10 @@ class mf_users
 		{
 			$obj_users = new mf_users();
 
-			$username = $obj_users->replace_spaces($username);
+			$user_login = $obj_users->replace_spaces($user_login);
 		}
 
-		$user = apply_filters('authenticate', null, $username, $password);
+		$user = apply_filters('authenticate', null, $user_login, $password);
 
 		if($user == null)
 		{
@@ -31,7 +31,7 @@ class mf_users
 
 		if(is_wp_error($user) && !in_array($user->get_error_code(), $ignore_codes))
 		{
-			do_action('wp_login_failed', $username);
+			do_action('wp_login_failed', $user_login);
 		}
 
 		return $user;
@@ -109,19 +109,19 @@ class mf_users
 		{
 			if(get_site_option('setting_users_no_spaces'))
 			{
-				$users = get_users(array('fields' => 'all'));
+				$arr_users = get_users(array('fields' => 'all'));
 
-				foreach($users as $user)
+				foreach($arr_users as $user)
 				{
 					$user_data = get_userdata($user->ID);
 
 					if(isset($user_data->user_login))
 					{
-						$username = $this->replace_spaces($user_data->user_login);
+						$user_login = $this->replace_spaces($user_data->user_login);
 
-						if($username != $user_data->user_login)
+						if($user_login != $user_data->user_login)
 						{
-							$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->users." SET user_login = %s WHERE ID = '%d'", $username, $user->ID));
+							$wpdb->query($wpdb->prepare("UPDATE ".$wpdb->users." SET user_login = %s WHERE ID = '%d'", $user_login, $user->ID));
 						}
 					}
 				}
@@ -1415,17 +1415,17 @@ class mf_users
 		return $avatar;
 	}
 
-	function wp_login($username)
+	function wp_login($user_login)
 	{
-		$user = get_user_by('login', $username);
+		$user_data = get_user_by('login', $user_login);
 
-		$user_id = $user->ID;
+		$user_id = $user_data->ID;
 		$user_timestamp = date("Y-m-d H:i:s");
 
 		update_user_meta($user_id, 'meta_last_logged_in', $user_timestamp);
 		update_user_meta($user_id, 'meta_last_active', $user_timestamp);
 
-		$this->save_display_name($user);
+		$this->save_display_name($user_data);
 	}
 
 	function heartbeat_received($response, $data)
@@ -1437,14 +1437,6 @@ class mf_users
 
 		return $response;
 	}
-
-	/*function wp_active()
-	{
-		$user_id = get_current_user_id();
-		$user_timestamp = date("Y-m-d H:i:s");
-
-		update_user_meta($user_id, 'meta_last_active', $user_timestamp);
-	}*/
 
 	function wp_logout()
 	{
