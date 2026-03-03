@@ -1420,7 +1420,7 @@ class mf_users
 		$user_data = get_user_by('login', $user_login);
 
 		$user_id = $user_data->ID;
-		$user_timestamp = date("Y-m-d H:i:s");
+		$user_timestamp = current_time('mysql');
 
 		update_user_meta($user_id, 'meta_last_logged_in', $user_timestamp);
 		update_user_meta($user_id, 'meta_last_active', $user_timestamp);
@@ -1431,7 +1431,7 @@ class mf_users
 	function heartbeat_received($response, $data)
 	{
 		$user_id = get_current_user_id();
-		$user_timestamp = date("Y-m-d H:i:s");
+		$user_timestamp = current_time('mysql');
 
 		update_user_meta($user_id, 'meta_last_active', $user_timestamp);
 
@@ -1441,7 +1441,7 @@ class mf_users
 	function wp_logout()
 	{
 		$user_id = get_current_user_id();
-		$user_timestamp = date("Y-m-d H:i:s");
+		$user_timestamp = current_time('mysql');
 
 		update_user_meta($user_id, 'meta_last_active', $user_timestamp);
 		update_user_meta($user_id, 'meta_last_logged_out', $user_timestamp);
