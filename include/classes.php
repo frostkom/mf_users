@@ -223,6 +223,17 @@ class mf_users
 
 		return $out;
 	}
+	
+	function get_languages_for_select()
+	{
+		$arr_data = [
+			'' => __("Site Default", 'lang_users'),
+			'en_US' => __("English", 'lang_users'),
+			'sv_SE' => __("Swedish", 'lang_users'),
+		];
+
+		return $arr_data;
+	}
 
 	function block_render_profile_callback($attributes)
 	{
@@ -470,7 +481,17 @@ class mf_users
 							case 'number':
 							case 'tel':
 							case 'text':
-								$out .= show_textfield(array('type' => $arr_value['type'], 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value'], 'required' => $arr_value['required']));
+								switch($arr_value['name'])
+								{
+									//case 'language':
+									case 'locale':
+										$out .= show_select(array('data' => $this->get_languages_for_select(), 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value'], 'required' => $arr_value['required']));
+									break;
+
+									default:
+										$out .= show_textfield(array('type' => $arr_value['type'], 'name' => $arr_value['name'], 'text' => $arr_value['text'], 'value' => $arr_value['value'], 'required' => $arr_value['required']));
+									break;
+								}
 							break;
 
 							case 'textarea':
@@ -536,8 +557,34 @@ class mf_users
 		));
 	}
 
+	function respect_user_locale()
+	{
+		if(is_admin() || !is_user_logged_in())
+		{
+			return;
+		}
+
+		else
+		{
+			$user_locale = get_user_locale(get_current_user_id());
+
+			if(!$user_locale)
+			{
+				return;
+			}
+
+			if(switch_to_locale($user_locale))
+			{
+				// Optionally restore later; WP will restore at shutdown automatically.
+				// add_action( 'shutdown', 'restore_previous_locale' );
+			}
+		}
+	}
+
 	function init()
 	{
+		$this->respect_user_locale();
+
 		load_plugin_textdomain('lang_users', false, str_replace("/include", "", dirname(plugin_basename(__FILE__)))."/lang/");
 
 		$this->profile_fields = array(
@@ -547,7 +594,7 @@ class mf_users
 			'admin_color' => array('name' => __("Admin Color Scheme", 'lang_users')),
 			'comment_shortcuts' => array('name' => __("Keyboard Shortcuts", 'lang_users')),
 			'show_admin_bar' => array('type' => 'checkbox', 'key' => 'show_admin_bar_front', 'name' => __("Toolbar", 'lang_users')),
-			'language' => array('name' => __("Language", 'lang_users')),
+			'language' => array('key' => 'locale', 'name' => __("Language", 'lang_users')),
 			'user_login' => array('name' => __("Username", 'lang_users')),
 			'nickname' => array('name' => __("Nickname", 'lang_users')),
 			'display_name' => array('name' => __("Display name", 'lang_users')),
