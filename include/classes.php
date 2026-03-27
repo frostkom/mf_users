@@ -223,7 +223,7 @@ class mf_users
 
 		return $out;
 	}
-	
+
 	function get_languages_for_select()
 	{
 		$arr_data = [
@@ -846,7 +846,7 @@ class mf_users
 			settings_save_site_wide($setting_key);
 			$option = get_site_option($setting_key, get_option($setting_key, array('headings', 'rich_editing', 'syntax_highlight', 'admin_color', 'comment_shortcuts', 'language', 'user_login', 'nickname', 'url', 'aim', 'yim', 'jabber', 'description', 'profile_picture', 'application_password', 'sessions')));
 
-			echo show_select(array('data' => $this->get_profile_fields_for_select(), 'name' => $setting_key."[]", 'value' => $option));
+			echo show_select(array('data' => $this->get_profile_fields_for_select(), 'name' => $setting_key."[]", 'value' => $option, 'allow_hidden_field' => false));
 		}
 
 	function admin_init()
