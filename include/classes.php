@@ -1385,7 +1385,7 @@ class mf_users
 
 						mf_enqueue_style('style_users_birthday', $plugin_include_url."style_birthday.css");
 
-						$this->footer_output = "<div id='modal_birthday'>"
+						$this->footer_output .= "<div id='modal_birthday'>"
 							."<div class='balloons'>
 								<div></div>
 								<div></div>
