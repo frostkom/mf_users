@@ -13,12 +13,12 @@ class mf_users
 		$password = trim($password);
 
 		//This is the extra line for replacing spaces in the username
-		if(get_site_option('setting_users_no_spaces'))
+		/*if(get_site_option('setting_users_no_spaces'))
 		{
 			$obj_users = new mf_users();
 
 			$user_login = $obj_users->replace_spaces($user_login);
-		}
+		}*/
 
 		$user = apply_filters('authenticate', null, $user_login, $password);
 
@@ -50,10 +50,10 @@ class mf_users
 		}
 	}
 
-	function replace_spaces($in)
+	/*function replace_spaces($in)
 	{
 		return str_replace(" ", "-", $in);
-	}
+	}*/
 
 	function rename_roles()
 	{
@@ -107,7 +107,7 @@ class mf_users
 
 		if($obj_cron->is_running == false)
 		{
-			if(get_site_option('setting_users_no_spaces'))
+			/*if(get_site_option('setting_users_no_spaces'))
 			{
 				$arr_users = get_users(array('fields' => 'all'));
 
@@ -125,13 +125,13 @@ class mf_users
 						}
 					}
 				}
-			}
+			}*/
 
 			replace_option(array('old' => 'setting_add_profile_fields', 'new' => 'setting_users_add_profile_fields'));
 			replace_option(array('old' => 'setting_remove_profile_fields', 'new' => 'setting_users_remove_profile_fields'));
 
 			mf_uninstall_plugin(array(
-				'options' => array('setting_users_last_logged_in', 'setting_admin_color', 'setting_users_admin_color', 'setting_users_register_name', 'setting_users_display_author_pages'),
+				'options' => array('setting_users_last_logged_in', 'setting_admin_color', 'setting_users_admin_color', 'setting_users_register_name', 'setting_users_display_author_pages', 'setting_users_show_own_media', 'setting_users_no_spaces', 'setting_users_send_registration_notification', 'setting_users_send_password_change_notification'),
 				'user_meta' => array('meta_last_logged_in', 'meta_profile_reminder'),
 			));
 		}
@@ -624,8 +624,8 @@ class mf_users
 		$this->rename_roles();
 		$this->hide_roles();
 
-		if(get_option('setting_users_send_registration_notification') != 'yes')
-		{
+		/*if(get_option('setting_users_send_registration_notification') != 'yes')
+		{*/
 			//Remove original user created emails
 			remove_action('register_new_user', 'wp_send_new_user_notifications');
 			remove_action('edit_user_created_user', 'wp_send_new_user_notifications', 10, 2);
@@ -633,7 +633,7 @@ class mf_users
 			//Add new function to take over email creation
 			add_action('register_new_user', array($this, 'send_new_user_notifications'));
 			add_action('edit_user_created_user', array($this, 'send_new_user_notifications'), 10, 2);
-		}
+		//}
 		#######################
 
 		register_block_type('mf/users', array(
@@ -651,28 +651,23 @@ class mf_users
 
 	function settings_users()
 	{
-		$options_area_orig = $options_area = __FUNCTION__;
-
-		// Generic
-		############################
-		add_settings_section($options_area, "", array($this, $options_area."_callback"), BASE_OPTIONS_PAGE);
-
-		$arr_settings = [];
-
-		$arr_settings['setting_users_show_own_media'] = __("Only show users own files", 'lang_users');
-
 		if(IS_SUPER_ADMIN)
 		{
-			$arr_settings['setting_users_no_spaces'] = __("Prevent Username Spaces", 'lang_users');
-			$arr_settings['setting_users_send_registration_notification'] = __("Send User Registration Notification to Admin", 'lang_users');
-			$arr_settings['setting_users_send_password_change_notification'] = __("Send Password Changed Notification", 'lang_users');
-		}
+			$options_area_orig = $options_area = __FUNCTION__;
 
-		show_settings_fields(array('area' => $options_area, 'object' => $this, 'settings' => $arr_settings));
-		############################
+			// Generic
+			############################
+			add_settings_section($options_area, "", array($this, $options_area."_callback"), BASE_OPTIONS_PAGE);
 
-		if(IS_SUPER_ADMIN)
-		{
+			$arr_settings = [];
+			//$arr_settings['setting_users_show_own_media'] = __("Only show users own files", 'lang_users');
+			//$arr_settings['setting_users_no_spaces'] = __("Prevent Username Spaces", 'lang_users');
+			//$arr_settings['setting_users_send_registration_notification'] = __("Send User Registration Notification to Admin", 'lang_users');
+			//$arr_settings['setting_users_send_password_change_notification'] = __("Send Password Changed Notification", 'lang_users');
+
+			show_settings_fields(array('area' => $options_area, 'object' => $this, 'settings' => $arr_settings));
+			############################
+
 			// Roles
 			############################
 			$options_area = $options_area_orig."_roles";
@@ -685,12 +680,9 @@ class mf_users
 
 			show_settings_fields(array('area' => $options_area, 'object' => $this, 'settings' => $arr_settings));
 			############################
-		}
 
-		// Profile
-		############################
-		if(IS_SUPER_ADMIN)
-		{
+			// Profile
+			############################
 			$options_area = $options_area_orig."_profile";
 
 			add_settings_section($options_area, "", array($this, $options_area."_callback"), BASE_OPTIONS_PAGE);
@@ -700,8 +692,8 @@ class mf_users
 			$arr_settings['setting_users_remove_profile_fields'] = __("Remove fields from profile", 'lang_users');
 
 			show_settings_fields(array('area' => $options_area, 'object' => $this, 'settings' => $arr_settings));
+			############################
 		}
-		############################
 	}
 
 	function settings_users_callback()
@@ -711,7 +703,7 @@ class mf_users
 		echo settings_header($setting_key, __("Users", 'lang_users'));
 	}
 
-		function setting_users_show_own_media_callback()
+		/*function setting_users_show_own_media_callback()
 		{
 			$setting_key = get_setting_key(__FUNCTION__);
 			$option = get_option($setting_key);
@@ -744,7 +736,7 @@ class mf_users
 			$option = get_site_option($setting_key, get_option($setting_key, 'no'));
 
 			echo show_select(array('data' => get_yes_no_for_select(), 'name' => $setting_key, 'value' => $option));
-		}
+		}*/
 
 	function settings_users_roles_callback()
 	{
@@ -873,7 +865,7 @@ class mf_users
 		}
 	}
 
-	function pre_get_posts($wp_query)
+	/*function pre_get_posts($wp_query)
 	{
 		global $current_user;
 
@@ -888,7 +880,7 @@ class mf_users
 				$wp_query->set('author', $current_user->ID);
 			}
 		}
-	}
+	}*/
 
 	function admin_action_inactivate_user()
 	{
@@ -1352,7 +1344,7 @@ class mf_users
 		return $arr_fields;
 	}
 
-	function registration_errors($errors, $user_login, $user_email)
+	/*function registration_errors($errors, $user_login, $user_email)
 	{
 		if(preg_match('/ /', $user_login))
 		{
@@ -1360,7 +1352,7 @@ class mf_users
 		}
 
 		return $errors;
-	}
+	}*/
 
 	function wp_head()
 	{

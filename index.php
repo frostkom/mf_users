@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description:
-Version: 4.8.32
+Version: 4.8.33
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se
@@ -29,7 +29,7 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 		add_action('admin_init', array($obj_users, 'settings_users'));
 		add_action('admin_init', array($obj_users, 'admin_init'), 0);
 
-		add_action('pre_get_posts', array($obj_users, 'pre_get_posts'));
+		//add_action('pre_get_posts', array($obj_users, 'pre_get_posts'));
 
 		add_action('admin_action_inactivate_user', array($obj_users, 'admin_action_inactivate_user'), 10);
 
@@ -57,29 +57,23 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 
 		add_filter('filter_profile_fields', array($obj_users, 'filter_profile_fields'));
 
-		if(get_site_option('setting_users_no_spaces'))
+		/*if(get_site_option('setting_users_no_spaces'))
 		{
 			add_action('registration_errors', array($obj_users, 'registration_errors'), 10, 3);
-		}
+		}*/
 
 		add_action('wp_head', array($obj_users, 'wp_head'), 0);
 		add_action('wp_footer', array($obj_users, 'wp_footer'), 0);
 	}
 
-	if(get_option('setting_users_send_password_change_notification') != 'yes')
-	{
-		// Disables sending message to the user
-		//add_filter('send_password_change_email', '__return_false');
-
+	/*if(get_option('setting_users_send_password_change_notification') != 'yes')
+	{*/
 		// Disables sending message to admin
 		if(!function_exists('wp_password_change_notification'))
 		{
 			function wp_password_change_notification(){}
 		}
-
-		// ...or...
-		//remove_action('after_password_reset', 'wp_password_change_notification');
-	}
+	//}
 
 	add_filter('edit_profile_url', array($obj_users, 'edit_profile_url'), 10, 3);
 
@@ -96,7 +90,7 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 		global $wpdb;
 
 		mf_uninstall_plugin(array(
-			'options' => array('setting_users_show_own_media', 'setting_users_no_spaces', 'setting_users_send_password_change_notification', 'setting_users_send_registration_notification', 'setting_users_roles_hidden', 'setting_users_roles_names', 'setting_users_add_profile_fields', 'setting_users_remove_profile_fields', $wpdb->prefix.'user_roles_orig'),
+			'options' => array('setting_users_roles_hidden', 'setting_users_roles_names', 'setting_users_add_profile_fields', 'setting_users_remove_profile_fields', $wpdb->prefix.'user_roles_orig'),
 			'user_meta' => array('meta_last_logged_in', 'meta_last_active', 'meta_last_logged_out', 'profile_birthday', 'profile_phone', 'profile_company', 'profile_address', 'profile_address_zipcode', 'profile_address_city', 'profile_picture', 'profile_country'),
 		));
 	}
