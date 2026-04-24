@@ -217,7 +217,7 @@ class mf_users
 
 			else
 			{
-				do_log("The user ".$user_id." could not be found in widget_user()");
+				do_log(__FUNCTION__.": The user ".$user_id." could not be found in widget_user()");
 			}
 		}
 
@@ -1582,7 +1582,7 @@ class widget_user extends WP_Widget
 
 			else
 			{
-				do_log("The user ".$user_id." could not be found in widget_user()");
+				do_log(__FUNCTION__.": The user ".$user_id." could not be found in widget_user()");
 			}
 		}
 	}
