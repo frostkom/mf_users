@@ -29,8 +29,6 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 		add_action('admin_init', array($obj_users, 'settings_users'));
 		add_action('admin_init', array($obj_users, 'admin_init'), 0);
 
-		//add_action('pre_get_posts', array($obj_users, 'pre_get_posts'));
-
 		add_action('admin_action_inactivate_user', array($obj_users, 'admin_action_inactivate_user'), 10);
 
 		add_action('manage_users_columns', array($obj_users, 'manage_users_columns'));

@@ -108,22 +108,6 @@ class mf_users
 		$obj_cron->end();
 	}
 
-	function send_new_user_notifications($user_id, $notify = 'user')
-	{
-		if($notify == 'both')
-		{
-			// Only send the new user their email, not the admin
-			$notify = 'user';
-
-			wp_send_new_user_notifications($user_id, $notify);
-		}
-
-		else
-		{
-			return;
-		}
-	}
-
 	function block_render_callback($attributes)
 	{
 		if(!isset($attributes['user_ids'])){			$attributes['user_ids'] = [];}
@@ -136,12 +120,10 @@ class mf_users
 		{
 			if($user_amount > 1)
 			{
-				$date_week = (int) date("W"); //, strtotime("2019-01-01")
-				$date_weeks = 52; //date("w", strtotime(date("Y-12-31")))
+				$date_week = (int)date("W");
+				$date_weeks = 52;
 				$user_keys = ($user_amount - 1);
 
-				//$user_id_key = mt_rand(1, $user_keys);
-				//$user_id_key = ($user_keys >= $date_weeks ? ($user_keys % $date_weeks) : ($user_keys % $date_week));
 				$user_id_key = $date_week;
 
 				while($user_id_key > $user_keys)
@@ -169,7 +151,7 @@ class mf_users
 				$profile_description = apply_filters('filter_profile_description', get_the_author_meta('description', $user_id), $user_id);
 
 				$out .= "<div".parse_block_attributes(array('class' => "widget user", 'attributes' => $attributes)).">
-					<div>" // class='section'
+					<div>"
 						."<h4>".$profile_name."</h4>";
 
 						if($profile_picture != '')
@@ -545,7 +527,7 @@ class mf_users
 			if(switch_to_locale($user_locale))
 			{
 				// Optionally restore later; WP will restore at shutdown automatically.
-				// add_action( 'shutdown', 'restore_previous_locale' );
+				// add_action('shutdown', 'restore_previous_locale');
 			}
 		}
 	}
@@ -584,7 +566,7 @@ class mf_users
 		$this->profile_fields['application_password'] = array('name' => __("Application Password", 'lang_users'));
 		$this->profile_fields['sessions'] = array('name' => __("Sessions", 'lang_users'));
 
-		//
+		// Rename and hide roles
 		#######################
 		global $wpdb, $wp_roles;
 
@@ -592,14 +574,6 @@ class mf_users
 
 		$this->rename_roles();
 		$this->hide_roles();
-
-		//Remove original user created emails
-		remove_action('register_new_user', 'wp_send_new_user_notifications');
-		remove_action('edit_user_created_user', 'wp_send_new_user_notifications', 10, 2);
-
-		//Add new function to take over email creation
-		add_action('register_new_user', array($this, 'send_new_user_notifications'));
-		add_action('edit_user_created_user', array($this, 'send_new_user_notifications'), 10, 2);
 		#######################
 
 		register_block_type('mf/users', array(
@@ -791,16 +765,6 @@ class mf_users
 			break;
 		}
 	}
-
-	/*function pre_get_posts($wp_query)
-	{
-		global $current_user;
-
-		$wp_query = $wp_query;
-
-		if(isset($wp_query->query['post_type']) && $wp_query->query['post_type'] === 'attachment')
-		{}
-	}*/
 
 	function admin_action_inactivate_user()
 	{
