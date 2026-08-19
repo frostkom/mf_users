@@ -2,8 +2,8 @@
 /*
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
-Description:
-Version: 4.8.36
+Description: Add extra functionality for user management
+Version: 4.8.37
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se

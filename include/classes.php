@@ -209,7 +209,14 @@ class mf_users
 
 			foreach($this->profile_fields as $key => $value)
 			{
-				$arr_fields[] = array('type' => (isset($value['type']) ? $value['type'] : 'text'), 'name' => (isset($value['key']) ? $value['key'] : $key), 'text' => $value['name']);
+				$key = (isset($value['key']) ? $value['key'] : $key);
+
+				if($key == 'description')
+				{
+					$value['type'] = 'textarea';
+				}
+
+				$arr_fields[] = array('type' => (isset($value['type']) ? $value['type'] : 'text'), 'name' => $key, 'text' => $value['name']);
 			}
 
 			$arr_fields = apply_filters('filter_profile_fields', $arr_fields);
@@ -414,6 +421,12 @@ class mf_users
 
 											else
 											{
+												if(is_array($option_value))
+												{
+													$option_key = $option_value['key'];
+													$option_value = $option_value['value'];
+												}
+
 												$out .= "<option value='".$option_key."'";
 
 													if($option_key == $arr_value['value'] || $arr_value['multiple'] == true) // && $arr_value['value.indexOf($option_key) !== -1
@@ -1150,12 +1163,6 @@ class mf_users
 			{
 				$arr_remove[$remove] = true;
 			}
-		}
-
-		$meta_key = 'description';
-		if(is_array($setting_users_remove_profile_fields) && !in_array($meta_key, $setting_users_remove_profile_fields))
-		{
-			$arr_fields[] = array('type' => 'textarea', 'name' => $meta_key, 'text' => __("Biographical Info", 'lang_users'));
 		}
 
 		$setting_users_add_profile_fields = get_site_option('setting_users_add_profile_fields');
