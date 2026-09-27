@@ -42,54 +42,6 @@ class mf_users
 		}
 	}
 
-	/*function replace_spaces($in)
-	{
-		return str_replace(" ", "-", $in);
-	}*/
-
-	function rename_roles()
-	{
-		global $wp_roles;
-
-		$setting_users_roles_names = get_site_option('setting_users_roles_names');
-
-		if(is_array($setting_users_roles_names))
-		{
-			foreach($setting_users_roles_names as $key => $value)
-			{
-				if($value != '')
-				{
-					$wp_roles->roles[$key]['name'] = $wp_roles->role_names[$key] = $value;
-				}
-			}
-		}
-	}
-
-	function hide_roles()
-	{
-		global $wp_roles;
-
-		$setting_users_roles_hidden = get_site_option('setting_users_roles_hidden');
-
-		if(is_array($setting_users_roles_hidden))
-		{
-			foreach($setting_users_roles_hidden as $key => $value)
-			{
-				if($value == 1) // old way
-				{
-					unset($wp_roles->roles[$key]);
-					unset($wp_roles->role_names[$key]);
-				}
-
-				else // new way
-				{
-					unset($wp_roles->roles[$value]);
-					unset($wp_roles->role_names[$value]);
-				}
-			}
-		}
-	}
-
 	function cron_base()
 	{
 		global $wpdb;
@@ -585,8 +537,7 @@ class mf_users
 
 		update_option($wpdb->prefix.'user_roles_orig', $wp_roles->roles, false);
 
-		$this->rename_roles();
-		$this->hide_roles();
+		do_action('filter_user_roles');
 		#######################
 
 		register_block_type('mf/users', array(
@@ -1281,6 +1232,44 @@ class mf_users
 		if($this->footer_output != '')
 		{
 			echo $this->footer_output;
+		}
+	}
+
+	function filter_user_roles()
+	{
+		global $wp_roles;
+
+		$setting_users_roles_names = get_site_option('setting_users_roles_names');
+
+		if(is_array($setting_users_roles_names))
+		{
+			foreach($setting_users_roles_names as $key => $value)
+			{
+				if($value != '')
+				{
+					$wp_roles->roles[$key]['name'] = $wp_roles->role_names[$key] = $value;
+				}
+			}
+		}
+
+		$setting_users_roles_hidden = get_site_option('setting_users_roles_hidden');
+
+		if(is_array($setting_users_roles_hidden))
+		{
+			foreach($setting_users_roles_hidden as $key => $value)
+			{
+				if($value == 1) // old way
+				{
+					unset($wp_roles->roles[$key]);
+					unset($wp_roles->role_names[$key]);
+				}
+
+				else // new way
+				{
+					unset($wp_roles->roles[$value]);
+					unset($wp_roles->role_names[$value]);
+				}
+			}
 		}
 	}
 
