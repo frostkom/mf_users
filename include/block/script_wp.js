@@ -3,6 +3,7 @@
 	var el = wp.element.createElement,
 		registerBlockType = wp.blocks.registerBlockType,
 		SelectControl = wp.components.SelectControl,
+		PanelBody = wp.components.PanelBody,
 		InspectorControls = wp.blockEditor.InspectorControls;
 
 	registerBlockType('mf/users',
@@ -59,19 +60,23 @@
 				[
 					el(
 						InspectorControls,
-						'div',
+						{key: 'inspector'},
 						el(
-							SelectControl,
-							{
-								label: script_users_block_wp.user_ids_label,
-								value: props.attributes.user_ids,
-								options: convert_php_array_to_block_js(script_users_block_wp.user_ids),
-								multiple: true,
-								onChange: function(value)
+							PanelBody,
+							{title: script_users_block_wp.block_title, initialOpen: true},
+							el(
+								SelectControl,
 								{
-									props.setAttributes({user_ids: value});
+									label: script_users_block_wp.user_ids_label,
+									value: props.attributes.user_ids,
+									options: convert_php_array_to_block_js(script_users_block_wp.user_ids),
+									multiple: true,
+									onChange: function(value)
+									{
+										props.setAttributes({user_ids: value});
+									}
 								}
-							}
+							)
 						)
 					),
 					el(
