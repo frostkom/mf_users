@@ -833,6 +833,35 @@ class mf_users
 		return $value;
 	}
 
+	function manage_users_sortable_columns($columns)
+	{
+		$columns['meta_last_active'] = 'meta_last_active';
+
+		return $columns;
+	}
+
+	function pre_get_users($query)
+	{
+		if(!is_admin())
+		{
+			return;
+		}
+
+		// Only touch the main users list table query
+		$screen = function_exists('get_current_screen') ? get_current_screen() : false;
+
+		if(!$screen || $screen->id != 'users')
+		{
+			return;
+		}
+
+		if($query->get('orderby') == 'meta_last_active')
+		{
+			$query->set('meta_key', 'meta_last_active');
+			$query->set('orderby', 'meta_value');
+		}
+	}
+
 	function user_row_actions($arr_actions, $user, $is_multisite = false)
 	{
 		unset($arr_actions['view']);

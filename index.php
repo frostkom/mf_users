@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description: Add extra functionality for user management
-Version: 4.8.39
+Version: 4.8.40
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se
@@ -33,6 +33,8 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 
 		add_action('manage_users_columns', array($obj_users, 'manage_users_columns'));
 		add_action('manage_users_custom_column', array($obj_users, 'manage_users_custom_column'), 10, 3);
+		add_filter('manage_users_sortable_columns', array($obj_users, 'manage_users_sortable_columns'));
+		add_action('pre_get_users', array($obj_users, 'pre_get_users'));
 		add_action('user_row_actions', array($obj_users, 'user_row_actions'), 10, 2);
 
 		if(is_multisite())
