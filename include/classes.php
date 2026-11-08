@@ -670,17 +670,14 @@ class mf_users
 				'profile_picture' => __("Profile Picture", 'lang_users'),
 			);
 
-			if(is_plugin_active("mf_address/index.php"))
-			{
-				$arr_data['profile_country'] = __("Country", 'lang_users');
-			}
-
 			$arr_data['edit_page_per_page'] = __("Rows / Page", 'lang_users');
 
 			if(is_array($option) && in_array('phone', $option))
 			{
 				$option[] = 'profile_phone';
 			}
+
+			$arr_data = apply_filters('filter_user_profile_fields_settings', $arr_data);
 
 			echo show_select(array('data' => $arr_data, 'name' => $setting_key."[]", 'value' => $option));
 		}
@@ -755,6 +752,41 @@ class mf_users
 			update_user_meta($user_id, $wp_capabilities, []);
 			update_user_meta($user_id, $wp_user_level, 0);
 		}
+	}
+
+	function get_role_list($role_list, $user_object)
+	{
+		$setting_users_roles_names = get_site_option('setting_users_roles_names');
+
+		if(is_array($setting_users_roles_names))
+		{
+			$new_role_list = [];
+
+			foreach($user_object->roles as $role)
+			{
+				if(isset($setting_users_roles_names[$role]) && $setting_users_roles_names[$role] != '')
+				{
+					$new_role_list[$role] = $setting_users_roles_names[$role];
+				}
+
+				else if(isset($role_list[$role]))
+				{
+					$new_role_list[$role] = $role_list[$role];
+				}
+
+				else // role is hidden, so core dropped it and would show "None"
+				{
+					$new_role_list[$role] = translate_user_role(ucfirst($role));
+				}
+			}
+
+			if(count($new_role_list) > 0)
+			{
+				$role_list = $new_role_list;
+			}
+		}
+
+		return $role_list;
 	}
 
 	function manage_users_columns($columns)
@@ -998,25 +1030,6 @@ class mf_users
 				</tr>";
 			}
 
-			$meta_key = 'profile_country';
-			if(in_array($meta_key, $setting_users_add_profile_fields) && is_plugin_active("mf_address/index.php"))
-			{
-				$meta_value = get_the_author_meta($meta_key, $user->ID);
-				$meta_text = __("Country", 'lang_users');
-
-				global $obj_address;
-
-				if(!isset($obj_address))
-				{
-					$obj_address = new mf_address();
-				}
-
-				$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
-					<th><label for='".$meta_key."'>".$meta_text."</label></th>
-					<td>".show_select(array('data' => $obj_address->get_countries_for_select(), 'name' => $meta_key, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
-				</tr>";
-			}
-
 			$meta_key = 'edit_page_per_page';
 			if(in_array($meta_key, $setting_users_add_profile_fields))
 			{
@@ -1033,6 +1046,8 @@ class mf_users
 					<td>".show_textfield(array('type' => 'number', 'name' => $meta_key, 'value' => $meta_value))."</td>
 				</tr>";
 			}
+
+			$out = apply_filters('filter_user_profile_fields_admin', $out, $user->ID, $setting_users_add_profile_fields);
 
 			if($out != '')
 			{
@@ -1122,13 +1137,7 @@ class mf_users
 			update_user_meta($user_id, $meta_key, $meta_value);
 		}
 
-		$meta_key = 'profile_country';
-		if(is_array($setting_users_add_profile_fields) && in_array($meta_key, $setting_users_add_profile_fields) && is_plugin_active("mf_address/index.php"))
-		{
-			$meta_value = check_var($meta_key);
-
-			update_user_meta($user_id, $meta_key, $meta_value);
-		}
+		do_action('update_user_profile_fields', $user_id, $setting_users_add_profile_fields);
 	}
 
 	function filter_profile_fields($arr_fields)
@@ -1181,18 +1190,7 @@ class mf_users
 				$arr_fields[] = array('type' => 'media_image', 'name' => $meta_key, 'text' => __("Profile Picture", 'lang_users'));
 			}
 
-			$meta_key = 'profile_country';
-			if(in_array($meta_key, $setting_users_add_profile_fields) && is_plugin_active("mf_address/index.php"))
-			{
-				global $obj_address;
-
-				if(!isset($obj_address))
-				{
-					$obj_address = new mf_address();
-				}
-
-				$arr_fields[] = array('type' => 'select', 'options' => $obj_address->get_countries_for_select(), 'name' => $meta_key, 'text' => __("Country", 'lang_users'));
-			}
+			$arr_fields = apply_filters('filter_public_profile_fields', $arr_fields, $setting_users_add_profile_fields);
 
 			$meta_key = 'edit_page_per_page';
 			if(in_array($meta_key, $setting_users_add_profile_fields))
@@ -1264,9 +1262,16 @@ class mf_users
 		}
 	}
 
-	function filter_user_roles()
+	function filter_user_roles($arr_roles = null)
 	{
 		global $wp_roles;
+
+		$use_global = !is_array($arr_roles);
+
+		if($use_global)
+		{
+			$arr_roles = $wp_roles->roles;
+		}
 
 		$setting_users_roles_names = get_site_option('setting_users_roles_names');
 
@@ -1274,9 +1279,9 @@ class mf_users
 		{
 			foreach($setting_users_roles_names as $key => $value)
 			{
-				if($value != '')
+				if($value != '' && isset($arr_roles[$key]))
 				{
-					$wp_roles->roles[$key]['name'] = $wp_roles->role_names[$key] = $value;
+					$arr_roles[$key]['name'] = $value;
 				}
 			}
 		}
@@ -1287,19 +1292,19 @@ class mf_users
 		{
 			foreach($setting_users_roles_hidden as $key => $value)
 			{
-				if($value == 1) // old way
-				{
-					unset($wp_roles->roles[$key]);
-					unset($wp_roles->role_names[$key]);
-				}
+				$role = ($value == 1 ? $key : $value); // old way : new way
 
-				else // new way
-				{
-					unset($wp_roles->roles[$value]);
-					unset($wp_roles->role_names[$value]);
-				}
+				unset($arr_roles[$role]);
 			}
 		}
+
+		if($use_global)
+		{
+			$wp_roles->roles = $arr_roles;
+			$wp_roles->role_names = wp_list_pluck($arr_roles, 'name');
+		}
+
+		return $arr_roles;
 	}
 
 	function edit_profile_url($url, $user_id, $scheme)

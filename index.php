@@ -3,7 +3,7 @@
 Plugin Name: MF Users
 Plugin URI: https://github.com/frostkom/mf_users
 Description: Add extra functionality for user management
-Version: 4.8.40
+Version: 4.8.41
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se
@@ -31,6 +31,7 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 
 		add_action('admin_action_inactivate_user', array($obj_users, 'admin_action_inactivate_user'), 10);
 
+		add_filter('get_role_list', array($obj_users, 'get_role_list'), 10, 2);
 		add_action('manage_users_columns', array($obj_users, 'manage_users_columns'));
 		add_action('manage_users_custom_column', array($obj_users, 'manage_users_custom_column'), 10, 3);
 		add_filter('manage_users_sortable_columns', array($obj_users, 'manage_users_sortable_columns'));
@@ -67,6 +68,7 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 		function wp_password_change_notification(){}
 	}
 
+	add_filter('editable_roles', array($obj_users, 'filter_user_roles'));
 	add_action('filter_user_roles', array($obj_users, 'filter_user_roles'));
 
 	add_filter('edit_profile_url', array($obj_users, 'edit_profile_url'), 10, 3);
@@ -84,7 +86,7 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 
 		mf_uninstall_plugin(array(
 			'options' => array('setting_users_roles_hidden', 'setting_users_roles_names', 'setting_users_add_profile_fields', 'setting_users_remove_profile_fields', $wpdb->prefix.'user_roles_orig'),
-			'user_meta' => array('meta_last_logged_in', 'meta_last_active', 'meta_last_logged_out', 'profile_birthday', 'profile_phone', 'profile_company', 'profile_address', 'profile_address_zipcode', 'profile_address_city', 'profile_picture', 'profile_country'),
+			'user_meta' => array('meta_last_logged_in', 'meta_last_active', 'meta_last_logged_out', 'profile_birthday', 'profile_phone', 'profile_company', 'profile_address', 'profile_address_zipcode', 'profile_address_city', 'profile_picture'),
 		));
 	}
 }
