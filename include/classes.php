@@ -943,108 +943,111 @@ class mf_users
 			}
 		}
 
-		$setting_users_add_profile_fields = get_site_option('setting_users_add_profile_fields');
-
-		if(is_array($setting_users_add_profile_fields) && count($setting_users_add_profile_fields) > 0 && isset($user->ID))
+		if(isset($user->ID) && $user->ID > 0)
 		{
+			$setting_users_add_profile_fields = get_site_option('setting_users_add_profile_fields');
+
 			$out = "";
 
-			$meta_key = 'profile_birthday';
-			if(in_array($meta_key, $setting_users_add_profile_fields))
+			if(is_array($setting_users_add_profile_fields) && count($setting_users_add_profile_fields) > 0)
 			{
-				$meta_value = get_the_author_meta($meta_key, $user->ID);
-				$meta_text = __("Birthday", 'lang_users');
-
-				$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
-					<th><label for='".$meta_key."'>".$meta_text."</label></th>
-					<td>".show_textfield(array('type' => 'date', 'name' => $meta_key, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
-				</tr>";
-			}
-
-			$meta_key = 'profile_phone';
-			if(in_array($meta_key, $setting_users_add_profile_fields) || in_array('phone', $setting_users_add_profile_fields))
-			{
-				$meta_value = get_the_author_meta($meta_key, $user->ID);
-				$meta_text = __("Phone Number", 'lang_users');
-
-				$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
-					<th><label for='".$meta_key."'>".$meta_text."</label></th>
-					<td>".show_textfield(array('type' => 'tel', 'name' => $meta_key, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
-				</tr>";
-			}
-
-			$meta_key = 'profile_company';
-			if(in_array($meta_key, $setting_users_add_profile_fields))
-			{
-				$meta_value = get_the_author_meta($meta_key, $user->ID);
-				$meta_text = __("Company", 'lang_users');
-
-				$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
-					<th><label for='".$meta_key."'>".$meta_text."</label></th>
-					<td>".show_textfield(array('name' => $meta_key, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
-				</tr>";
-			}
-
-			$meta_key = 'profile_address';
-			if(in_array($meta_key, $setting_users_add_profile_fields))
-			{
-				$meta_key_temp = $meta_key.'_street';
-				$meta_value = get_the_author_meta($meta_key_temp, $user->ID);
-				$meta_text = __("Street Address", 'lang_users');
-
-				$out .= "<tr class='".str_replace("_", "-", $meta_key_temp)."-wrap'>
-					<th><label for='".$meta_key_temp."'>".$meta_text."</label></th>
-					<td>".show_textfield(array('name' => $meta_key_temp, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
-				</tr>";
-
-				$meta_key_temp = $meta_key.'_zipcode';
-				$meta_value = get_the_author_meta($meta_key_temp, $user->ID);
-				$meta_text = __("Zipcode", 'lang_users');
-
-				$out .= "<tr class='".str_replace("_", "-", $meta_key_temp)."-wrap'>
-					<th><label for='".$meta_key_temp."'>".$meta_text."</label></th>
-					<td>".show_textfield(array('name' => $meta_key_temp, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
-				</tr>";
-
-				$meta_key_temp = $meta_key.'_city';
-				$meta_value = get_the_author_meta($meta_key_temp, $user->ID);
-				$meta_text = __("City", 'lang_users');
-
-				$out .= "<tr class='".str_replace("_", "-", $meta_key_temp)."-wrap'>
-					<th><label for='".$meta_key_temp."'>".$meta_text."</label></th>
-					<td>".show_textfield(array('name' => $meta_key_temp, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
-				</tr>";
-			}
-
-			$meta_key = 'profile_picture';
-			if(in_array($meta_key, $setting_users_add_profile_fields))
-			{
-				$arr_remove[$meta_key] = true;
-
-				$meta_value = get_the_author_meta($meta_key, $user->ID);
-				$meta_text = __("Profile Picture", 'lang_users');
-
-				$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
-					<th><label for='".$meta_key."'>".$meta_text."</label></th>
-					<td>".get_media_library(array('type' => 'image', 'name' => $meta_key, 'value' => $meta_value))."</td>
-				</tr>";
-			}
-
-			$meta_key = 'edit_page_per_page';
-			if(in_array($meta_key, $setting_users_add_profile_fields))
-			{
-				$meta_value = get_the_author_meta($meta_key, $user->ID);
-				$meta_text = __("Rows / Page", 'lang_users');
-
-				if(!($meta_value > 0))
+				$meta_key = 'profile_birthday';
+				if(in_array($meta_key, $setting_users_add_profile_fields))
 				{
-					$meta_value = 20;
+					$meta_value = get_the_author_meta($meta_key, $user->ID);
+					$meta_text = __("Birthday", 'lang_users');
+
+					$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
+						<th><label for='".$meta_key."'>".$meta_text."</label></th>
+						<td>".show_textfield(array('type' => 'date', 'name' => $meta_key, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
+					</tr>";
 				}
 
-				$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
-					<th><label for='".$meta_key."'>".$meta_text."</label></th>
-					<td>".show_textfield(array('type' => 'number', 'name' => $meta_key, 'value' => $meta_value))."</td>
-				</tr>";
+				$meta_key = 'profile_phone';
+				if(in_array($meta_key, $setting_users_add_profile_fields) || in_array('phone', $setting_users_add_profile_fields))
+				{
+					$meta_value = get_the_author_meta($meta_key, $user->ID);
+					$meta_text = __("Phone Number", 'lang_users');
+
+					$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
+						<th><label for='".$meta_key."'>".$meta_text."</label></th>
+						<td>".show_textfield(array('type' => 'tel', 'name' => $meta_key, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
+					</tr>";
+				}
+
+				$meta_key = 'profile_company';
+				if(in_array($meta_key, $setting_users_add_profile_fields))
+				{
+					$meta_value = get_the_author_meta($meta_key, $user->ID);
+					$meta_text = __("Company", 'lang_users');
+
+					$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
+						<th><label for='".$meta_key."'>".$meta_text."</label></th>
+						<td>".show_textfield(array('name' => $meta_key, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
+					</tr>";
+				}
+
+				$meta_key = 'profile_address';
+				if(in_array($meta_key, $setting_users_add_profile_fields))
+				{
+					$meta_key_temp = $meta_key.'_street';
+					$meta_value = get_the_author_meta($meta_key_temp, $user->ID);
+					$meta_text = __("Street Address", 'lang_users');
+
+					$out .= "<tr class='".str_replace("_", "-", $meta_key_temp)."-wrap'>
+						<th><label for='".$meta_key_temp."'>".$meta_text."</label></th>
+						<td>".show_textfield(array('name' => $meta_key_temp, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
+					</tr>";
+
+					$meta_key_temp = $meta_key.'_zipcode';
+					$meta_value = get_the_author_meta($meta_key_temp, $user->ID);
+					$meta_text = __("Zipcode", 'lang_users');
+
+					$out .= "<tr class='".str_replace("_", "-", $meta_key_temp)."-wrap'>
+						<th><label for='".$meta_key_temp."'>".$meta_text."</label></th>
+						<td>".show_textfield(array('name' => $meta_key_temp, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
+					</tr>";
+
+					$meta_key_temp = $meta_key.'_city';
+					$meta_value = get_the_author_meta($meta_key_temp, $user->ID);
+					$meta_text = __("City", 'lang_users');
+
+					$out .= "<tr class='".str_replace("_", "-", $meta_key_temp)."-wrap'>
+						<th><label for='".$meta_key_temp."'>".$meta_text."</label></th>
+						<td>".show_textfield(array('name' => $meta_key_temp, 'value' => $meta_value, 'xtra' => "class='regular-text'"))."</td>
+					</tr>";
+				}
+
+				$meta_key = 'profile_picture';
+				if(in_array($meta_key, $setting_users_add_profile_fields))
+				{
+					$arr_remove[$meta_key] = true;
+
+					$meta_value = get_the_author_meta($meta_key, $user->ID);
+					$meta_text = __("Profile Picture", 'lang_users');
+
+					$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
+						<th><label for='".$meta_key."'>".$meta_text."</label></th>
+						<td>".get_media_library(array('type' => 'image', 'name' => $meta_key, 'value' => $meta_value))."</td>
+					</tr>";
+				}
+
+				$meta_key = 'edit_page_per_page';
+				if(in_array($meta_key, $setting_users_add_profile_fields))
+				{
+					$meta_value = get_the_author_meta($meta_key, $user->ID);
+					$meta_text = __("Rows / Page", 'lang_users');
+
+					if(!($meta_value > 0))
+					{
+						$meta_value = 20;
+					}
+
+					$out .= "<tr class='".str_replace("_", "-", $meta_key)."-wrap'>
+						<th><label for='".$meta_key."'>".$meta_text."</label></th>
+						<td>".show_textfield(array('type' => 'number', 'name' => $meta_key, 'value' => $meta_value))."</td>
+					</tr>";
+				}
 			}
 
 			$out = apply_filters('filter_user_profile_fields_admin', $out, $user->ID, $setting_users_add_profile_fields);
